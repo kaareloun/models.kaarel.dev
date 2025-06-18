@@ -1,0 +1,1838 @@
+[
+  {
+    "modelName": "o3-pro",
+    "creator": "OpenAI",
+    "contextWindow": "200k",
+    "intelligenceIndex": 71,
+    "pricePerMillionTokensInCents": 3500,
+    "outputTokensPerSecond": 20.7,
+    "latency": 129.6
+  },
+  {
+    "modelName": "Gemini 2.5 Pro (Jun '25)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 70,
+    "pricePerMillionTokensInCents": 344,
+    "outputTokensPerSecond": 141.9,
+    "latency": 36.27
+  },
+  {
+    "modelName": "o3",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 70,
+    "pricePerMillionTokensInCents": 350,
+    "outputTokensPerSecond": 142,
+    "latency": 20.33
+  },
+  {
+    "modelName": "o4-mini (high)",
+    "creator": "OpenAI",
+    "contextWindow": "200k",
+    "intelligenceIndex": 70,
+    "pricePerMillionTokensInCents": 193,
+    "outputTokensPerSecond": 153.4,
+    "latency": 43.01
+  },
+  {
+    "modelName": "Gemini 2.5 Pro (Mar '25)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 69,
+    "pricePerMillionTokensInCents": 344,
+    "outputTokensPerSecond": 152.3,
+    "latency": 40.17
+  },
+  {
+    "modelName": "DeepSeek R1 0528 (May '25)",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 68,
+    "pricePerMillionTokensInCents": 96,
+    "outputTokensPerSecond": 28.2,
+    "latency": 2.49
+  },
+  {
+    "modelName": "Gemini 2.5 Pro (May' 25)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 68,
+    "pricePerMillionTokensInCents": 344,
+    "outputTokensPerSecond": 155.5,
+    "latency": 36.46
+  },
+  {
+    "modelName": "Grok 3 mini Reasoning (high)",
+    "creator": "xAI",
+    "contextWindow": "1m",
+    "intelligenceIndex": 67,
+    "pricePerMillionTokensInCents": 35,
+    "outputTokensPerSecond": 209.4,
+    "latency": 0.35
+  },
+  {
+    "modelName": "o3-mini (high)",
+    "creator": "OpenAI",
+    "contextWindow": "200k",
+    "intelligenceIndex": 66,
+    "pricePerMillionTokensInCents": 193,
+    "outputTokensPerSecond": 121,
+    "latency": 49.88
+  },
+  {
+    "modelName": "Gemini 2.5 Flash (Reasoning)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 65,
+    "pricePerMillionTokensInCents": 99,
+    "outputTokensPerSecond": 346.5,
+    "latency": 13.75
+  },
+  {
+    "modelName": "Claude 4 Opus Thinking",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 64,
+    "pricePerMillionTokensInCents": 3000,
+    "outputTokensPerSecond": 57.4,
+    "latency": 2.8
+  },
+  {
+    "modelName": "o3-mini",
+    "creator": "OpenAI",
+    "contextWindow": "200k",
+    "intelligenceIndex": 63,
+    "pricePerMillionTokensInCents": 193,
+    "outputTokensPerSecond": 115.3,
+    "latency": 18.68
+  },
+  {
+    "modelName": "Qwen3 235B (Reasoning)",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 62,
+    "pricePerMillionTokensInCents": 263,
+    "outputTokensPerSecond": 69.6,
+    "latency": 1.29
+  },
+  {
+    "modelName": "o1",
+    "creator": "OpenAI",
+    "contextWindow": "200k",
+    "intelligenceIndex": 62,
+    "pricePerMillionTokensInCents": 2625,
+    "outputTokensPerSecond": 202.1,
+    "latency": 15.62
+  },
+  {
+    "modelName": "MiniMax M1 40k",
+    "creator": "MiniMax",
+    "contextWindow": "1m",
+    "intelligenceIndex": 61,
+    "pricePerMillionTokensInCents": 82,
+    "outputTokensPerSecond": 46,
+    "latency": 1.42
+  },
+  {
+    "modelName": "Llama Nemotron Ultra Reasoning",
+    "creator": "NVIDIA",
+    "contextWindow": "128k",
+    "intelligenceIndex": 61,
+    "pricePerMillionTokensInCents": 90,
+    "outputTokensPerSecond": 42.6,
+    "latency": 0.65
+  },
+  {
+    "modelName": "Claude 4 Sonnet Thinking",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 61,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 52.6,
+    "latency": 1.56
+  },
+  {
+    "modelName": "Gemini 2.5 Flash (April '25) (Reasoning)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 60,
+    "pricePerMillionTokensInCents": 99,
+    "outputTokensPerSecond": 363.4,
+    "latency": 7.18
+  },
+  {
+    "modelName": "DeepSeek R1 (Jan '25)",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 60,
+    "pricePerMillionTokensInCents": 236,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "o1-preview",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 60,
+    "pricePerMillionTokensInCents": 2625,
+    "outputTokensPerSecond": 148.8,
+    "latency": 19.38
+  },
+  {
+    "modelName": "Qwen3 32B (Reasoning)",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 59,
+    "pricePerMillionTokensInCents": 263,
+    "outputTokensPerSecond": 60.8,
+    "latency": 1.16
+  },
+  {
+    "modelName": "QwQ-32B",
+    "creator": "Alibaba",
+    "contextWindow": "131k",
+    "intelligenceIndex": 58,
+    "pricePerMillionTokensInCents": 63,
+    "outputTokensPerSecond": 97.8,
+    "latency": 0.42
+  },
+  {
+    "modelName": "Claude 4 Opus",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 58,
+    "pricePerMillionTokensInCents": 3000,
+    "outputTokensPerSecond": 54,
+    "latency": 2.62
+  },
+  {
+    "modelName": "Claude 3.7 Sonnet Thinking",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 57,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 88.2,
+    "latency": 1.05
+  },
+  {
+    "modelName": "o1-pro",
+    "creator": "OpenAI",
+    "contextWindow": "200k",
+    "intelligenceIndex": 56,
+    "pricePerMillionTokensInCents": 26250,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Grok 3 Reasoning Beta",
+    "creator": "xAI",
+    "contextWindow": "1m",
+    "intelligenceIndex": 56,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Qwen3 14B (Reasoning)",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 56,
+    "pricePerMillionTokensInCents": 131,
+    "outputTokensPerSecond": 65.6,
+    "latency": 1.03
+  },
+  {
+    "modelName": "Qwen3 30B A3B (Reasoning)",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 56,
+    "pricePerMillionTokensInCents": 75,
+    "outputTokensPerSecond": 92.1,
+    "latency": 1.19
+  },
+  {
+    "modelName": "o1-mini",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 54,
+    "pricePerMillionTokensInCents": 193,
+    "outputTokensPerSecond": 224.5,
+    "latency": 10.19
+  },
+  {
+    "modelName": "Gemini 2.5 Flash",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 53,
+    "pricePerMillionTokensInCents": 26,
+    "outputTokensPerSecond": 281.4,
+    "latency": 0.3
+  },
+  {
+    "modelName": "DeepSeek V3 0324 (Mar '25)",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 53,
+    "pricePerMillionTokensInCents": 48,
+    "outputTokensPerSecond": 27.3,
+    "latency": 2.43
+  },
+  {
+    "modelName": "Claude 4 Sonnet",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 53,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 49.2,
+    "latency": 1.66
+  },
+  {
+    "modelName": "GPT-4.5 (Preview)",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 53,
+    "pricePerMillionTokensInCents": 9375,
+    "outputTokensPerSecond": 80,
+    "latency": 0.96
+  },
+  {
+    "modelName": "GPT-4.1 mini",
+    "creator": "OpenAI",
+    "contextWindow": "1m",
+    "intelligenceIndex": 53,
+    "pricePerMillionTokensInCents": 70,
+    "outputTokensPerSecond": 68.2,
+    "latency": 0.41
+  },
+  {
+    "modelName": "GPT-4.1",
+    "creator": "OpenAI",
+    "contextWindow": "1m",
+    "intelligenceIndex": 53,
+    "pricePerMillionTokensInCents": 350,
+    "outputTokensPerSecond": 104,
+    "latency": 0.46
+  },
+  {
+    "modelName": "Gemini 2.0 Flash Thinking exp. (Jan '25)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 52,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "DeepSeek R1 0528 Qwen3 8B",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 52,
+    "pricePerMillionTokensInCents": 7,
+    "outputTokensPerSecond": 61.9,
+    "latency": 0.56
+  },
+  {
+    "modelName": "DeepSeek R1 Distill Qwen 32B",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 52,
+    "pricePerMillionTokensInCents": 30,
+    "outputTokensPerSecond": 32.6,
+    "latency": 0.66
+  },
+  {
+    "modelName": "Qwen3 8B (Reasoning)",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 51,
+    "pricePerMillionTokensInCents": 66,
+    "outputTokensPerSecond": 98.8,
+    "latency": 1.06
+  },
+  {
+    "modelName": "Llama 3.3 Nemotron Super 49B Reasoning",
+    "creator": "NVIDIA",
+    "contextWindow": "128k",
+    "intelligenceIndex": 51,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Grok 3",
+    "creator": "xAI",
+    "contextWindow": "1m",
+    "intelligenceIndex": 51,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 88.8,
+    "latency": 0.43
+  },
+  {
+    "modelName": "Llama 4 Maverick",
+    "creator": "Meta",
+    "contextWindow": "1m",
+    "intelligenceIndex": 51,
+    "pricePerMillionTokensInCents": 39,
+    "outputTokensPerSecond": 163.5,
+    "latency": 0.34
+  },
+  {
+    "modelName": "GPT-4o (March 2025)",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 50,
+    "pricePerMillionTokensInCents": 750,
+    "outputTokensPerSecond": 182.1,
+    "latency": 0.48
+  },
+  {
+    "modelName": "Gemini 2.0 Pro Experimental",
+    "creator": "Google",
+    "contextWindow": "2m",
+    "intelligenceIndex": 49,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": 50.8,
+    "latency": 16.83
+  },
+  {
+    "modelName": "DeepSeek R1 Distill Qwen 14B",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 49,
+    "pricePerMillionTokensInCents": 20,
+    "outputTokensPerSecond": 83,
+    "latency": 0.64
+  },
+  {
+    "modelName": "Mistral Medium 3",
+    "creator": "Mistral",
+    "contextWindow": "128k",
+    "intelligenceIndex": 49,
+    "pricePerMillionTokensInCents": 80,
+    "outputTokensPerSecond": 77.8,
+    "latency": 0.37
+  },
+  {
+    "modelName": "Sonar Reasoning",
+    "creator": "Perplexity",
+    "contextWindow": "127k",
+    "intelligenceIndex": 49,
+    "pricePerMillionTokensInCents": 200,
+    "outputTokensPerSecond": 87.9,
+    "latency": 0.63
+  },
+  {
+    "modelName": "Gemini 2.5 Flash",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 49,
+    "pricePerMillionTokensInCents": 26,
+    "outputTokensPerSecond": 289.3,
+    "latency": 0.38
+  },
+  {
+    "modelName": "DeepSeek R1 Distill Llama 70B",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 48,
+    "pricePerMillionTokensInCents": 80,
+    "outputTokensPerSecond": 64.5,
+    "latency": 0.54
+  },
+  {
+    "modelName": "Claude 3.7 Sonnet",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 48,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 78.1,
+    "latency": 1.3
+  },
+  {
+    "modelName": "Gemini 2.0 Flash",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 48,
+    "pricePerMillionTokensInCents": 17,
+    "outputTokensPerSecond": 231.6,
+    "latency": 0.37
+  },
+  {
+    "modelName": "Qwen3 4B (Reasoning)",
+    "creator": "Alibaba",
+    "contextWindow": "32k",
+    "intelligenceIndex": 47,
+    "pricePerMillionTokensInCents": 40,
+    "outputTokensPerSecond": 104.7,
+    "latency": 1.01
+  },
+  {
+    "modelName": "Reka Flash 3",
+    "creator": "Reka AI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 47,
+    "pricePerMillionTokensInCents": 35,
+    "outputTokensPerSecond": 57.3,
+    "latency": 0.94
+  },
+  {
+    "modelName": "Qwen3 235B",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 47,
+    "pricePerMillionTokensInCents": 123,
+    "outputTokensPerSecond": 70.2,
+    "latency": 1.14
+  },
+  {
+    "modelName": "Gemini 2.0 Flash (exp)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 46,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": 224.5,
+    "latency": 0.24
+  },
+  {
+    "modelName": "DeepSeek V3 (Dec '24)",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 46,
+    "pricePerMillionTokensInCents": 48,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Qwen2.5 Max",
+    "creator": "Alibaba",
+    "contextWindow": "32k",
+    "intelligenceIndex": 45,
+    "pricePerMillionTokensInCents": 280,
+    "outputTokensPerSecond": 42.9,
+    "latency": 1.37
+  },
+  {
+    "modelName": "Llama 3.1 Nemotron Nano 4B v1.1 (Reasoning)",
+    "creator": "NVIDIA",
+    "contextWindow": "128k",
+    "intelligenceIndex": 45,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Gemini 1.5 Pro (Sep)",
+    "creator": "Google",
+    "contextWindow": "2m",
+    "intelligenceIndex": 45,
+    "pricePerMillionTokensInCents": 219,
+    "outputTokensPerSecond": 91.6,
+    "latency": 0.47
+  },
+  {
+    "modelName": "Claude 3.5 Sonnet (Oct)",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 44,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 78.5,
+    "latency": 1.88
+  },
+  {
+    "modelName": "Qwen3 32B",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 44,
+    "pricePerMillionTokensInCents": 123,
+    "outputTokensPerSecond": 60.7,
+    "latency": 1.11
+  },
+  {
+    "modelName": "Sonar",
+    "creator": "Perplexity",
+    "contextWindow": "127k",
+    "intelligenceIndex": 43,
+    "pricePerMillionTokensInCents": 100,
+    "outputTokensPerSecond": 156.3,
+    "latency": 0.83
+  },
+  {
+    "modelName": "Llama 4 Scout",
+    "creator": "Meta",
+    "contextWindow": "10m",
+    "intelligenceIndex": 43,
+    "pricePerMillionTokensInCents": 26,
+    "outputTokensPerSecond": 130.2,
+    "latency": 0.37
+  },
+  {
+    "modelName": "Sonar Pro",
+    "creator": "Perplexity",
+    "contextWindow": "200k",
+    "intelligenceIndex": 43,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 157.1,
+    "latency": 0.96
+  },
+  {
+    "modelName": "QwQ 32B-Preview",
+    "creator": "Alibaba",
+    "contextWindow": "33k",
+    "intelligenceIndex": 43,
+    "pricePerMillionTokensInCents": 20,
+    "outputTokensPerSecond": 51.3,
+    "latency": 0.55
+  },
+  {
+    "modelName": "Nova Premier",
+    "creator": "Amazon",
+    "contextWindow": "1m",
+    "intelligenceIndex": 43,
+    "pricePerMillionTokensInCents": 500,
+    "outputTokensPerSecond": 77.7,
+    "latency": 0.79
+  },
+  {
+    "modelName": "Qwen3 30B A3B",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 43,
+    "pricePerMillionTokensInCents": 35,
+    "outputTokensPerSecond": 92.8,
+    "latency": 1.03
+  },
+  {
+    "modelName": "GPT-4o (Nov '24)",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 41,
+    "pricePerMillionTokensInCents": 438,
+    "outputTokensPerSecond": 159.8,
+    "latency": 0.38
+  },
+  {
+    "modelName": "Gemini 2.0 Flash-Lite (Feb '25)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 41,
+    "pricePerMillionTokensInCents": 13,
+    "outputTokensPerSecond": 218.6,
+    "latency": 0.28
+  },
+  {
+    "modelName": "Llama 3.3 70B",
+    "creator": "Meta",
+    "contextWindow": "128k",
+    "intelligenceIndex": 41,
+    "pricePerMillionTokensInCents": 59,
+    "outputTokensPerSecond": 114.1,
+    "latency": 0.42
+  },
+  {
+    "modelName": "GPT-4.1 nano",
+    "creator": "OpenAI",
+    "contextWindow": "1m",
+    "intelligenceIndex": 41,
+    "pricePerMillionTokensInCents": 17,
+    "outputTokensPerSecond": 137.9,
+    "latency": 0.31
+  },
+  {
+    "modelName": "Qwen3 14B",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 41,
+    "pricePerMillionTokensInCents": 61,
+    "outputTokensPerSecond": 66.5,
+    "latency": 1.05
+  },
+  {
+    "modelName": "GPT-4o (May '24)",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 41,
+    "pricePerMillionTokensInCents": 750,
+    "outputTokensPerSecond": 75.7,
+    "latency": 0.55
+  },
+  {
+    "modelName": "Gemini 2.0 Flash-Lite (Preview)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 41,
+    "pricePerMillionTokensInCents": 13,
+    "outputTokensPerSecond": 225.7,
+    "latency": 0.27
+  },
+  {
+    "modelName": "GPT-4o (Aug '24)",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 41,
+    "pricePerMillionTokensInCents": 438,
+    "outputTokensPerSecond": 80.6,
+    "latency": 0.71
+  },
+  {
+    "modelName": "Llama 3.1 405B",
+    "creator": "Meta",
+    "contextWindow": "128k",
+    "intelligenceIndex": 40,
+    "pricePerMillionTokensInCents": 350,
+    "outputTokensPerSecond": 33.2,
+    "latency": 0.66
+  },
+  {
+    "modelName": "Qwen2.5 72B",
+    "creator": "Alibaba",
+    "contextWindow": "131k",
+    "intelligenceIndex": 40,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": 58.2,
+    "latency": 1.27
+  },
+  {
+    "modelName": "MiniMax-Text-01",
+    "creator": "MiniMax",
+    "contextWindow": "4m",
+    "intelligenceIndex": 40,
+    "pricePerMillionTokensInCents": 42,
+    "outputTokensPerSecond": 34.7,
+    "latency": 1.1
+  },
+  {
+    "modelName": "Phi-4",
+    "creator": "Microsoft Azure",
+    "contextWindow": "16k",
+    "intelligenceIndex": 40,
+    "pricePerMillionTokensInCents": 22,
+    "outputTokensPerSecond": 28.7,
+    "latency": 0.45
+  },
+  {
+    "modelName": "Claude 3.5 Sonnet (June)",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 40,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 79.1,
+    "latency": 1.28
+  },
+  {
+    "modelName": "Command A",
+    "creator": "Cohere",
+    "contextWindow": "256k",
+    "intelligenceIndex": 40,
+    "pricePerMillionTokensInCents": 438,
+    "outputTokensPerSecond": 154.1,
+    "latency": 0.21
+  },
+  {
+    "modelName": "Tulu3 405B",
+    "creator": "Allen Institute for AI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 40,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "GPT-4o (ChatGPT)",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 40,
+    "pricePerMillionTokensInCents": 750,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Llama 3.3 Nemotron Super 49B v1",
+    "creator": "NVIDIA",
+    "contextWindow": "128k",
+    "intelligenceIndex": 39,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Grok 2",
+    "creator": "xAI",
+    "contextWindow": "131k",
+    "intelligenceIndex": 39,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Gemini 1.5 Flash (Sep)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 39,
+    "pricePerMillionTokensInCents": 13,
+    "outputTokensPerSecond": 185.5,
+    "latency": 0.2
+  },
+  {
+    "modelName": "GPT-4 Turbo",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 39,
+    "pricePerMillionTokensInCents": 1500,
+    "outputTokensPerSecond": 47.5,
+    "latency": 1
+  },
+  {
+    "modelName": "Mistral Large 2 (Nov '24)",
+    "creator": "Mistral",
+    "contextWindow": "128k",
+    "intelligenceIndex": 38,
+    "pricePerMillionTokensInCents": 300,
+    "outputTokensPerSecond": 48.2,
+    "latency": 0.48
+  },
+  {
+    "modelName": "Qwen3 1.7B (Reasoning)",
+    "creator": "Alibaba",
+    "contextWindow": "32k",
+    "intelligenceIndex": 38,
+    "pricePerMillionTokensInCents": 40,
+    "outputTokensPerSecond": 137.8,
+    "latency": 0.95
+  },
+  {
+    "modelName": "Gemma 3 27B",
+    "creator": "Google",
+    "contextWindow": "128k",
+    "intelligenceIndex": 38,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": 48.2,
+    "latency": 0.61
+  },
+  {
+    "modelName": "Grok Beta",
+    "creator": "xAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 38,
+    "pricePerMillionTokensInCents": 750,
+    "outputTokensPerSecond": 67.4,
+    "latency": 0.31
+  },
+  {
+    "modelName": "Pixtral Large",
+    "creator": "Mistral",
+    "contextWindow": "128k",
+    "intelligenceIndex": 37,
+    "pricePerMillionTokensInCents": 300,
+    "outputTokensPerSecond": 79.6,
+    "latency": 0.4
+  },
+  {
+    "modelName": "Qwen2.5 Instruct 32B",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 37,
+    "pricePerMillionTokensInCents": 15,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Llama 3.1 Nemotron 70B",
+    "creator": "NVIDIA",
+    "contextWindow": "128k",
+    "intelligenceIndex": 37,
+    "pricePerMillionTokensInCents": 17,
+    "outputTokensPerSecond": 43.7,
+    "latency": 0.34
+  },
+  {
+    "modelName": "Nova Pro",
+    "creator": "Amazon",
+    "contextWindow": "300k",
+    "intelligenceIndex": 37,
+    "pricePerMillionTokensInCents": 140,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Qwen3 8B",
+    "creator": "Alibaba",
+    "contextWindow": "128k",
+    "intelligenceIndex": 37,
+    "pricePerMillionTokensInCents": 31,
+    "outputTokensPerSecond": 100,
+    "latency": 1.04
+  },
+  {
+    "modelName": "Mistral Large 2 (Jul '24)",
+    "creator": "Mistral",
+    "contextWindow": "128k",
+    "intelligenceIndex": 37,
+    "pricePerMillionTokensInCents": 300,
+    "outputTokensPerSecond": 90.1,
+    "latency": 0.41
+  },
+  {
+    "modelName": "Qwen2.5 Coder 32B",
+    "creator": "Alibaba",
+    "contextWindow": "131k",
+    "intelligenceIndex": 36,
+    "pricePerMillionTokensInCents": 15,
+    "outputTokensPerSecond": 52.5,
+    "latency": 0.39
+  },
+  {
+    "modelName": "GPT-4",
+    "creator": "OpenAI",
+    "contextWindow": "8k",
+    "intelligenceIndex": 36,
+    "pricePerMillionTokensInCents": 3750,
+    "outputTokensPerSecond": 23,
+    "latency": 0.77
+  },
+  {
+    "modelName": "GPT-4o mini",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 36,
+    "pricePerMillionTokensInCents": 26,
+    "outputTokensPerSecond": 70.5,
+    "latency": 0.43
+  },
+  {
+    "modelName": "Llama 3.1 70B",
+    "creator": "Meta",
+    "contextWindow": "128k",
+    "intelligenceIndex": 35,
+    "pricePerMillionTokensInCents": 72,
+    "outputTokensPerSecond": 61.8,
+    "latency": 0.43
+  },
+  {
+    "modelName": "Mistral Small 3.1",
+    "creator": "Mistral",
+    "contextWindow": "128k",
+    "intelligenceIndex": 35,
+    "pricePerMillionTokensInCents": 15,
+    "outputTokensPerSecond": 121.2,
+    "latency": 0.27
+  },
+  {
+    "modelName": "Mistral Small 3",
+    "creator": "Mistral",
+    "contextWindow": "32k",
+    "intelligenceIndex": 35,
+    "pricePerMillionTokensInCents": 15,
+    "outputTokensPerSecond": 159.9,
+    "latency": 0.28
+  },
+  {
+    "modelName": "DeepSeek-V2.5 (Dec '24)",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 35,
+    "pricePerMillionTokensInCents": 17,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Qwen3 4B",
+    "creator": "Alibaba",
+    "contextWindow": "32k",
+    "intelligenceIndex": 35,
+    "pricePerMillionTokensInCents": 19,
+    "outputTokensPerSecond": 106.4,
+    "latency": 0.98
+  },
+  {
+    "modelName": "Claude 3 Opus",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 35,
+    "pricePerMillionTokensInCents": 3000,
+    "outputTokensPerSecond": 27.9,
+    "latency": 1.18
+  },
+  {
+    "modelName": "Claude 3.5 Haiku",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 35,
+    "pricePerMillionTokensInCents": 160,
+    "outputTokensPerSecond": 64.2,
+    "latency": 1.18
+  },
+  {
+    "modelName": "Gemini 2.0 Flash Thinking exp. (Dec '24)",
+    "creator": "Google",
+    "contextWindow": "2m",
+    "intelligenceIndex": 35,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "DeepSeek-V2.5",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 35,
+    "pricePerMillionTokensInCents": 17,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Devstral",
+    "creator": "Mistral",
+    "contextWindow": "256k",
+    "intelligenceIndex": 34,
+    "pricePerMillionTokensInCents": 15,
+    "outputTokensPerSecond": 141.8,
+    "latency": 0.3
+  },
+  {
+    "modelName": "Mistral Saba",
+    "creator": "Mistral",
+    "contextWindow": "32k",
+    "intelligenceIndex": 34,
+    "pricePerMillionTokensInCents": 30,
+    "outputTokensPerSecond": 85.9,
+    "latency": 0.29
+  },
+  {
+    "modelName": "DeepSeek R1 Distill Llama 8B",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 34,
+    "pricePerMillionTokensInCents": 4,
+    "outputTokensPerSecond": 56.5,
+    "latency": 0.73
+  },
+  {
+    "modelName": "Reka Core",
+    "creator": "Reka AI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 34,
+    "pricePerMillionTokensInCents": 200,
+    "outputTokensPerSecond": 27.2,
+    "latency": 0.84
+  },
+  {
+    "modelName": "Gemma 3 12B",
+    "creator": "Google",
+    "contextWindow": "128k",
+    "intelligenceIndex": 34,
+    "pricePerMillionTokensInCents": 6,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Gemini 1.5 Pro (May)",
+    "creator": "Google",
+    "contextWindow": "2m",
+    "intelligenceIndex": 34,
+    "pricePerMillionTokensInCents": 219,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "R1 1776",
+    "creator": "Perplexity",
+    "contextWindow": "128k",
+    "intelligenceIndex": 34,
+    "pricePerMillionTokensInCents": 350,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Qwen2.5 Turbo",
+    "creator": "Alibaba",
+    "contextWindow": "1m",
+    "intelligenceIndex": 34,
+    "pricePerMillionTokensInCents": 9,
+    "outputTokensPerSecond": 106.1,
+    "latency": 1.03
+  },
+  {
+    "modelName": "Reka Flash",
+    "creator": "Reka AI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 34,
+    "pricePerMillionTokensInCents": 35,
+    "outputTokensPerSecond": 45.5,
+    "latency": 0.91
+  },
+  {
+    "modelName": "Gemma 3 1B",
+    "creator": "Google",
+    "contextWindow": "32k",
+    "intelligenceIndex": 33,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Llama 3.2 90B (Vision)",
+    "creator": "Meta",
+    "contextWindow": "128k",
+    "intelligenceIndex": 33,
+    "pricePerMillionTokensInCents": 72,
+    "outputTokensPerSecond": 33.5,
+    "latency": 0.38
+  },
+  {
+    "modelName": "Solar Mini",
+    "creator": "Upstage",
+    "contextWindow": "4k",
+    "intelligenceIndex": 33,
+    "pricePerMillionTokensInCents": 15,
+    "outputTokensPerSecond": 92.7,
+    "latency": 1.06
+  },
+  {
+    "modelName": "Reka Flash (Feb '24)",
+    "creator": "Reka AI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 33,
+    "pricePerMillionTokensInCents": 35,
+    "outputTokensPerSecond": 46.2,
+    "latency": 0.87
+  },
+  {
+    "modelName": "Reka Edge",
+    "creator": "Reka AI",
+    "contextWindow": "128k",
+    "intelligenceIndex": 33,
+    "pricePerMillionTokensInCents": 10,
+    "outputTokensPerSecond": 85,
+    "latency": 0.81
+  },
+  {
+    "modelName": "Qwen2 72B",
+    "creator": "Alibaba",
+    "contextWindow": "131k",
+    "intelligenceIndex": 33,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": 30.9,
+    "latency": 1.36
+  },
+  {
+    "modelName": "Nova Lite",
+    "creator": "Amazon",
+    "contextWindow": "300k",
+    "intelligenceIndex": 33,
+    "pricePerMillionTokensInCents": 10,
+    "outputTokensPerSecond": 259.2,
+    "latency": 0.33
+  },
+  {
+    "modelName": "Gemini 1.5 Flash-8B",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 31,
+    "pricePerMillionTokensInCents": 7,
+    "outputTokensPerSecond": 281.8,
+    "latency": 0.17
+  },
+  {
+    "modelName": "DeepHermes 3 - Mistral 24B",
+    "creator": "Nous Research",
+    "contextWindow": "32k",
+    "intelligenceIndex": 30,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Jamba 1.5 Large",
+    "creator": "AI21 Labs",
+    "contextWindow": "256k",
+    "intelligenceIndex": 29,
+    "pricePerMillionTokensInCents": 350,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Hermes 3 - Llama-3.1 70B",
+    "creator": "Nous Research",
+    "contextWindow": "128k",
+    "intelligenceIndex": 29,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "DeepSeek-Coder-V2",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 29,
+    "pricePerMillionTokensInCents": 17,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Jamba 1.6 Large",
+    "creator": "AI21 Labs",
+    "contextWindow": "256k",
+    "intelligenceIndex": 29,
+    "pricePerMillionTokensInCents": 350,
+    "outputTokensPerSecond": 54.5,
+    "latency": 0.83
+  },
+  {
+    "modelName": "Gemini 1.5 Flash (May)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 28,
+    "pricePerMillionTokensInCents": 13,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Nova Micro",
+    "creator": "Amazon",
+    "contextWindow": "130k",
+    "intelligenceIndex": 28,
+    "pricePerMillionTokensInCents": 6,
+    "outputTokensPerSecond": 341.2,
+    "latency": 0.32
+  },
+  {
+    "modelName": "Yi-Large",
+    "creator": "01.AI",
+    "contextWindow": "32k",
+    "intelligenceIndex": 28,
+    "pricePerMillionTokensInCents": 300,
+    "outputTokensPerSecond": 67.9,
+    "latency": 0.34
+  },
+  {
+    "modelName": "Claude 3 Sonnet",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 28,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 60.5,
+    "latency": 1.28
+  },
+  {
+    "modelName": "Codestral (Jan '25)",
+    "creator": "Mistral",
+    "contextWindow": "256k",
+    "intelligenceIndex": 28,
+    "pricePerMillionTokensInCents": 45,
+    "outputTokensPerSecond": 164.8,
+    "latency": 0.27
+  },
+  {
+    "modelName": "Llama 3 70B",
+    "creator": "Meta",
+    "contextWindow": "8k",
+    "intelligenceIndex": 27,
+    "pricePerMillionTokensInCents": 84,
+    "outputTokensPerSecond": 47.3,
+    "latency": 0.44
+  },
+  {
+    "modelName": "Mistral Small (Sep '24)",
+    "creator": "Mistral",
+    "contextWindow": "33k",
+    "intelligenceIndex": 27,
+    "pricePerMillionTokensInCents": 30,
+    "outputTokensPerSecond": 101.6,
+    "latency": 0.3
+  },
+  {
+    "modelName": "Gemini 1.0 Ultra",
+    "creator": "Google",
+    "contextWindow": "33k",
+    "intelligenceIndex": 27,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Phi-4 Multimodal",
+    "creator": "Microsoft Azure",
+    "contextWindow": "128k",
+    "intelligenceIndex": 27,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": 21.2,
+    "latency": 0.34
+  },
+  {
+    "modelName": "Qwen2.5 Coder 7B",
+    "creator": "Alibaba",
+    "contextWindow": "131k",
+    "intelligenceIndex": 27,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Mistral Large (Feb '24)",
+    "creator": "Mistral",
+    "contextWindow": "33k",
+    "intelligenceIndex": 26,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 79.9,
+    "latency": 0.47
+  },
+  {
+    "modelName": "Jamba Instruct",
+    "creator": "AI21 Labs",
+    "contextWindow": "256k",
+    "intelligenceIndex": 26,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Mixtral 8x22B",
+    "creator": "Mistral",
+    "contextWindow": "65k",
+    "intelligenceIndex": 26,
+    "pricePerMillionTokensInCents": 300,
+    "outputTokensPerSecond": 45.3,
+    "latency": 0.33
+  },
+  {
+    "modelName": "Phi-4 Mini",
+    "creator": "Microsoft Azure",
+    "contextWindow": "128k",
+    "intelligenceIndex": 26,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": 56.9,
+    "latency": 0.32
+  },
+  {
+    "modelName": "Gemma 2 27B",
+    "creator": "Google",
+    "contextWindow": "8k",
+    "intelligenceIndex": 26,
+    "pricePerMillionTokensInCents": 80,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Llama 3.2 11B (Vision)",
+    "creator": "Meta",
+    "contextWindow": "128k",
+    "intelligenceIndex": 25,
+    "pricePerMillionTokensInCents": 16,
+    "outputTokensPerSecond": 104.3,
+    "latency": 0.42
+  },
+  {
+    "modelName": "Qwen3 1.7B",
+    "creator": "Alibaba",
+    "contextWindow": "32k",
+    "intelligenceIndex": 25,
+    "pricePerMillionTokensInCents": 19,
+    "outputTokensPerSecond": 141,
+    "latency": 1.05
+  },
+  {
+    "modelName": "Qwen1.5 Chat 110B",
+    "creator": "Alibaba",
+    "contextWindow": "32k",
+    "intelligenceIndex": 25,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": 23.7,
+    "latency": 1.52
+  },
+  {
+    "modelName": "Phi-3 Medium 14B",
+    "creator": "Microsoft Azure",
+    "contextWindow": "128k",
+    "intelligenceIndex": 25,
+    "pricePerMillionTokensInCents": 30,
+    "outputTokensPerSecond": 52.6,
+    "latency": 0.42
+  },
+  {
+    "modelName": "Gemma 3 4B",
+    "creator": "Google",
+    "contextWindow": "128k",
+    "intelligenceIndex": 24,
+    "pricePerMillionTokensInCents": 3,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Claude 2.1",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 24,
+    "pricePerMillionTokensInCents": 1200,
+    "outputTokensPerSecond": 13.9,
+    "latency": 1.09
+  },
+  {
+    "modelName": "Claude 3 Haiku",
+    "creator": "Anthropic",
+    "contextWindow": "200k",
+    "intelligenceIndex": 24,
+    "pricePerMillionTokensInCents": 50,
+    "outputTokensPerSecond": 138.6,
+    "latency": 0.84
+  },
+  {
+    "modelName": "Llama 3.1 8B",
+    "creator": "Meta",
+    "contextWindow": "128k",
+    "intelligenceIndex": 24,
+    "pricePerMillionTokensInCents": 10,
+    "outputTokensPerSecond": 207.6,
+    "latency": 0.29
+  },
+  {
+    "modelName": "Pixtral 12B",
+    "creator": "Mistral",
+    "contextWindow": "128k",
+    "intelligenceIndex": 23,
+    "pricePerMillionTokensInCents": 15,
+    "outputTokensPerSecond": 70.8,
+    "latency": 0.37
+  },
+  {
+    "modelName": "Qwen3 0.6B (Reasoning)",
+    "creator": "Alibaba",
+    "contextWindow": "32k",
+    "intelligenceIndex": 23,
+    "pricePerMillionTokensInCents": 40,
+    "outputTokensPerSecond": 228.8,
+    "latency": 0.91
+  },
+  {
+    "modelName": "Claude 2.0",
+    "creator": "Anthropic",
+    "contextWindow": "100k",
+    "intelligenceIndex": 23,
+    "pricePerMillionTokensInCents": 1200,
+    "outputTokensPerSecond": 31,
+    "latency": 1.1
+  },
+  {
+    "modelName": "DeepSeek-V2",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 23,
+    "pricePerMillionTokensInCents": 17,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Mistral Small (Feb '24)",
+    "creator": "Mistral",
+    "contextWindow": "33k",
+    "intelligenceIndex": 23,
+    "pricePerMillionTokensInCents": 150,
+    "outputTokensPerSecond": 148.2,
+    "latency": 0.26
+  },
+  {
+    "modelName": "Mistral Medium",
+    "creator": "Mistral",
+    "contextWindow": "33k",
+    "intelligenceIndex": 23,
+    "pricePerMillionTokensInCents": 409,
+    "outputTokensPerSecond": 77.3,
+    "latency": 0.4
+  },
+  {
+    "modelName": "GPT-3.5 Turbo",
+    "creator": "OpenAI",
+    "contextWindow": "4k",
+    "intelligenceIndex": 23,
+    "pricePerMillionTokensInCents": 75,
+    "outputTokensPerSecond": 113.3,
+    "latency": 0.35
+  },
+  {
+    "modelName": "Ministral 8B",
+    "creator": "Mistral",
+    "contextWindow": "128k",
+    "intelligenceIndex": 22,
+    "pricePerMillionTokensInCents": 10,
+    "outputTokensPerSecond": 188.6,
+    "latency": 0.27
+  },
+  {
+    "modelName": "Gemma 2 9B",
+    "creator": "Google",
+    "contextWindow": "8k",
+    "intelligenceIndex": 22,
+    "pricePerMillionTokensInCents": 12,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Phi-3 Mini",
+    "creator": "Microsoft Azure",
+    "contextWindow": "4k",
+    "intelligenceIndex": 22,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Arctic",
+    "creator": "Snowflake",
+    "contextWindow": "4k",
+    "intelligenceIndex": 22,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Qwen Chat 72B",
+    "creator": "Alibaba",
+    "contextWindow": "34k",
+    "intelligenceIndex": 22,
+    "pricePerMillionTokensInCents": 100,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "LFM 40B",
+    "creator": "Liquid AI",
+    "contextWindow": "32k",
+    "intelligenceIndex": 22,
+    "pricePerMillionTokensInCents": 15,
+    "outputTokensPerSecond": 162.1,
+    "latency": 0.16
+  },
+  {
+    "modelName": "Command-R+",
+    "creator": "Cohere",
+    "contextWindow": "128k",
+    "intelligenceIndex": 21,
+    "pricePerMillionTokensInCents": 438,
+    "outputTokensPerSecond": 47.4,
+    "latency": 0.26
+  },
+  {
+    "modelName": "Llama 3 8B",
+    "creator": "Meta",
+    "contextWindow": "8k",
+    "intelligenceIndex": 21,
+    "pricePerMillionTokensInCents": 9,
+    "outputTokensPerSecond": 103.8,
+    "latency": 0.35
+  },
+  {
+    "modelName": "PALM-2",
+    "creator": "Google",
+    "contextWindow": "8k",
+    "intelligenceIndex": 21,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Gemini 1.0 Pro",
+    "creator": "Google",
+    "contextWindow": "33k",
+    "intelligenceIndex": 21,
+    "pricePerMillionTokensInCents": 75,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "DeepSeek Coder V2 Lite",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Codestral (May '24)",
+    "creator": "Mistral",
+    "contextWindow": "33k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 30,
+    "outputTokensPerSecond": 156.2,
+    "latency": 0.29
+  },
+  {
+    "modelName": "Aya Expanse 32B",
+    "creator": "Cohere",
+    "contextWindow": "128k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 75,
+    "outputTokensPerSecond": 121.5,
+    "latency": 0.17
+  },
+  {
+    "modelName": "Llama 2 Chat 70B",
+    "creator": "Meta",
+    "contextWindow": "4k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "DeepSeek LLM 67B (V1)",
+    "creator": "DeepSeek",
+    "contextWindow": "4k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Llama 2 Chat 13B",
+    "creator": "Meta",
+    "contextWindow": "4k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Command-R+ (Apr '24)",
+    "creator": "Cohere",
+    "contextWindow": "128k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 600,
+    "outputTokensPerSecond": 55.5,
+    "latency": 0.24
+  },
+  {
+    "modelName": "OpenChat 3.5",
+    "creator": "OpenChat",
+    "contextWindow": "8k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 5,
+    "outputTokensPerSecond": 41.8,
+    "latency": 0.34
+  },
+  {
+    "modelName": "DBRX",
+    "creator": "Databricks",
+    "contextWindow": "33k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Ministral 3B",
+    "creator": "Mistral",
+    "contextWindow": "128k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 4,
+    "outputTokensPerSecond": 249.9,
+    "latency": 0.26
+  },
+  {
+    "modelName": "Mistral NeMo",
+    "creator": "Mistral",
+    "contextWindow": "128k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 15,
+    "outputTokensPerSecond": 144.5,
+    "latency": 0.27
+  },
+  {
+    "modelName": "Llama 3.2 3B",
+    "creator": "Meta",
+    "contextWindow": "128k",
+    "intelligenceIndex": 20,
+    "pricePerMillionTokensInCents": 5,
+    "outputTokensPerSecond": 114.7,
+    "latency": 0.34
+  },
+  {
+    "modelName": "DeepSeek R1 Distill Qwen 1.5B",
+    "creator": "DeepSeek",
+    "contextWindow": "128k",
+    "intelligenceIndex": 19,
+    "pricePerMillionTokensInCents": 18,
+    "outputTokensPerSecond": 386.6,
+    "latency": 0.24
+  },
+  {
+    "modelName": "Jamba 1.5 Mini",
+    "creator": "AI21 Labs",
+    "contextWindow": "256k",
+    "intelligenceIndex": 18,
+    "pricePerMillionTokensInCents": 25,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Jamba 1.6 Mini",
+    "creator": "AI21 Labs",
+    "contextWindow": "256k",
+    "intelligenceIndex": 18,
+    "pricePerMillionTokensInCents": 25,
+    "outputTokensPerSecond": 203.3,
+    "latency": 0.63
+  },
+  {
+    "modelName": "Mixtral 8x7B",
+    "creator": "Mistral",
+    "contextWindow": "33k",
+    "intelligenceIndex": 17,
+    "pricePerMillionTokensInCents": 70,
+    "outputTokensPerSecond": 36.3,
+    "latency": 0.37
+  },
+  {
+    "modelName": "Qwen3 0.6B",
+    "creator": "Alibaba",
+    "contextWindow": "32k",
+    "intelligenceIndex": 17,
+    "pricePerMillionTokensInCents": 19,
+    "outputTokensPerSecond": 232.1,
+    "latency": 0.93
+  },
+  {
+    "modelName": "DeepHermes 3 - Llama-3.1 8B",
+    "creator": "Nous Research",
+    "contextWindow": "128k",
+    "intelligenceIndex": 16,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Aya Expanse 8B",
+    "creator": "Cohere",
+    "contextWindow": "8k",
+    "intelligenceIndex": 16,
+    "pricePerMillionTokensInCents": 75,
+    "outputTokensPerSecond": 166.7,
+    "latency": 0.13
+  },
+  {
+    "modelName": "Command-R",
+    "creator": "Cohere",
+    "contextWindow": "128k",
+    "intelligenceIndex": 15,
+    "pricePerMillionTokensInCents": 26,
+    "outputTokensPerSecond": 65.5,
+    "latency": 0.2
+  },
+  {
+    "modelName": "Command-R (Mar '24)",
+    "creator": "Cohere",
+    "contextWindow": "128k",
+    "intelligenceIndex": 15,
+    "pricePerMillionTokensInCents": 75,
+    "outputTokensPerSecond": 156.1,
+    "latency": 0.15
+  },
+  {
+    "modelName": "Qwen Chat 14B",
+    "creator": "Alibaba",
+    "contextWindow": "8k",
+    "intelligenceIndex": 14,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Claude Instant",
+    "creator": "Anthropic",
+    "contextWindow": "100k",
+    "intelligenceIndex": 14,
+    "pricePerMillionTokensInCents": 120,
+    "outputTokensPerSecond": 63.4,
+    "latency": 0.57
+  },
+  {
+    "modelName": "Codestral-Mamba",
+    "creator": "Mistral",
+    "contextWindow": "256k",
+    "intelligenceIndex": 14,
+    "pricePerMillionTokensInCents": 25,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Llama 65B",
+    "creator": "Meta",
+    "contextWindow": "2k",
+    "intelligenceIndex": 11,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Mistral 7B",
+    "creator": "Mistral",
+    "contextWindow": "8k",
+    "intelligenceIndex": 10,
+    "pricePerMillionTokensInCents": 25,
+    "outputTokensPerSecond": 103,
+    "latency": 0.28
+  },
+  {
+    "modelName": "Llama 3.2 1B",
+    "creator": "Meta",
+    "contextWindow": "128k",
+    "intelligenceIndex": 10,
+    "pricePerMillionTokensInCents": 5,
+    "outputTokensPerSecond": 176.7,
+    "latency": 0.29
+  },
+  {
+    "modelName": "Llama 2 Chat 7B",
+    "creator": "Meta",
+    "contextWindow": "4k",
+    "intelligenceIndex": 8,
+    "pricePerMillionTokensInCents": 10,
+    "outputTokensPerSecond": 130.6,
+    "latency": 0.42
+  },
+  {
+    "modelName": "GPT-4o mini Realtime (Dec '24)",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": null,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "GPT-4o Realtime (Dec '24)",
+    "creator": "OpenAI",
+    "contextWindow": "128k",
+    "intelligenceIndex": null,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Sonar Reasoning Pro",
+    "creator": "Perplexity",
+    "contextWindow": "127k",
+    "intelligenceIndex": null,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  },
+  {
+    "modelName": "Grok 3 mini Reasoning (low)",
+    "creator": "xAI",
+    "contextWindow": "1m",
+    "intelligenceIndex": null,
+    "pricePerMillionTokensInCents": 35,
+    "outputTokensPerSecond": 198.9,
+    "latency": 0.33
+  },
+  {
+    "modelName": "GPT-3.5 Turbo (0613)",
+    "creator": "OpenAI",
+    "contextWindow": "4k",
+    "intelligenceIndex": null,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
+  }
+]
