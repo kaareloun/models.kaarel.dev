@@ -81,17 +81,27 @@ export function calculateCompositeScore(
 }
 
 export function computeGlobalStats(models: ModelData[]) {
-  const numeric = <K extends keyof ModelData>(key: K) =>
+  const numeric = <K extends keyof ModelData>(key: K): number[] =>
     models.map((m) => m[key]).filter((v) => typeof v === "number");
 
   return {
     minCost: Math.min(...numeric("pricePerMillionTokensInCents")),
-    maxCost: Math.max(...numeric("pricePerMillionTokensInCents")),
+    maxCost: getPercentile(numeric("pricePerMillionTokensInCents"), 0.7),
+
     minSpeed: Math.min(...numeric("outputTokensPerSecond")),
-    maxSpeed: Math.max(...numeric("outputTokensPerSecond")),
+    maxSpeed: getPercentile(numeric("outputTokensPerSecond"), 0.7),
+
     minLatency: Math.min(...numeric("latency")),
-    maxLatency: Math.max(...numeric("latency")),
+    maxLatency: getPercentile(numeric("latency"), 0.7),
+
     minIntelligence: Math.min(...numeric("intelligenceIndex")),
     maxIntelligence: Math.max(...numeric("intelligenceIndex")),
   };
+}
+
+function getPercentile(values: number[], percentile: number): number {
+  if (values.length === 0) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const index = Math.floor(percentile * (sorted.length - 1));
+  return sorted[index];
 }

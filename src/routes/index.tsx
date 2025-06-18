@@ -23,15 +23,18 @@ export const Route = createFileRoute("/")({
       getLastUpdate(),
     ]);
 
+    const stats = computeGlobalStats(models);
+
     return {
       models,
       lastUpdate,
+      stats,
     };
   },
 });
 
 function Home() {
-  const { models, lastUpdate } = Route.useLoaderData();
+  const { models, lastUpdate, stats } = Route.useLoaderData();
   const [sortedModels, setSortedModels] =
     useState<(ModelData & { compositeScore?: number })[]>(models);
   const [weights, setWeights] = useState<Weights>({
@@ -42,8 +45,6 @@ function Home() {
   });
 
   const sortModels = (weights: Weights) => {
-    const stats = computeGlobalStats(models);
-
     const modelsWithScores = models.map((model) => ({
       ...model,
       compositeScore: calculateCompositeScore(model, weights, stats),
