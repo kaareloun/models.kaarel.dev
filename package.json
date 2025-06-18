@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && tsc --noEmit",
-    "start": ".output/server/index.mjs",
+    "start": "node .output/server/index.mjs",
     "scrape": "src/scripts/scrape.ts"
   },
   "dependencies": {

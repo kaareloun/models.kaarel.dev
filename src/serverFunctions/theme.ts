@@ -18,7 +18,7 @@ export const getTheme = createServerFn({ method: "GET" }).handler(() => {
 
   const selectedTheme = cookies["ui-theme"];
   const themeHeader = getHeader("Sec-CH-Prefers-Color-Scheme");
-  const theme = (selectedTheme ?? themeHeader ?? "light") as Theme;
+  const theme = (selectedTheme ?? themeHeader ?? "dark") as Theme;
 
   return theme;
 });
