@@ -65,7 +65,7 @@ function Home() {
       <div className="flex flex-col justify-between p-5 gap-2">
         <div>
           <span className="text-xs font-bold uppercase tracking-widest">
-            Last update {lastUpdate.toISOString().slice(0, -5)}
+            Last update {lastUpdate}
           </span>
         </div>
         <h4 className="text-2xl font-bold">Sort</h4>

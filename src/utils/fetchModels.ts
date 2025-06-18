@@ -1,18 +1,16 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { ModelData } from "~/types";
-import { validateRawModelData } from "./validations";
-import { z } from "zod";
+import { ModelData, RawModelData } from "~/types";
 import { LAST_FETCH_FILE, MODELS_FILE } from "~/constants";
 import fs from "fs";
+import { differenceInHours } from "date-fns";
 
 export async function fetchModels() {
-  const lastFetchDate = fs.readFileSync(LAST_FETCH_FILE, "utf-8");
+  const lastFetchDate = fs.readFileSync(LAST_FETCH_FILE, "utf-8").trim();
 
   if (
-    fs.existsSync(LAST_FETCH_FILE) &&
     lastFetchDate &&
-    new Date(lastFetchDate).getTime() > Date.now() - 24 * 60 * 60 * 1000
+    differenceInHours(new Date(), new Date(lastFetchDate)) <= 24
   ) {
     return JSON.parse(fs.readFileSync(MODELS_FILE, "utf-8")) as ModelData[];
   }
@@ -42,7 +40,7 @@ export async function fetchModels() {
         $(cells[6]).text().trim(),
       ];
 
-      const rawModelData: z.infer<typeof validateRawModelData> = {
+      const rawModelData: RawModelData = {
         modelName: data[0],
         creator: data[1].match(/alt="([^"]+)"/)?.[1] ?? "",
         contextWindow: data[2],
@@ -52,26 +50,27 @@ export async function fetchModels() {
         latency: data[6],
       };
 
-      const validData = validateRawModelData.parse(rawModelData);
-
-      // get price in cents, original is string like $0.01
-      const priceInCents = validData.pricePerMillionTokens.replace("$", "");
-      const priceInDollars = parseFloat(priceInCents) * 100;
-      const priceInDollarsInt = (priceInDollars / 100).toFixed(0);
-
       models.push({
-        modelName: validData.modelName,
-        creator: validData.creator,
-        contextWindow: validData.contextWindow,
-        intelligenceIndex: parseInt(validData.intelligenceIndex, 10),
-        pricePerMillionTokensInCents: parseInt(
-          (
-            parseFloat(validData.pricePerMillionTokens.replace("$", "")) * 100
-          ).toFixed(0),
-          10,
-        ),
-        outputTokensPerSecond: parseFloat(validData.outputTokensPerSecond),
-        latency: parseFloat(validData.latency),
+        modelName: rawModelData.modelName,
+        creator: rawModelData.creator,
+        contextWindow: rawModelData.contextWindow,
+        intelligenceIndex: rawModelData.intelligenceIndex
+          ? parseInt(rawModelData.intelligenceIndex, 10)
+          : null,
+        pricePerMillionTokensInCents: rawModelData.pricePerMillionTokens
+          ? parseInt(
+              (
+                parseFloat(
+                  rawModelData.pricePerMillionTokens.replace("$", ""),
+                ) * 100
+              ).toFixed(0),
+              10,
+            )
+          : null,
+        outputTokensPerSecond: rawModelData.outputTokensPerSecond
+          ? parseFloat(rawModelData.outputTokensPerSecond)
+          : null,
+        latency: rawModelData.latency ? parseFloat(rawModelData.latency) : null,
       });
     });
 
@@ -80,6 +79,12 @@ export async function fetchModels() {
 
     return models;
   } catch (error) {
+    try {
+      return JSON.parse(fs.readFileSync(MODELS_FILE, "utf-8")) as ModelData[];
+    } catch (error) {
+      //
+    }
+
     console.error("Error fetching or parsing data:", error);
     return [];
   }

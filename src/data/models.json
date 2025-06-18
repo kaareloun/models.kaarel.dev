@@ -5,17 +5,17 @@
     "contextWindow": "200k",
     "intelligenceIndex": 71,
     "pricePerMillionTokensInCents": 3500,
-    "outputTokensPerSecond": 20.7,
-    "latency": 129.6
+    "outputTokensPerSecond": 21.2,
+    "latency": 128.8
   },
   {
-    "modelName": "Gemini 2.5 Pro (Jun '25)",
+    "modelName": "Gemini 2.5 Pro",
     "creator": "Google",
     "contextWindow": "1m",
     "intelligenceIndex": 70,
     "pricePerMillionTokensInCents": 344,
-    "outputTokensPerSecond": 141.9,
-    "latency": 36.27
+    "outputTokensPerSecond": 143.3,
+    "latency": 35.7
   },
   {
     "modelName": "o3",
@@ -23,8 +23,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 70,
     "pricePerMillionTokensInCents": 350,
-    "outputTokensPerSecond": 142,
-    "latency": 20.33
+    "outputTokensPerSecond": 117.2,
+    "latency": 21.17
   },
   {
     "modelName": "o4-mini (high)",
@@ -32,7 +32,7 @@
     "contextWindow": "200k",
     "intelligenceIndex": 70,
     "pricePerMillionTokensInCents": 193,
-    "outputTokensPerSecond": 153.4,
+    "outputTokensPerSecond": 150.4,
     "latency": 43.01
   },
   {
@@ -41,8 +41,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 69,
     "pricePerMillionTokensInCents": 344,
-    "outputTokensPerSecond": 152.3,
-    "latency": 40.17
+    "outputTokensPerSecond": 153,
+    "latency": 41.57
   },
   {
     "modelName": "DeepSeek R1 0528 (May '25)",
@@ -50,8 +50,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 68,
     "pricePerMillionTokensInCents": 96,
-    "outputTokensPerSecond": 28.2,
-    "latency": 2.49
+    "outputTokensPerSecond": 27.8,
+    "latency": 2.46
   },
   {
     "modelName": "Gemini 2.5 Pro (May' 25)",
@@ -59,8 +59,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 68,
     "pricePerMillionTokensInCents": 344,
-    "outputTokensPerSecond": 155.5,
-    "latency": 36.46
+    "outputTokensPerSecond": 153.2,
+    "latency": 36.86
   },
   {
     "modelName": "Grok 3 mini Reasoning (high)",
@@ -68,8 +68,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 67,
     "pricePerMillionTokensInCents": 35,
-    "outputTokensPerSecond": 209.4,
-    "latency": 0.35
+    "outputTokensPerSecond": 209.2,
+    "latency": 0.33
   },
   {
     "modelName": "o3-mini (high)",
@@ -77,8 +77,8 @@
     "contextWindow": "200k",
     "intelligenceIndex": 66,
     "pricePerMillionTokensInCents": 193,
-    "outputTokensPerSecond": 121,
-    "latency": 49.88
+    "outputTokensPerSecond": 147.4,
+    "latency": 49.22
   },
   {
     "modelName": "Gemini 2.5 Flash (Reasoning)",
@@ -86,8 +86,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 65,
     "pricePerMillionTokensInCents": 99,
-    "outputTokensPerSecond": 346.5,
-    "latency": 13.75
+    "outputTokensPerSecond": 351.1,
+    "latency": 13.35
   },
   {
     "modelName": "Claude 4 Opus Thinking",
@@ -95,8 +95,17 @@
     "contextWindow": "200k",
     "intelligenceIndex": 64,
     "pricePerMillionTokensInCents": 3000,
-    "outputTokensPerSecond": 57.4,
-    "latency": 2.8
+    "outputTokensPerSecond": 55.5,
+    "latency": 3.11
+  },
+  {
+    "modelName": "MiniMax M1 80k",
+    "creator": "MiniMax",
+    "contextWindow": "1m",
+    "intelligenceIndex": 63,
+    "pricePerMillionTokensInCents": 82,
+    "outputTokensPerSecond": 49.1,
+    "latency": 2.86
   },
   {
     "modelName": "o3-mini",
@@ -104,8 +113,8 @@
     "contextWindow": "200k",
     "intelligenceIndex": 63,
     "pricePerMillionTokensInCents": 193,
-    "outputTokensPerSecond": 115.3,
-    "latency": 18.68
+    "outputTokensPerSecond": 125.3,
+    "latency": 17.04
   },
   {
     "modelName": "Qwen3 235B (Reasoning)",
@@ -113,8 +122,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 62,
     "pricePerMillionTokensInCents": 263,
-    "outputTokensPerSecond": 69.6,
-    "latency": 1.29
+    "outputTokensPerSecond": 70.5,
+    "latency": 1.16
   },
   {
     "modelName": "o1",
@@ -122,8 +131,8 @@
     "contextWindow": "200k",
     "intelligenceIndex": 62,
     "pricePerMillionTokensInCents": 2625,
-    "outputTokensPerSecond": 202.1,
-    "latency": 15.62
+    "outputTokensPerSecond": 182.2,
+    "latency": 16.31
   },
   {
     "modelName": "MiniMax M1 40k",
@@ -131,8 +140,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 61,
     "pricePerMillionTokensInCents": 82,
-    "outputTokensPerSecond": 46,
-    "latency": 1.42
+    "outputTokensPerSecond": 39.6,
+    "latency": 1.35
   },
   {
     "modelName": "Llama Nemotron Ultra Reasoning",
@@ -141,7 +150,7 @@
     "intelligenceIndex": 61,
     "pricePerMillionTokensInCents": 90,
     "outputTokensPerSecond": 42.6,
-    "latency": 0.65
+    "latency": 0.66
   },
   {
     "modelName": "Claude 4 Sonnet Thinking",
@@ -150,7 +159,7 @@
     "intelligenceIndex": 61,
     "pricePerMillionTokensInCents": 600,
     "outputTokensPerSecond": 52.6,
-    "latency": 1.56
+    "latency": 1.54
   },
   {
     "modelName": "Gemini 2.5 Flash (April '25) (Reasoning)",
@@ -158,8 +167,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 60,
     "pricePerMillionTokensInCents": 99,
-    "outputTokensPerSecond": 363.4,
-    "latency": 7.18
+    "outputTokensPerSecond": 378.8,
+    "latency": 7.19
   },
   {
     "modelName": "DeepSeek R1 (Jan '25)",
@@ -177,7 +186,7 @@
     "intelligenceIndex": 60,
     "pricePerMillionTokensInCents": 2625,
     "outputTokensPerSecond": 148.8,
-    "latency": 19.38
+    "latency": 21.58
   },
   {
     "modelName": "Qwen3 32B (Reasoning)",
@@ -185,8 +194,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 59,
     "pricePerMillionTokensInCents": 263,
-    "outputTokensPerSecond": 60.8,
-    "latency": 1.16
+    "outputTokensPerSecond": 60.4,
+    "latency": 1.19
   },
   {
     "modelName": "QwQ-32B",
@@ -194,8 +203,8 @@
     "contextWindow": "131k",
     "intelligenceIndex": 58,
     "pricePerMillionTokensInCents": 63,
-    "outputTokensPerSecond": 97.8,
-    "latency": 0.42
+    "outputTokensPerSecond": 98.9,
+    "latency": 0.43
   },
   {
     "modelName": "Claude 4 Opus",
@@ -203,8 +212,8 @@
     "contextWindow": "200k",
     "intelligenceIndex": 58,
     "pricePerMillionTokensInCents": 3000,
-    "outputTokensPerSecond": 54,
-    "latency": 2.62
+    "outputTokensPerSecond": 54.1,
+    "latency": 2.56
   },
   {
     "modelName": "Claude 3.7 Sonnet Thinking",
@@ -213,7 +222,7 @@
     "intelligenceIndex": 57,
     "pricePerMillionTokensInCents": 600,
     "outputTokensPerSecond": 88.2,
-    "latency": 1.05
+    "latency": 1.23
   },
   {
     "modelName": "o1-pro",
@@ -239,8 +248,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 56,
     "pricePerMillionTokensInCents": 131,
-    "outputTokensPerSecond": 65.6,
-    "latency": 1.03
+    "outputTokensPerSecond": 65.7,
+    "latency": 1.05
   },
   {
     "modelName": "Qwen3 30B A3B (Reasoning)",
@@ -249,7 +258,25 @@
     "intelligenceIndex": 56,
     "pricePerMillionTokensInCents": 75,
     "outputTokensPerSecond": 92.1,
-    "latency": 1.19
+    "latency": 1.08
+  },
+  {
+    "modelName": "Gemini 2.5 Flash-Lite (Reasoning)",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 55,
+    "pricePerMillionTokensInCents": 17,
+    "outputTokensPerSecond": 537.1,
+    "latency": 5.69
+  },
+  {
+    "modelName": "Magistral Small",
+    "creator": "Mistral",
+    "contextWindow": "128k",
+    "intelligenceIndex": 55,
+    "pricePerMillionTokensInCents": 0,
+    "outputTokensPerSecond": null,
+    "latency": null
   },
   {
     "modelName": "o1-mini",
@@ -257,8 +284,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 54,
     "pricePerMillionTokensInCents": 193,
-    "outputTokensPerSecond": 224.5,
-    "latency": 10.19
+    "outputTokensPerSecond": 231.9,
+    "latency": 8.02
   },
   {
     "modelName": "Gemini 2.5 Flash",
@@ -266,8 +293,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 53,
     "pricePerMillionTokensInCents": 26,
-    "outputTokensPerSecond": 281.4,
-    "latency": 0.3
+    "outputTokensPerSecond": 282.4,
+    "latency": 0.33
   },
   {
     "modelName": "DeepSeek V3 0324 (Mar '25)",
@@ -275,8 +302,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 53,
     "pricePerMillionTokensInCents": 48,
-    "outputTokensPerSecond": 27.3,
-    "latency": 2.43
+    "outputTokensPerSecond": 27.4,
+    "latency": 2.42
   },
   {
     "modelName": "Claude 4 Sonnet",
@@ -284,8 +311,8 @@
     "contextWindow": "200k",
     "intelligenceIndex": 53,
     "pricePerMillionTokensInCents": 600,
-    "outputTokensPerSecond": 49.2,
-    "latency": 1.66
+    "outputTokensPerSecond": 48.5,
+    "latency": 1.58
   },
   {
     "modelName": "GPT-4.5 (Preview)",
@@ -293,7 +320,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 53,
     "pricePerMillionTokensInCents": 9375,
-    "outputTokensPerSecond": 80,
+    "outputTokensPerSecond": 79.9,
     "latency": 0.96
   },
   {
@@ -302,8 +329,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 53,
     "pricePerMillionTokensInCents": 70,
-    "outputTokensPerSecond": 68.2,
-    "latency": 0.41
+    "outputTokensPerSecond": 70.7,
+    "latency": 0.44
   },
   {
     "modelName": "GPT-4.1",
@@ -311,8 +338,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 53,
     "pricePerMillionTokensInCents": 350,
-    "outputTokensPerSecond": 104,
-    "latency": 0.46
+    "outputTokensPerSecond": 90.1,
+    "latency": 0.53
   },
   {
     "modelName": "Gemini 2.0 Flash Thinking exp. (Jan '25)",
@@ -329,8 +356,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 52,
     "pricePerMillionTokensInCents": 7,
-    "outputTokensPerSecond": 61.9,
-    "latency": 0.56
+    "outputTokensPerSecond": 65.2,
+    "latency": 0.55
   },
   {
     "modelName": "DeepSeek R1 Distill Qwen 32B",
@@ -338,8 +365,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 52,
     "pricePerMillionTokensInCents": 30,
-    "outputTokensPerSecond": 32.6,
-    "latency": 0.66
+    "outputTokensPerSecond": 41.1,
+    "latency": 0.8
   },
   {
     "modelName": "Qwen3 8B (Reasoning)",
@@ -347,7 +374,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 51,
     "pricePerMillionTokensInCents": 66,
-    "outputTokensPerSecond": 98.8,
+    "outputTokensPerSecond": 98.7,
     "latency": 1.06
   },
   {
@@ -365,8 +392,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 51,
     "pricePerMillionTokensInCents": 600,
-    "outputTokensPerSecond": 88.8,
-    "latency": 0.43
+    "outputTokensPerSecond": 90.4,
+    "latency": 0.46
   },
   {
     "modelName": "Llama 4 Maverick",
@@ -374,7 +401,7 @@
     "contextWindow": "1m",
     "intelligenceIndex": 51,
     "pricePerMillionTokensInCents": 39,
-    "outputTokensPerSecond": 163.5,
+    "outputTokensPerSecond": 163.1,
     "latency": 0.34
   },
   {
@@ -383,8 +410,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 50,
     "pricePerMillionTokensInCents": 750,
-    "outputTokensPerSecond": 182.1,
-    "latency": 0.48
+    "outputTokensPerSecond": 179.6,
+    "latency": 0.52
   },
   {
     "modelName": "Gemini 2.0 Pro Experimental",
@@ -392,8 +419,8 @@
     "contextWindow": "2m",
     "intelligenceIndex": 49,
     "pricePerMillionTokensInCents": 0,
-    "outputTokensPerSecond": 50.8,
-    "latency": 16.83
+    "outputTokensPerSecond": 51.7,
+    "latency": 16.95
   },
   {
     "modelName": "DeepSeek R1 Distill Qwen 14B",
@@ -401,7 +428,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 49,
     "pricePerMillionTokensInCents": 20,
-    "outputTokensPerSecond": 83,
+    "outputTokensPerSecond": 83.1,
     "latency": 0.64
   },
   {
@@ -410,7 +437,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 49,
     "pricePerMillionTokensInCents": 80,
-    "outputTokensPerSecond": 77.8,
+    "outputTokensPerSecond": 74.3,
     "latency": 0.37
   },
   {
@@ -419,8 +446,8 @@
     "contextWindow": "127k",
     "intelligenceIndex": 49,
     "pricePerMillionTokensInCents": 200,
-    "outputTokensPerSecond": 87.9,
-    "latency": 0.63
+    "outputTokensPerSecond": 87.5,
+    "latency": 0.61
   },
   {
     "modelName": "Gemini 2.5 Flash",
@@ -428,7 +455,7 @@
     "contextWindow": "1m",
     "intelligenceIndex": 49,
     "pricePerMillionTokensInCents": 26,
-    "outputTokensPerSecond": 289.3,
+    "outputTokensPerSecond": 297.9,
     "latency": 0.38
   },
   {
@@ -437,8 +464,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 48,
     "pricePerMillionTokensInCents": 80,
-    "outputTokensPerSecond": 64.5,
-    "latency": 0.54
+    "outputTokensPerSecond": 64.7,
+    "latency": 0.49
   },
   {
     "modelName": "Claude 3.7 Sonnet",
@@ -447,7 +474,7 @@
     "intelligenceIndex": 48,
     "pricePerMillionTokensInCents": 600,
     "outputTokensPerSecond": 78.1,
-    "latency": 1.3
+    "latency": 1.2
   },
   {
     "modelName": "Gemini 2.0 Flash",
@@ -456,7 +483,7 @@
     "intelligenceIndex": 48,
     "pricePerMillionTokensInCents": 17,
     "outputTokensPerSecond": 231.6,
-    "latency": 0.37
+    "latency": 0.4
   },
   {
     "modelName": "Qwen3 4B (Reasoning)",
@@ -464,8 +491,8 @@
     "contextWindow": "32k",
     "intelligenceIndex": 47,
     "pricePerMillionTokensInCents": 40,
-    "outputTokensPerSecond": 104.7,
-    "latency": 1.01
+    "outputTokensPerSecond": 104.8,
+    "latency": 1
   },
   {
     "modelName": "Reka Flash 3",
@@ -473,8 +500,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 47,
     "pricePerMillionTokensInCents": 35,
-    "outputTokensPerSecond": 57.3,
-    "latency": 0.94
+    "outputTokensPerSecond": 56.7,
+    "latency": 0.96
   },
   {
     "modelName": "Qwen3 235B",
@@ -482,8 +509,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 47,
     "pricePerMillionTokensInCents": 123,
-    "outputTokensPerSecond": 70.2,
-    "latency": 1.14
+    "outputTokensPerSecond": 70.7,
+    "latency": 1.15
   },
   {
     "modelName": "Gemini 2.0 Flash (exp)",
@@ -491,8 +518,17 @@
     "contextWindow": "1m",
     "intelligenceIndex": 46,
     "pricePerMillionTokensInCents": 0,
-    "outputTokensPerSecond": 224.5,
-    "latency": 0.24
+    "outputTokensPerSecond": 222,
+    "latency": 0.26
+  },
+  {
+    "modelName": "Gemini 2.5 Flash-Lite",
+    "creator": "Google",
+    "contextWindow": "1m",
+    "intelligenceIndex": 46,
+    "pricePerMillionTokensInCents": 17,
+    "outputTokensPerSecond": 472.9,
+    "latency": 0.19
   },
   {
     "modelName": "DeepSeek V3 (Dec '24)",
@@ -509,8 +545,8 @@
     "contextWindow": "32k",
     "intelligenceIndex": 45,
     "pricePerMillionTokensInCents": 280,
-    "outputTokensPerSecond": 42.9,
-    "latency": 1.37
+    "outputTokensPerSecond": 34.3,
+    "latency": 1.34
   },
   {
     "modelName": "Llama 3.1 Nemotron Nano 4B v1.1 (Reasoning)",
@@ -527,8 +563,8 @@
     "contextWindow": "2m",
     "intelligenceIndex": 45,
     "pricePerMillionTokensInCents": 219,
-    "outputTokensPerSecond": 91.6,
-    "latency": 0.47
+    "outputTokensPerSecond": 91.5,
+    "latency": 0.48
   },
   {
     "modelName": "Claude 3.5 Sonnet (Oct)",
@@ -536,8 +572,8 @@
     "contextWindow": "200k",
     "intelligenceIndex": 44,
     "pricePerMillionTokensInCents": 600,
-    "outputTokensPerSecond": 78.5,
-    "latency": 1.88
+    "outputTokensPerSecond": 78.4,
+    "latency": 1.8
   },
   {
     "modelName": "Qwen3 32B",
@@ -546,7 +582,7 @@
     "intelligenceIndex": 44,
     "pricePerMillionTokensInCents": 123,
     "outputTokensPerSecond": 60.7,
-    "latency": 1.11
+    "latency": 1.07
   },
   {
     "modelName": "Sonar",
@@ -554,8 +590,8 @@
     "contextWindow": "127k",
     "intelligenceIndex": 43,
     "pricePerMillionTokensInCents": 100,
-    "outputTokensPerSecond": 156.3,
-    "latency": 0.83
+    "outputTokensPerSecond": 135.9,
+    "latency": 1.15
   },
   {
     "modelName": "Llama 4 Scout",
@@ -563,7 +599,7 @@
     "contextWindow": "10m",
     "intelligenceIndex": 43,
     "pricePerMillionTokensInCents": 26,
-    "outputTokensPerSecond": 130.2,
+    "outputTokensPerSecond": 130.1,
     "latency": 0.37
   },
   {
@@ -572,8 +608,8 @@
     "contextWindow": "200k",
     "intelligenceIndex": 43,
     "pricePerMillionTokensInCents": 600,
-    "outputTokensPerSecond": 157.1,
-    "latency": 0.96
+    "outputTokensPerSecond": 158,
+    "latency": 0.97
   },
   {
     "modelName": "QwQ 32B-Preview",
@@ -581,7 +617,7 @@
     "contextWindow": "33k",
     "intelligenceIndex": 43,
     "pricePerMillionTokensInCents": 20,
-    "outputTokensPerSecond": 51.3,
+    "outputTokensPerSecond": 63,
     "latency": 0.55
   },
   {
@@ -590,7 +626,7 @@
     "contextWindow": "1m",
     "intelligenceIndex": 43,
     "pricePerMillionTokensInCents": 500,
-    "outputTokensPerSecond": 77.7,
+    "outputTokensPerSecond": 78.4,
     "latency": 0.79
   },
   {
@@ -608,7 +644,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 41,
     "pricePerMillionTokensInCents": 438,
-    "outputTokensPerSecond": 159.8,
+    "outputTokensPerSecond": 157.8,
     "latency": 0.38
   },
   {
@@ -617,8 +653,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 41,
     "pricePerMillionTokensInCents": 13,
-    "outputTokensPerSecond": 218.6,
-    "latency": 0.28
+    "outputTokensPerSecond": 225,
+    "latency": 0.3
   },
   {
     "modelName": "Llama 3.3 70B",
@@ -626,8 +662,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 41,
     "pricePerMillionTokensInCents": 59,
-    "outputTokensPerSecond": 114.1,
-    "latency": 0.42
+    "outputTokensPerSecond": 113.6,
+    "latency": 0.44
   },
   {
     "modelName": "GPT-4.1 nano",
@@ -635,8 +671,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 41,
     "pricePerMillionTokensInCents": 17,
-    "outputTokensPerSecond": 137.9,
-    "latency": 0.31
+    "outputTokensPerSecond": 188.9,
+    "latency": 0.3
   },
   {
     "modelName": "Qwen3 14B",
@@ -644,8 +680,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 41,
     "pricePerMillionTokensInCents": 61,
-    "outputTokensPerSecond": 66.5,
-    "latency": 1.05
+    "outputTokensPerSecond": 66.4,
+    "latency": 1.06
   },
   {
     "modelName": "GPT-4o (May '24)",
@@ -653,7 +689,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 41,
     "pricePerMillionTokensInCents": 750,
-    "outputTokensPerSecond": 75.7,
+    "outputTokensPerSecond": 76.4,
     "latency": 0.55
   },
   {
@@ -663,7 +699,7 @@
     "intelligenceIndex": 41,
     "pricePerMillionTokensInCents": 13,
     "outputTokensPerSecond": 225.7,
-    "latency": 0.27
+    "latency": 0.3
   },
   {
     "modelName": "GPT-4o (Aug '24)",
@@ -672,7 +708,7 @@
     "intelligenceIndex": 41,
     "pricePerMillionTokensInCents": 438,
     "outputTokensPerSecond": 80.6,
-    "latency": 0.71
+    "latency": 0.59
   },
   {
     "modelName": "Llama 3.1 405B",
@@ -680,7 +716,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 40,
     "pricePerMillionTokensInCents": 350,
-    "outputTokensPerSecond": 33.2,
+    "outputTokensPerSecond": 33.3,
     "latency": 0.66
   },
   {
@@ -699,7 +735,7 @@
     "intelligenceIndex": 40,
     "pricePerMillionTokensInCents": 42,
     "outputTokensPerSecond": 34.7,
-    "latency": 1.1
+    "latency": 0.88
   },
   {
     "modelName": "Phi-4",
@@ -707,8 +743,8 @@
     "contextWindow": "16k",
     "intelligenceIndex": 40,
     "pricePerMillionTokensInCents": 22,
-    "outputTokensPerSecond": 28.7,
-    "latency": 0.45
+    "outputTokensPerSecond": 29.6,
+    "latency": 0.46
   },
   {
     "modelName": "Claude 3.5 Sonnet (June)",
@@ -716,8 +752,8 @@
     "contextWindow": "200k",
     "intelligenceIndex": 40,
     "pricePerMillionTokensInCents": 600,
-    "outputTokensPerSecond": 79.1,
-    "latency": 1.28
+    "outputTokensPerSecond": 79.6,
+    "latency": 1.37
   },
   {
     "modelName": "Command A",
@@ -725,8 +761,8 @@
     "contextWindow": "256k",
     "intelligenceIndex": 40,
     "pricePerMillionTokensInCents": 438,
-    "outputTokensPerSecond": 154.1,
-    "latency": 0.21
+    "outputTokensPerSecond": 166.4,
+    "latency": 0.26
   },
   {
     "modelName": "Tulu3 405B",
@@ -770,7 +806,7 @@
     "contextWindow": "1m",
     "intelligenceIndex": 39,
     "pricePerMillionTokensInCents": 13,
-    "outputTokensPerSecond": 185.5,
+    "outputTokensPerSecond": 183.7,
     "latency": 0.2
   },
   {
@@ -779,7 +815,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 39,
     "pricePerMillionTokensInCents": 1500,
-    "outputTokensPerSecond": 47.5,
+    "outputTokensPerSecond": 43.1,
     "latency": 1
   },
   {
@@ -788,7 +824,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 38,
     "pricePerMillionTokensInCents": 300,
-    "outputTokensPerSecond": 48.2,
+    "outputTokensPerSecond": 49.7,
     "latency": 0.48
   },
   {
@@ -797,7 +833,7 @@
     "contextWindow": "32k",
     "intelligenceIndex": 38,
     "pricePerMillionTokensInCents": 40,
-    "outputTokensPerSecond": 137.8,
+    "outputTokensPerSecond": 137.9,
     "latency": 0.95
   },
   {
@@ -806,8 +842,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 38,
     "pricePerMillionTokensInCents": 0,
-    "outputTokensPerSecond": 48.2,
-    "latency": 0.61
+    "outputTokensPerSecond": 45.1,
+    "latency": 0.63
   },
   {
     "modelName": "Grok Beta",
@@ -815,8 +851,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 38,
     "pricePerMillionTokensInCents": 750,
-    "outputTokensPerSecond": 67.4,
-    "latency": 0.31
+    "outputTokensPerSecond": 67.8,
+    "latency": 0.36
   },
   {
     "modelName": "Pixtral Large",
@@ -824,8 +860,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 37,
     "pricePerMillionTokensInCents": 300,
-    "outputTokensPerSecond": 79.6,
-    "latency": 0.4
+    "outputTokensPerSecond": 79,
+    "latency": 0.42
   },
   {
     "modelName": "Qwen2.5 Instruct 32B",
@@ -842,8 +878,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 37,
     "pricePerMillionTokensInCents": 17,
-    "outputTokensPerSecond": 43.7,
-    "latency": 0.34
+    "outputTokensPerSecond": 42.4,
+    "latency": 0.31
   },
   {
     "modelName": "Nova Pro",
@@ -860,8 +896,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 37,
     "pricePerMillionTokensInCents": 31,
-    "outputTokensPerSecond": 100,
-    "latency": 1.04
+    "outputTokensPerSecond": 100.1,
+    "latency": 0.99
   },
   {
     "modelName": "Mistral Large 2 (Jul '24)",
@@ -869,8 +905,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 37,
     "pricePerMillionTokensInCents": 300,
-    "outputTokensPerSecond": 90.1,
-    "latency": 0.41
+    "outputTokensPerSecond": 94.6,
+    "latency": 0.4
   },
   {
     "modelName": "Qwen2.5 Coder 32B",
@@ -878,8 +914,8 @@
     "contextWindow": "131k",
     "intelligenceIndex": 36,
     "pricePerMillionTokensInCents": 15,
-    "outputTokensPerSecond": 52.5,
-    "latency": 0.39
+    "outputTokensPerSecond": 52.6,
+    "latency": 0.38
   },
   {
     "modelName": "GPT-4",
@@ -896,17 +932,17 @@
     "contextWindow": "128k",
     "intelligenceIndex": 36,
     "pricePerMillionTokensInCents": 26,
-    "outputTokensPerSecond": 70.5,
-    "latency": 0.43
+    "outputTokensPerSecond": 69,
+    "latency": 0.48
   },
   {
     "modelName": "Llama 3.1 70B",
     "creator": "Meta",
     "contextWindow": "128k",
     "intelligenceIndex": 35,
-    "pricePerMillionTokensInCents": 72,
-    "outputTokensPerSecond": 61.8,
-    "latency": 0.43
+    "pricePerMillionTokensInCents": 76,
+    "outputTokensPerSecond": 59.7,
+    "latency": 0.45
   },
   {
     "modelName": "Mistral Small 3.1",
@@ -914,8 +950,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 35,
     "pricePerMillionTokensInCents": 15,
-    "outputTokensPerSecond": 121.2,
-    "latency": 0.27
+    "outputTokensPerSecond": 152.6,
+    "latency": 0.26
   },
   {
     "modelName": "Mistral Small 3",
@@ -923,7 +959,7 @@
     "contextWindow": "32k",
     "intelligenceIndex": 35,
     "pricePerMillionTokensInCents": 15,
-    "outputTokensPerSecond": 159.9,
+    "outputTokensPerSecond": 143.8,
     "latency": 0.28
   },
   {
@@ -941,8 +977,8 @@
     "contextWindow": "32k",
     "intelligenceIndex": 35,
     "pricePerMillionTokensInCents": 19,
-    "outputTokensPerSecond": 106.4,
-    "latency": 0.98
+    "outputTokensPerSecond": 106.5,
+    "latency": 0.97
   },
   {
     "modelName": "Claude 3 Opus",
@@ -951,7 +987,7 @@
     "intelligenceIndex": 35,
     "pricePerMillionTokensInCents": 3000,
     "outputTokensPerSecond": 27.9,
-    "latency": 1.18
+    "latency": 1.25
   },
   {
     "modelName": "Claude 3.5 Haiku",
@@ -960,7 +996,7 @@
     "intelligenceIndex": 35,
     "pricePerMillionTokensInCents": 160,
     "outputTokensPerSecond": 64.2,
-    "latency": 1.18
+    "latency": 1.12
   },
   {
     "modelName": "Gemini 2.0 Flash Thinking exp. (Dec '24)",
@@ -986,7 +1022,7 @@
     "contextWindow": "256k",
     "intelligenceIndex": 34,
     "pricePerMillionTokensInCents": 15,
-    "outputTokensPerSecond": 141.8,
+    "outputTokensPerSecond": 140.8,
     "latency": 0.3
   },
   {
@@ -995,7 +1031,7 @@
     "contextWindow": "32k",
     "intelligenceIndex": 34,
     "pricePerMillionTokensInCents": 30,
-    "outputTokensPerSecond": 85.9,
+    "outputTokensPerSecond": 86,
     "latency": 0.29
   },
   {
@@ -1004,8 +1040,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 34,
     "pricePerMillionTokensInCents": 4,
-    "outputTokensPerSecond": 56.5,
-    "latency": 0.73
+    "outputTokensPerSecond": 56.4,
+    "latency": 0.74
   },
   {
     "modelName": "Reka Core",
@@ -1014,7 +1050,7 @@
     "intelligenceIndex": 34,
     "pricePerMillionTokensInCents": 200,
     "outputTokensPerSecond": 27.2,
-    "latency": 0.84
+    "latency": 0.89
   },
   {
     "modelName": "Gemma 3 12B",
@@ -1050,7 +1086,7 @@
     "intelligenceIndex": 34,
     "pricePerMillionTokensInCents": 9,
     "outputTokensPerSecond": 106.1,
-    "latency": 1.03
+    "latency": 1.07
   },
   {
     "modelName": "Reka Flash",
@@ -1059,7 +1095,7 @@
     "intelligenceIndex": 34,
     "pricePerMillionTokensInCents": 35,
     "outputTokensPerSecond": 45.5,
-    "latency": 0.91
+    "latency": 0.93
   },
   {
     "modelName": "Gemma 3 1B",
@@ -1077,7 +1113,7 @@
     "intelligenceIndex": 33,
     "pricePerMillionTokensInCents": 72,
     "outputTokensPerSecond": 33.5,
-    "latency": 0.38
+    "latency": 0.37
   },
   {
     "modelName": "Solar Mini",
@@ -1085,7 +1121,7 @@
     "contextWindow": "4k",
     "intelligenceIndex": 33,
     "pricePerMillionTokensInCents": 15,
-    "outputTokensPerSecond": 92.7,
+    "outputTokensPerSecond": 94.4,
     "latency": 1.06
   },
   {
@@ -1094,8 +1130,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 33,
     "pricePerMillionTokensInCents": 35,
-    "outputTokensPerSecond": 46.2,
-    "latency": 0.87
+    "outputTokensPerSecond": 45.9,
+    "latency": 0.89
   },
   {
     "modelName": "Reka Edge",
@@ -1103,8 +1139,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 33,
     "pricePerMillionTokensInCents": 10,
-    "outputTokensPerSecond": 85,
-    "latency": 0.81
+    "outputTokensPerSecond": 83.6,
+    "latency": 0.87
   },
   {
     "modelName": "Qwen2 72B",
@@ -1113,7 +1149,7 @@
     "intelligenceIndex": 33,
     "pricePerMillionTokensInCents": 0,
     "outputTokensPerSecond": 30.9,
-    "latency": 1.36
+    "latency": 1.35
   },
   {
     "modelName": "Nova Lite",
@@ -1121,7 +1157,7 @@
     "contextWindow": "300k",
     "intelligenceIndex": 33,
     "pricePerMillionTokensInCents": 10,
-    "outputTokensPerSecond": 259.2,
+    "outputTokensPerSecond": 259.5,
     "latency": 0.33
   },
   {
@@ -1130,8 +1166,8 @@
     "contextWindow": "1m",
     "intelligenceIndex": 31,
     "pricePerMillionTokensInCents": 7,
-    "outputTokensPerSecond": 281.8,
-    "latency": 0.17
+    "outputTokensPerSecond": 275.2,
+    "latency": 0.18
   },
   {
     "modelName": "DeepHermes 3 - Mistral 24B",
@@ -1175,8 +1211,8 @@
     "contextWindow": "256k",
     "intelligenceIndex": 29,
     "pricePerMillionTokensInCents": 350,
-    "outputTokensPerSecond": 54.5,
-    "latency": 0.83
+    "outputTokensPerSecond": 52.7,
+    "latency": 0.81
   },
   {
     "modelName": "Gemini 1.5 Flash (May)",
@@ -1193,8 +1229,8 @@
     "contextWindow": "130k",
     "intelligenceIndex": 28,
     "pricePerMillionTokensInCents": 6,
-    "outputTokensPerSecond": 341.2,
-    "latency": 0.32
+    "outputTokensPerSecond": 352.9,
+    "latency": 0.33
   },
   {
     "modelName": "Yi-Large",
@@ -1202,8 +1238,8 @@
     "contextWindow": "32k",
     "intelligenceIndex": 28,
     "pricePerMillionTokensInCents": 300,
-    "outputTokensPerSecond": 67.9,
-    "latency": 0.34
+    "outputTokensPerSecond": 68.1,
+    "latency": 0.37
   },
   {
     "modelName": "Claude 3 Sonnet",
@@ -1211,8 +1247,8 @@
     "contextWindow": "200k",
     "intelligenceIndex": 28,
     "pricePerMillionTokensInCents": 600,
-    "outputTokensPerSecond": 60.5,
-    "latency": 1.28
+    "outputTokensPerSecond": 59.8,
+    "latency": 1.27
   },
   {
     "modelName": "Codestral (Jan '25)",
@@ -1220,8 +1256,8 @@
     "contextWindow": "256k",
     "intelligenceIndex": 28,
     "pricePerMillionTokensInCents": 45,
-    "outputTokensPerSecond": 164.8,
-    "latency": 0.27
+    "outputTokensPerSecond": 174.4,
+    "latency": 0.28
   },
   {
     "modelName": "Llama 3 70B",
@@ -1229,7 +1265,7 @@
     "contextWindow": "8k",
     "intelligenceIndex": 27,
     "pricePerMillionTokensInCents": 84,
-    "outputTokensPerSecond": 47.3,
+    "outputTokensPerSecond": 45,
     "latency": 0.44
   },
   {
@@ -1238,8 +1274,8 @@
     "contextWindow": "33k",
     "intelligenceIndex": 27,
     "pricePerMillionTokensInCents": 30,
-    "outputTokensPerSecond": 101.6,
-    "latency": 0.3
+    "outputTokensPerSecond": 104.2,
+    "latency": 0.31
   },
   {
     "modelName": "Gemini 1.0 Ultra",
@@ -1257,7 +1293,7 @@
     "intelligenceIndex": 27,
     "pricePerMillionTokensInCents": 0,
     "outputTokensPerSecond": 21.2,
-    "latency": 0.34
+    "latency": 0.35
   },
   {
     "modelName": "Qwen2.5 Coder 7B",
@@ -1274,8 +1310,8 @@
     "contextWindow": "33k",
     "intelligenceIndex": 26,
     "pricePerMillionTokensInCents": 600,
-    "outputTokensPerSecond": 79.9,
-    "latency": 0.47
+    "outputTokensPerSecond": 94.4,
+    "latency": 0.44
   },
   {
     "modelName": "Jamba Instruct",
@@ -1292,8 +1328,8 @@
     "contextWindow": "65k",
     "intelligenceIndex": 26,
     "pricePerMillionTokensInCents": 300,
-    "outputTokensPerSecond": 45.3,
-    "latency": 0.33
+    "outputTokensPerSecond": 52.7,
+    "latency": 0.34
   },
   {
     "modelName": "Phi-4 Mini",
@@ -1301,7 +1337,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 26,
     "pricePerMillionTokensInCents": 0,
-    "outputTokensPerSecond": 56.9,
+    "outputTokensPerSecond": 56.5,
     "latency": 0.32
   },
   {
@@ -1319,7 +1355,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 25,
     "pricePerMillionTokensInCents": 16,
-    "outputTokensPerSecond": 104.3,
+    "outputTokensPerSecond": 106.8,
     "latency": 0.42
   },
   {
@@ -1328,8 +1364,8 @@
     "contextWindow": "32k",
     "intelligenceIndex": 25,
     "pricePerMillionTokensInCents": 19,
-    "outputTokensPerSecond": 141,
-    "latency": 1.05
+    "outputTokensPerSecond": 141.1,
+    "latency": 1.03
   },
   {
     "modelName": "Qwen1.5 Chat 110B",
@@ -1338,7 +1374,7 @@
     "intelligenceIndex": 25,
     "pricePerMillionTokensInCents": 0,
     "outputTokensPerSecond": 23.7,
-    "latency": 1.52
+    "latency": 1.51
   },
   {
     "modelName": "Phi-3 Medium 14B",
@@ -1346,7 +1382,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 25,
     "pricePerMillionTokensInCents": 30,
-    "outputTokensPerSecond": 52.6,
+    "outputTokensPerSecond": 52.5,
     "latency": 0.42
   },
   {
@@ -1365,7 +1401,7 @@
     "intelligenceIndex": 24,
     "pricePerMillionTokensInCents": 1200,
     "outputTokensPerSecond": 13.9,
-    "latency": 1.09
+    "latency": 1.21
   },
   {
     "modelName": "Claude 3 Haiku",
@@ -1373,8 +1409,8 @@
     "contextWindow": "200k",
     "intelligenceIndex": 24,
     "pricePerMillionTokensInCents": 50,
-    "outputTokensPerSecond": 138.6,
-    "latency": 0.84
+    "outputTokensPerSecond": 136.9,
+    "latency": 0.7
   },
   {
     "modelName": "Llama 3.1 8B",
@@ -1382,7 +1418,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 24,
     "pricePerMillionTokensInCents": 10,
-    "outputTokensPerSecond": 207.6,
+    "outputTokensPerSecond": 218.8,
     "latency": 0.29
   },
   {
@@ -1391,7 +1427,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 23,
     "pricePerMillionTokensInCents": 15,
-    "outputTokensPerSecond": 70.8,
+    "outputTokensPerSecond": 65.8,
     "latency": 0.37
   },
   {
@@ -1400,8 +1436,8 @@
     "contextWindow": "32k",
     "intelligenceIndex": 23,
     "pricePerMillionTokensInCents": 40,
-    "outputTokensPerSecond": 228.8,
-    "latency": 0.91
+    "outputTokensPerSecond": 228.4,
+    "latency": 0.97
   },
   {
     "modelName": "Claude 2.0",
@@ -1410,7 +1446,7 @@
     "intelligenceIndex": 23,
     "pricePerMillionTokensInCents": 1200,
     "outputTokensPerSecond": 31,
-    "latency": 1.1
+    "latency": 1.11
   },
   {
     "modelName": "DeepSeek-V2",
@@ -1427,7 +1463,7 @@
     "contextWindow": "33k",
     "intelligenceIndex": 23,
     "pricePerMillionTokensInCents": 150,
-    "outputTokensPerSecond": 148.2,
+    "outputTokensPerSecond": 150.4,
     "latency": 0.26
   },
   {
@@ -1436,7 +1472,7 @@
     "contextWindow": "33k",
     "intelligenceIndex": 23,
     "pricePerMillionTokensInCents": 409,
-    "outputTokensPerSecond": 77.3,
+    "outputTokensPerSecond": 79.6,
     "latency": 0.4
   },
   {
@@ -1445,7 +1481,7 @@
     "contextWindow": "4k",
     "intelligenceIndex": 23,
     "pricePerMillionTokensInCents": 75,
-    "outputTokensPerSecond": 113.3,
+    "outputTokensPerSecond": 111,
     "latency": 0.35
   },
   {
@@ -1454,7 +1490,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 22,
     "pricePerMillionTokensInCents": 10,
-    "outputTokensPerSecond": 188.6,
+    "outputTokensPerSecond": 197.3,
     "latency": 0.27
   },
   {
@@ -1499,7 +1535,7 @@
     "contextWindow": "32k",
     "intelligenceIndex": 22,
     "pricePerMillionTokensInCents": 15,
-    "outputTokensPerSecond": 162.1,
+    "outputTokensPerSecond": 160.5,
     "latency": 0.16
   },
   {
@@ -1508,8 +1544,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 21,
     "pricePerMillionTokensInCents": 438,
-    "outputTokensPerSecond": 47.4,
-    "latency": 0.26
+    "outputTokensPerSecond": 48.6,
+    "latency": 0.29
   },
   {
     "modelName": "Llama 3 8B",
@@ -1517,8 +1553,8 @@
     "contextWindow": "8k",
     "intelligenceIndex": 21,
     "pricePerMillionTokensInCents": 9,
-    "outputTokensPerSecond": 103.8,
-    "latency": 0.35
+    "outputTokensPerSecond": 103,
+    "latency": 0.36
   },
   {
     "modelName": "PALM-2",
@@ -1553,7 +1589,7 @@
     "contextWindow": "33k",
     "intelligenceIndex": 20,
     "pricePerMillionTokensInCents": 30,
-    "outputTokensPerSecond": 156.2,
+    "outputTokensPerSecond": 163.8,
     "latency": 0.29
   },
   {
@@ -1562,8 +1598,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 20,
     "pricePerMillionTokensInCents": 75,
-    "outputTokensPerSecond": 121.5,
-    "latency": 0.17
+    "outputTokensPerSecond": 122.5,
+    "latency": 0.18
   },
   {
     "modelName": "Llama 2 Chat 70B",
@@ -1598,8 +1634,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 20,
     "pricePerMillionTokensInCents": 600,
-    "outputTokensPerSecond": 55.5,
-    "latency": 0.24
+    "outputTokensPerSecond": 57.6,
+    "latency": 0.32
   },
   {
     "modelName": "OpenChat 3.5",
@@ -1607,8 +1643,8 @@
     "contextWindow": "8k",
     "intelligenceIndex": 20,
     "pricePerMillionTokensInCents": 5,
-    "outputTokensPerSecond": 41.8,
-    "latency": 0.34
+    "outputTokensPerSecond": 42.2,
+    "latency": 0.49
   },
   {
     "modelName": "DBRX",
@@ -1625,8 +1661,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 20,
     "pricePerMillionTokensInCents": 4,
-    "outputTokensPerSecond": 249.9,
-    "latency": 0.26
+    "outputTokensPerSecond": 257.7,
+    "latency": 0.27
   },
   {
     "modelName": "Mistral NeMo",
@@ -1634,7 +1670,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 20,
     "pricePerMillionTokensInCents": 15,
-    "outputTokensPerSecond": 144.5,
+    "outputTokensPerSecond": 147.5,
     "latency": 0.27
   },
   {
@@ -1644,7 +1680,7 @@
     "intelligenceIndex": 20,
     "pricePerMillionTokensInCents": 5,
     "outputTokensPerSecond": 114.7,
-    "latency": 0.34
+    "latency": 0.44
   },
   {
     "modelName": "DeepSeek R1 Distill Qwen 1.5B",
@@ -1652,7 +1688,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 19,
     "pricePerMillionTokensInCents": 18,
-    "outputTokensPerSecond": 386.6,
+    "outputTokensPerSecond": 386.7,
     "latency": 0.24
   },
   {
@@ -1671,7 +1707,7 @@
     "intelligenceIndex": 18,
     "pricePerMillionTokensInCents": 25,
     "outputTokensPerSecond": 203.3,
-    "latency": 0.63
+    "latency": 0.61
   },
   {
     "modelName": "Mixtral 8x7B",
@@ -1679,8 +1715,8 @@
     "contextWindow": "33k",
     "intelligenceIndex": 17,
     "pricePerMillionTokensInCents": 70,
-    "outputTokensPerSecond": 36.3,
-    "latency": 0.37
+    "outputTokensPerSecond": 65.2,
+    "latency": 0.36
   },
   {
     "modelName": "Qwen3 0.6B",
@@ -1688,8 +1724,8 @@
     "contextWindow": "32k",
     "intelligenceIndex": 17,
     "pricePerMillionTokensInCents": 19,
-    "outputTokensPerSecond": 232.1,
-    "latency": 0.93
+    "outputTokensPerSecond": 232.4,
+    "latency": 0.97
   },
   {
     "modelName": "DeepHermes 3 - Llama-3.1 8B",
@@ -1706,8 +1742,8 @@
     "contextWindow": "8k",
     "intelligenceIndex": 16,
     "pricePerMillionTokensInCents": 75,
-    "outputTokensPerSecond": 166.7,
-    "latency": 0.13
+    "outputTokensPerSecond": 171.5,
+    "latency": 0.14
   },
   {
     "modelName": "Command-R",
@@ -1715,8 +1751,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 15,
     "pricePerMillionTokensInCents": 26,
-    "outputTokensPerSecond": 65.5,
-    "latency": 0.2
+    "outputTokensPerSecond": 69.9,
+    "latency": 0.21
   },
   {
     "modelName": "Command-R (Mar '24)",
@@ -1724,8 +1760,8 @@
     "contextWindow": "128k",
     "intelligenceIndex": 15,
     "pricePerMillionTokensInCents": 75,
-    "outputTokensPerSecond": 156.1,
-    "latency": 0.15
+    "outputTokensPerSecond": 158.1,
+    "latency": 0.2
   },
   {
     "modelName": "Qwen Chat 14B",
@@ -1742,8 +1778,8 @@
     "contextWindow": "100k",
     "intelligenceIndex": 14,
     "pricePerMillionTokensInCents": 120,
-    "outputTokensPerSecond": 63.4,
-    "latency": 0.57
+    "outputTokensPerSecond": 62.9,
+    "latency": 0.56
   },
   {
     "modelName": "Codestral-Mamba",
@@ -1769,7 +1805,7 @@
     "contextWindow": "8k",
     "intelligenceIndex": 10,
     "pricePerMillionTokensInCents": 25,
-    "outputTokensPerSecond": 103,
+    "outputTokensPerSecond": 106.4,
     "latency": 0.28
   },
   {
@@ -1778,7 +1814,7 @@
     "contextWindow": "128k",
     "intelligenceIndex": 10,
     "pricePerMillionTokensInCents": 5,
-    "outputTokensPerSecond": 176.7,
+    "outputTokensPerSecond": 176.2,
     "latency": 0.29
   },
   {
@@ -1823,7 +1859,7 @@
     "contextWindow": "1m",
     "intelligenceIndex": null,
     "pricePerMillionTokensInCents": 35,
-    "outputTokensPerSecond": 198.9,
+    "outputTokensPerSecond": 196.2,
     "latency": 0.33
   },
   {
