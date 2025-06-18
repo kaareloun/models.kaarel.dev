@@ -125,7 +125,7 @@ function Home() {
         <TableBody>
           {sortedModels.map((model) => (
             <TableRow key={`${model.modelName}-${model.intelligenceIndex}`}>
-              <TableCell className="font-medium">
+              <TableCell className="font-semibold text-accent-foreground">
                 {model.modelName ?? "Unknown"}
               </TableCell>
               <TableCell>{model.creator ?? "Unknown"}</TableCell>
