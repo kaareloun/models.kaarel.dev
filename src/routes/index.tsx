@@ -13,20 +13,25 @@ import { useState } from "react";
 import { Slider } from "~/components/ui/slider";
 import { calculateCompositeScore, computeGlobalStats } from "~/utils/calculate";
 import { ModelData, Weights } from "~/types";
+import { getLastUpdate } from "~/serverFunctions/getLastUpdate";
 
 export const Route = createFileRoute("/")({
   component: Home,
   loader: async () => {
-    const models = await getModels();
+    const [models, lastUpdate] = await Promise.all([
+      getModels(),
+      getLastUpdate(),
+    ]);
 
     return {
       models,
+      lastUpdate,
     };
   },
 });
 
 function Home() {
-  const { models } = Route.useLoaderData();
+  const { models, lastUpdate } = Route.useLoaderData();
   const [sortedModels, setSortedModels] =
     useState<(ModelData & { compositeScore?: number })[]>(models);
   const [weights, setWeights] = useState<Weights>({
@@ -58,6 +63,11 @@ function Home() {
   return (
     <div>
       <div className="flex flex-col justify-between p-5 gap-2">
+        <div>
+          <span className="text-xs font-bold uppercase tracking-widest">
+            Last update {lastUpdate.toISOString().slice(0, -5)}
+          </span>
+        </div>
         <h4 className="text-2xl font-bold">Sort</h4>
         <div className="flex flex-col gap-2">
           <small className="text-xs font-bold uppercase">Intelligence</small>
