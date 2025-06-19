@@ -55,6 +55,11 @@ function Home() {
           </span>
         </div>
         <div className="flex flex-col p-2 gap-2">
+          <div className="text-xs font-semibold underline hover:no-underline">
+            <a href="https://models.dev" target="_blank" rel="noreferrer">
+              models.dev
+            </a>
+          </div>
           <Input
             placeholder="Filter"
             onChange={(e) => onFilter(e.target.value)}
