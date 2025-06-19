@@ -9,11 +9,9 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { centsToDollars } from "~/utils/price";
-import { useState } from "react";
-import { Slider } from "~/components/ui/slider";
-import { calculateCompositeScore, computeGlobalStats } from "~/utils/calculate";
-import { ModelData, Weights } from "~/types";
 import { getLastUpdate } from "~/serverFunctions/getLastUpdate";
+import { Input } from "~/components/ui/input";
+import { useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -23,91 +21,43 @@ export const Route = createFileRoute("/")({
       getLastUpdate(),
     ]);
 
-    const stats = computeGlobalStats(models);
-
     return {
       models,
       lastUpdate,
-      stats,
     };
   },
 });
 
 function Home() {
-  const { models, lastUpdate, stats } = Route.useLoaderData();
-  const [sortedModels, setSortedModels] =
-    useState<(ModelData & { compositeScore?: number })[]>(models);
-  const [weights, setWeights] = useState<Weights>({
-    intelligence: 100,
-    cost: 0,
-    speed: 0,
-    latency: 0,
-  });
+  const { models, lastUpdate } = Route.useLoaderData();
+  const [filteredModels, setFilteredModels] = useState(models);
 
-  const sortModels = (weights: Weights) => {
-    const modelsWithScores = models.map((model) => ({
-      ...model,
-      compositeScore: calculateCompositeScore(model, weights, stats),
-    }));
+  const onFilter = (value: string) => {
+    const lowerCaseValue = value.toLowerCase();
 
-    setSortedModels(
-      modelsWithScores.sort((a, b) => b.compositeScore - a.compositeScore),
-    );
-  };
+    const filtered = models.filter((model) => {
+      return (
+        model.modelName.toLowerCase().includes(lowerCaseValue) ||
+        model.creator.toLowerCase().includes(lowerCaseValue)
+      );
+    });
 
-  const updateWeights = (key: keyof Weights, value: number) => {
-    const newWeights = { ...weights, [key]: value };
-    setWeights(() => newWeights);
-    sortModels(newWeights);
+    setFilteredModels(filtered);
   };
 
   return (
-    <div>
-      <div className="flex flex-col justify-between p-5 gap-2">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-widest">
+    <div className="p-2">
+      <div className="flex justify-between items-center gap-2">
+        <div className="flex flex-col p-2 gap-2">
+          <h1 className="text-3xl font-bold">LLM Leaderboard</h1>
+          <span className="text-xs font-bold tracking-widest">
             Last update {lastUpdate}
           </span>
         </div>
-        <h4 className="text-2xl font-bold">Sort</h4>
-        <div className="flex flex-col gap-2">
-          <small className="text-xs font-bold uppercase">Intelligence</small>
-          <Slider
-            onValueChange={(e) => updateWeights("intelligence", e[0])}
-            className="w-64"
-            defaultValue={[weights.intelligence]}
-            max={100}
-            step={1}
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <small className="text-xs font-bold uppercase">Cost</small>
-          <Slider
-            onValueChange={(e) => updateWeights("cost", e[0])}
-            className="w-64"
-            defaultValue={[weights.cost]}
-            max={100}
-            step={1}
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <small className="text-xs font-bold uppercase">Speed</small>
-          <Slider
-            onValueChange={(e) => updateWeights("speed", e[0])}
-            className="w-64"
-            defaultValue={[weights.speed]}
-            max={100}
-            step={1}
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <small className="text-xs font-bold uppercase">Latency</small>
-          <Slider
-            onValueChange={(e) => updateWeights("latency", e[0])}
-            className="w-64"
-            defaultValue={[weights.latency]}
-            max={100}
-            step={1}
+        <div className="flex flex-col p-2 gap-2">
+          <Input
+            placeholder="Filter"
+            onChange={(e) => onFilter(e.target.value)}
           />
         </div>
       </div>
@@ -124,7 +74,7 @@ function Home() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sortedModels.map((model) => (
+          {filteredModels.map((model) => (
             <TableRow key={`${model.modelName}-${model.intelligenceIndex}`}>
               <TableCell className="font-semibold text-accent-foreground">
                 {model.modelName ?? "Unknown"}

@@ -10,7 +10,6 @@
     "scrape": "src/scripts/scrape.ts"
   },
   "dependencies": {
-    "@radix-ui/react-slider": "^1.3.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-router": "^1.121.12",
     "@tanstack/react-router-devtools": "^1.121.12",

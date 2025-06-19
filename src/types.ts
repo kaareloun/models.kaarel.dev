@@ -17,14 +17,3 @@ export type ModelData = {
   outputTokensPerSecond: number | null;
   latency: number | null;
 };
-
-export type ModelDataWithScore = ModelData & {
-  compositeScore: number;
-};
-
-export type Weights = {
-  intelligence: number;
-  cost: number;
-  speed: number;
-  latency: number;
-};
