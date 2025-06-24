@@ -8,10 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { centsToDollars } from "~/utils/price";
 import { getLastUpdate } from "~/serverFunctions/getLastUpdate";
 import { Input } from "~/components/ui/input";
 import { useState } from "react";
+import Slider from "~/components/ui/slider";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -32,37 +32,70 @@ function Home() {
   const { models, lastUpdate } = Route.useLoaderData();
   const [filteredModels, setFilteredModels] = useState(models);
 
-  const onFilter = (value: string) => {
-    const lowerCaseValue = value.toLowerCase();
+  const [filters, setFilters] = useState({
+    search: "",
+    price: 0,
+  });
+
+  const filterModels = (filters: { search: string; price: number }) => {
+    const lowerCaseValue = filters.search.toLowerCase();
 
     const filtered = models.filter((model) => {
-      return (
-        model.modelName.toLowerCase().includes(lowerCaseValue) ||
-        model.creator.toLowerCase().includes(lowerCaseValue)
-      );
+      if (filters.price) {
+        if (!model.cost) return false;
+
+        if (
+          model.cost.input >= filters.price ||
+          model.cost.output >= filters.price
+        ) {
+          return false;
+        }
+      }
+
+      if (
+        filters.search &&
+        !model.name.toLowerCase().includes(lowerCaseValue) &&
+        !model.id.toLowerCase().includes(lowerCaseValue) &&
+        !model.providerId.toLowerCase().includes(lowerCaseValue) &&
+        !model.providername.toLowerCase().includes(lowerCaseValue)
+      ) {
+        return false;
+      }
+
+      return true;
     });
 
     setFilteredModels(filtered);
+  };
+
+  const updateFilters = (filters: { search: string; price: number }) => {
+    setFilters(filters);
+    filterModels(filters);
   };
 
   return (
     <div className="p-2">
       <div className="flex justify-between items-center gap-2">
         <div className="flex flex-col p-2 gap-2">
-          <h1 className="text-3xl font-bold">LLM Leaderboard</h1>
+          <h1 className="text-3xl font-bold">Newest LLMs</h1>
           <span className="text-xs font-bold tracking-widest">
             Last update {lastUpdate}
           </span>
+          <h3 className="text-xs font-bold tracking-widest">Price</h3>
+          <Slider
+            min={0}
+            max={5}
+            value={[filters.price]}
+            onChange={(value) => updateFilters({ ...filters, price: value[0] })}
+            step={0.01}
+          />
         </div>
         <div className="flex flex-col p-2 gap-2">
-          <div className="text-xs font-semibold underline hover:no-underline">
-            <a href="https://models.dev" target="_blank" rel="noreferrer">
-              models.dev
-            </a>
-          </div>
           <Input
             placeholder="Filter"
-            onChange={(e) => onFilter(e.target.value)}
+            onChange={(e) =>
+              updateFilters({ ...filters, search: e.target.value })
+            }
           />
         </div>
       </div>
@@ -70,30 +103,33 @@ function Home() {
         <TableHeader>
           <TableRow>
             <TableHead>Model</TableHead>
-            <TableHead>Company</TableHead>
-            <TableHead>Context Window</TableHead>
-            <TableHead>Intelligence Index</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Output Tokens/s</TableHead>
-            <TableHead>Latency</TableHead>
+            <TableHead>Provider</TableHead>
+            <TableHead>Input cost</TableHead>
+            <TableHead>Output cost</TableHead>
+            <TableHead>Release Date</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredModels.map((model) => (
-            <TableRow key={`${model.modelName}-${model.intelligenceIndex}`}>
-              <TableCell className="font-semibold text-accent-foreground">
-                {model.modelName ?? "Unknown"}
-              </TableCell>
-              <TableCell>{model.creator ?? "Unknown"}</TableCell>
-              <TableCell>{model.contextWindow ?? "Unknown"}</TableCell>
-              <TableCell>{model.intelligenceIndex ?? "Unknown"}</TableCell>
+          {filteredModels.map((model, i) => (
+            <TableRow key={i}>
               <TableCell>
-                {model.pricePerMillionTokensInCents
-                  ? centsToDollars(model.pricePerMillionTokensInCents)
-                  : "Unknown"}
+                <a
+                  className="hover:underline text-base font-semibold"
+                  href={`https://models.dev/?sort=release-date&order=desc&search=${model.id}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {decodeURIComponent(model.id)}
+                </a>
               </TableCell>
-              <TableCell>{model.outputTokensPerSecond ?? "Unknown"}</TableCell>
-              <TableCell>{model.latency ?? "Unknown"}</TableCell>
+              <TableCell>{model.providerId}</TableCell>
+              <TableCell>
+                {model.cost?.input ? `$${model.cost.input}` : ""}
+              </TableCell>
+              <TableCell>
+                {model.cost?.output ? `$${model.cost.output}` : ""}
+              </TableCell>
+              <TableCell>{model.release_date}</TableCell>
             </TableRow>
           ))}
         </TableBody>
