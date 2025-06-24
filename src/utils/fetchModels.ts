@@ -4,6 +4,14 @@ import { differenceInHours } from "date-fns";
 import { parseData } from "./parseData";
 
 export async function fetchModels() {
+  if (!fs.existsSync(MODELS_FILE)) {
+    fs.writeFileSync(MODELS_FILE, "{}");
+  }
+
+  if (!fs.existsSync(LAST_FETCH_FILE)) {
+    fs.writeFileSync(LAST_FETCH_FILE, "2000-01-01T00:00:00.000Z");
+  }
+
   const lastFetchDate = fs.readFileSync(LAST_FETCH_FILE, "utf-8").trim();
 
   if (

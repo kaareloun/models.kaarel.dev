@@ -19,4 +19,5 @@ jobs:
             cd /root/models.kaarel.dev
             git pull
             bun install --production
+            bun run build
             pm2 reload models.kaarel.dev
