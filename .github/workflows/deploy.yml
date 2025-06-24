@@ -15,7 +15,8 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            export PATH="/root/.bun/bin:$PATH"
             cd /root/models.kaarel.dev
             git pull
-            npm install --omit=dev
+            bun install --production
             pm2 reload models.kaarel.dev
