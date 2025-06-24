@@ -18,6 +18,6 @@ jobs:
             export PATH="/root/.bun/bin:$PATH"
             cd /root/models.kaarel.dev
             git pull
-            bun install --production
+            bun install
             bun run build
             pm2 reload models.kaarel.dev
