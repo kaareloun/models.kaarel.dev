@@ -14,9 +14,6 @@ export function parseData(data: unknown) {
       });
     })
     .flat()
-    .filter((model, index, self) => {
-      return self.findIndex((m) => m.id === model.id) === index;
-    })
     .sort((a, b) => {
       const aDate = new Date(a.release_date);
       const bDate = new Date(b.release_date);
