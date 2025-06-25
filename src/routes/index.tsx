@@ -75,20 +75,12 @@ function Home() {
 
   return (
     <div className="p-2">
-      <div className="flex justify-between items-center gap-2">
+      <div className="flex justify-between gap-2">
         <div className="flex flex-col p-2 gap-2">
           <h1 className="text-3xl font-bold">Newest Models</h1>
           <span className="text-xs font-bold tracking-widest">
             Last update {lastUpdate}
           </span>
-          <h3 className="text-xs font-bold tracking-widest">Price</h3>
-          <Slider
-            min={0}
-            max={5}
-            value={[filters.price]}
-            onChange={(value) => updateFilters({ ...filters, price: value[0] })}
-            step={0.01}
-          />
         </div>
         <div className="flex flex-col p-2 gap-2">
           <Input
@@ -96,6 +88,14 @@ function Home() {
             onChange={(e) =>
               updateFilters({ ...filters, search: e.target.value })
             }
+          />
+          <h3 className="text-xs font-bold tracking-widest">Price</h3>
+          <Slider
+            min={0}
+            max={5}
+            value={[filters.price]}
+            onChange={(value) => updateFilters({ ...filters, price: value[0] })}
+            step={0.01}
           />
         </div>
       </div>
