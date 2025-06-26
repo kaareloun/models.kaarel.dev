@@ -41,15 +41,14 @@ function Home() {
     const lowerCaseValue = filters.search.toLowerCase();
 
     const filtered = models.filter((model) => {
-      if (filters.price) {
-        if (!model.cost) return false;
-
-        if (
+      if (
+        filters.price &&
+        (!model.cost?.input ||
+          !model.cost?.output ||
           model.cost.input >= filters.price ||
-          model.cost.output >= filters.price
-        ) {
-          return false;
-        }
+          model.cost.output >= filters.price)
+      ) {
+        return false;
       }
 
       if (
