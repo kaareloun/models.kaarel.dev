@@ -66,7 +66,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="min-h-screen overflow-y-scroll">
         {children}
         <Scripts />
       </body>
