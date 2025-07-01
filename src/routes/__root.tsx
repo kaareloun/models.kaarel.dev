@@ -52,10 +52,6 @@ export const Route = createRootRoute({
         href: "/android-chrome-512x512.png",
         sizes: "512x512",
       },
-      {
-        rel: "manifest",
-        href: "/site.webmanifest",
-      },
     ],
   }),
   beforeLoad: async () => {
