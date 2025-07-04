@@ -12,7 +12,7 @@ type SliderProps = {
 
 export default function Slider(props: SliderProps) {
   return (
-    <div className="relative w-full flex flex-col items-center max-w-sm pb-6">
+    <div className="relative w-full flex flex-col items-center pb-6">
       <SliderPrimitive.Root
         max={props.max}
         step={props.step}

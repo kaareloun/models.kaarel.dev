@@ -74,7 +74,7 @@ function Home() {
 
   return (
     <div className="p-2">
-      <div className="flex justify-between gap-2">
+      <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div className="flex flex-col p-2 gap-2">
           <h1 className="text-3xl font-bold">Newest Models</h1>
           <span className="text-xs font-bold tracking-widest">
