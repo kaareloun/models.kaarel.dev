@@ -23,5 +23,5 @@ jobs:
             if pm2 describe models.kaarel.dev > /dev/null 2>&1; then
               pm2 reload models.kaarel.dev
             else
-              pm2 start pm2.config.js
+              pm2 start pm2.config.cjs
             fi
