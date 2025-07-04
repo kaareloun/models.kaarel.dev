@@ -17,7 +17,7 @@ jobs:
           script: |
             export PATH="/root/.bun/bin:$PATH"
             cd /root/models.kaarel.dev
-            git pull
+            git reset --hard origin/main
             bun install
             bun run build
             if pm2 describe models.kaarel.dev > /dev/null 2>&1; then
