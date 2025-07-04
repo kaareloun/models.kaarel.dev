@@ -15,8 +15,8 @@ import appCss from "~/styles/app.css?url";
 export const Route = createRootRoute({
   head: () => ({
     meta: [
-      { title: "models.kaarel.dev" },
-      { name: "description", content: "Sort AI models | models.kaarel.dev" },
+      { title: "Newest models | models.kaarel.dev" },
+      { name: "description", content: "Newest models | models.kaarel.dev" },
       {
         charSet: "utf-8",
       },
