@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { Theme } from "~/components/ui/theme-provider";
+import type { Theme } from "~/components/ui/theme-provider";
 import { getHeader } from "@tanstack/react-start/server";
 
 export const getTheme = createServerFn({ method: "GET" }).handler(() => {

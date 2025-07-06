@@ -25,7 +25,7 @@ export default function Slider(props: SliderProps) {
 
         <SliderPrimitive.Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
           {/* Sticky label */}
-          {props.value[0] > 0 && (
+          {(props.value[0] ?? 0) > 0 && (
             <Badge className="absolute left-1/2 -translate-x-1/2 translate-y-1/2 -bottom-4 px-1">
               ${props.value[0]}
             </Badge>

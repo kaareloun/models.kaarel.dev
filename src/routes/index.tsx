@@ -93,7 +93,9 @@ function Home() {
             min={0}
             max={5}
             value={[filters.price]}
-            onChange={(value) => updateFilters({ ...filters, price: value[0] })}
+            onChange={(value) =>
+              updateFilters({ ...filters, price: value[0] ?? 0 })
+            }
             step={0.01}
           />
         </div>
