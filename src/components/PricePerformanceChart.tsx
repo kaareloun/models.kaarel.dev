@@ -10,9 +10,21 @@ import {
   ReferenceArea,
   LabelList,
 } from "recharts";
-import { useMemo, type ComponentProps, type ReactElement } from "react";
+import { useEffect, useMemo, useState, type ComponentProps, type ReactElement } from "react";
 import type { OpenRouterModel } from "~/openrouter/parseData";
 import { getAvgPriceEur, getChartPrice, getParetoIds, isFreeModel } from "~/openrouter/pricing";
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return isMobile;
+}
 
 interface PricePerformanceChartProps {
   models: OpenRouterModel[];
@@ -127,6 +139,7 @@ function CustomTooltip({
 }
 
 export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: PricePerformanceChartProps) {
+  const isMobile = useIsMobile();
   const chartData: ChartDataPoint[] = useMemo(
     () =>
       models
@@ -174,9 +187,13 @@ export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: Pr
 
   return (
     <div className="w-full">
-      <div className="w-full h-[620px]">
+      <div className="w-full h-[420px] sm:h-[620px]">
         <ResponsiveContainer width="100%" height="100%">
-          <ScatterChart data={chartData} margin={{ top: 40, right: 30, left: 60, bottom: 40 }} tabIndex={-1}>
+          <ScatterChart
+            data={chartData}
+            margin={isMobile ? { top: 30, right: 16, left: 8, bottom: 28 } : { top: 40, right: 30, left: 60, bottom: 40 }}
+            tabIndex={-1}
+          >
           <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
           <ReferenceArea
             x1={0}
@@ -213,16 +230,16 @@ export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: Pr
             name="Price"
             unit="€"
             tickFormatter={priceFormatter}
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: isMobile ? 10 : 12 }}
             axisLine={{ stroke: "#888" }}
             tickLine={{ stroke: "#888" }}
-            tickCount={Math.min(10, Math.max(5, maxPriceCeil + 1))}
+            tickCount={isMobile ? Math.min(5, Math.max(3, maxPriceCeil + 1)) : Math.min(10, Math.max(5, maxPriceCeil + 1))}
             domain={[0, maxPriceCeil]}
             label={{
-              value: "Price (€ per 1M tokens, avg input+output)",
+              value: isMobile ? "Price (€/1M)" : "Price (€ per 1M tokens, avg input+output)",
               position: "insideBottom",
-              offset: -30,
-              style: { textAnchor: "middle", fontSize: 12, fill: "#666" },
+              offset: isMobile ? -20 : -30,
+              style: { textAnchor: "middle", fontSize: isMobile ? 10 : 12, fill: "#666" },
             }}
           />
           <YAxis
@@ -230,17 +247,18 @@ export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: Pr
             dataKey="codingIndex"
             name="Artificial Analysis Coding Index"
             tickFormatter={codingIndexFormatter}
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: isMobile ? 10 : 12 }}
+            width={isMobile ? 28 : undefined}
             axisLine={{ stroke: "#888" }}
             tickLine={{ stroke: "#888" }}
             domain={[yMin, yMax]}
             ticks={yTicks}
             allowDataOverflow
             label={{
-              value: "Artificial Analysis Coding Index",
+              value: isMobile ? "Coding Index" : "Artificial Analysis Coding Index",
               angle: -90,
               position: "insideLeft",
-              style: { textAnchor: "middle", fontSize: 12, fill: "#666" },
+              style: { textAnchor: "middle", fontSize: isMobile ? 10 : 12, fill: "#666" },
             }}
           />
           <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: "3 3" }} />
@@ -256,7 +274,7 @@ export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: Pr
             }}
             onMouseLeave={() => onHover?.(null)}
           >
-            <LabelList {...nameLabels(restData, "hsl(var(--foreground))", 500)} />
+            {!isMobile && <LabelList {...nameLabels(restData, "hsl(var(--foreground))", 500)} />}
           </Scatter>
           <Scatter
             name="Pareto frontier"
@@ -272,7 +290,7 @@ export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: Pr
             }}
             onMouseLeave={() => onHover?.(null)}
           >
-            <LabelList {...nameLabels(paretoSorted, "#92400e", 700)} />
+            {!isMobile && <LabelList {...nameLabels(paretoSorted, "#92400e", 700)} />}
           </Scatter>
           {hoveredData.length > 0 && (
             <Scatter

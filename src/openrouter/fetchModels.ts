@@ -1,9 +1,13 @@
 import fs from "node:fs";
 import { differenceInHours } from "date-fns";
-import { OPENROUTER_LAST_FETCH_FILE, OPENROUTER_MODELS_FILE, OPENROUTER_API_URL } from "./constants";
+import {
+  OPENROUTER_LAST_FETCH_FILE,
+  OPENROUTER_MODELS_FILE,
+  OPENROUTER_API_URL,
+} from "./constants";
 import { parseOpenRouterData, type OpenRouterModel } from "./parseData";
 
-export async function fetchOpenRouterModels(): Promise<OpenRouterModel[]> {
+export async function fetchOpenRouterModels(force = false): Promise<OpenRouterModel[]> {
   if (!fs.existsSync(OPENROUTER_MODELS_FILE)) {
     fs.writeFileSync(
       OPENROUTER_MODELS_FILE,
@@ -18,6 +22,7 @@ export async function fetchOpenRouterModels(): Promise<OpenRouterModel[]> {
   const lastFetchDate = fs.readFileSync(OPENROUTER_LAST_FETCH_FILE, "utf-8").trim();
 
   if (
+    !force &&
     lastFetchDate &&
     differenceInHours(new Date(), new Date(lastFetchDate)) <= 1
   ) {

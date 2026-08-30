@@ -6,11 +6,13 @@
   "scripts": {
     "dev": "vite dev",
     "typecheck": "tsc --noEmit --skipLibCheck",
-    "build": "vite build && tsc --noEmit",
+    "build": "vite build && tsc --noEmit && node scripts/patch-server.mjs",
     "start": "node .output/server/index.mjs",
     "fetch": "bun run src/scripts/fetchOpenRouter.ts && bun run src/scripts/fetchZenFree.ts",
     "fetch:openrouter": "bun run src/scripts/fetchOpenRouter.ts",
-    "fetch:zen": "bun run src/scripts/fetchZenFree.ts"
+    "fetch:zen": "bun run src/scripts/fetchZenFree.ts",
+    "watch": "bun run src/scripts/paretoWatch.ts",
+    "notify:test": "bun run src/scripts/testNotify.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

@@ -2,11 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { getOpenRouterModels } from "~/serverFunctions/getOpenRouterModels";
 import { getOpenRouterLastUpdate } from "~/serverFunctions/getOpenRouterLastUpdate";
 import { getZenFreeModels } from "~/serverFunctions/getZenFreeModels";
+import { getTelegramBot } from "~/serverFunctions/getTelegramBot";
 import { PricePerformanceChart } from "~/components/PricePerformanceChart";
+import { buildModelList, type EnrichedModel } from "~/openrouter/enrich";
 import type { OpenRouterModel } from "~/openrouter/parseData";
 import { useState, useMemo } from "react";
 import { Button } from "~/components/ui/button";
-import { getAvgPriceEur, getParetoIds, isFreeModel } from "~/openrouter/pricing";
+import { getParetoIds, isFreeModel } from "~/openrouter/pricing";
 import {
   Table,
   TableBody,
@@ -22,63 +24,46 @@ export const Route = createFileRoute("/")({
     models: OpenRouterModel[];
     zenFree: OpenRouterModel[];
     lastUpdate: string;
+    botUsername: string | null;
   }> => {
-    const [modelsRes, zenFreeRes, lastUpdateRes] = await Promise.allSettled([
+    const [modelsRes, zenFreeRes, lastUpdateRes, botRes] = await Promise.allSettled([
       getOpenRouterModels(),
       getZenFreeModels(),
       getOpenRouterLastUpdate(),
+      getTelegramBot(),
     ]);
 
     return {
       models: modelsRes.status === "fulfilled" ? modelsRes.value : [],
       zenFree: zenFreeRes.status === "fulfilled" ? zenFreeRes.value : [],
       lastUpdate: lastUpdateRes.status === "fulfilled" ? lastUpdateRes.value : "unknown",
+      botUsername: botRes.status === "fulfilled" ? botRes.value : null,
     };
   },
 });
 
 function Stats() {
-  const { models, zenFree, lastUpdate } = Route.useLoaderData();
+  const { models, zenFree, lastUpdate, botUsername } = Route.useLoaderData();
   const [view, setView] = useState<"top" | "all">("top");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set());
 
-  const { baseModels, totalCount, freeCount } = useMemo(() => {
-    const codingValues = models.map((m) => m.coding_index).filter((v): v is number => v != null);
-    const minTop20 = codingValues.length ? Math.min(...codingValues) : 0;
-    const threshold = view === "all" ? minTop20 - 15 : minTop20;
-    const filteredFree = [...zenFree]
-      .filter((m) => m.providerId === "opencode" && (m.coding_index ?? 0) >= threshold)
-      .sort((a, b) => (b.coding_index ?? 0) - (a.coding_index ?? 0));
-    const combined = [...models, ...filteredFree];
-    // Dedup guards future opencode/openrouter id collisions; currently disjoint (opencode/* vs provider/model) but kept for safety
-    const seen = new Set<string>();
-    const deduped = combined.filter((m) => {
-      if (seen.has(m.id)) return false;
-      seen.add(m.id);
-      return true;
-    });
-    const totalBeforeHidden = deduped.length;
-    const freeBeforeHidden = deduped.filter((m) => m.providerId === "opencode").length;
-    const finalModels = hiddenIds.size === 0 ? deduped : deduped.filter((m) => !hiddenIds.has(m.id));
-    return { baseModels: finalModels, totalCount: totalBeforeHidden, freeCount: freeBeforeHidden };
-  }, [models, zenFree, view, hiddenIds]);
+  const { baseModels: allModels, totalCount, freeCount } = useMemo(
+    () => buildModelList(models, zenFree, view),
+    [models, zenFree, view],
+  );
+
+  const baseModels: EnrichedModel[] = useMemo(
+    () => (hiddenIds.size === 0 ? allModels : allModels.filter((m) => !hiddenIds.has(m.id))),
+    [allModels, hiddenIds],
+  );
 
   const newIds = useMemo(() => {
     const cutoff = new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
     return new Set(baseModels.filter((m) => m.release_date >= cutoff).map((m) => m.id));
   }, [baseModels]);
 
-  const enriched = useMemo(
-    () =>
-      baseModels.map((m) => {
-        const avgPriceEur = getAvgPriceEur(m);
-        const value =
-          avgPriceEur > 0 && m.coding_index ? m.coding_index / avgPriceEur : m.coding_index ? 999 + m.coding_index : 0;
-        return { ...m, avgPriceEur, value };
-      }),
-    [baseModels],
-  );
+  const enriched = baseModels;
 
   const paretoIds = useMemo(() => getParetoIds(enriched), [enriched]);
 
@@ -94,12 +79,12 @@ function Stats() {
     <div className="p-4">
       <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold">OpenRouter & Opencode — Price vs Coding</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold">OpenRouter & Opencode — Price vs Coding</h1>
           <span className="text-sm font-medium text-muted-foreground">
             Compare top coding models by price. Top 20 OpenRouter + Opencode Zen free tier. Last update {lastUpdate}
           </span>
         </div>
-        <div className="text-sm text-muted-foreground text-right">
+        <div className="text-sm text-muted-foreground text-left sm:text-right">
           {isAll
             ? `Top 20 + Free within 15pts (${freeCount} free • ${totalCount} total${hiddenIds.size ? ` • ${baseModels.length} visible` : ""})`
             : `Top 20 + Free in top 20 (${freeCount} free • ${totalCount} total${hiddenIds.size ? ` • ${baseModels.length} visible` : ""})`}
@@ -121,6 +106,13 @@ function Stats() {
           <span className="h-3 w-px bg-border hidden sm:block" />
           <span className="inline-flex items-center gap-1.5 text-xs font-medium">
             <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#3b82f6] border border-[#2563eb]" /> Models
+          </span>
+          <span className="h-3 w-px bg-border hidden sm:block" />
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium">
+            <span className="inline-block rounded bg-emerald-600 px-1 text-[10px] font-bold leading-4 text-white">
+              OPEN
+            </span>
+            Open weights
           </span>
           <span className="h-3 w-px bg-border hidden sm:block" />
           <span className="inline-flex items-center gap-1.5 text-xs font-medium">
@@ -154,7 +146,7 @@ function Stats() {
         </div>
       </div>
 
-      <div className="mb-10">
+      <div className="mb-6 sm:mb-10">
         <PricePerformanceChart models={baseModels} newIds={newIds} hoveredId={hoveredId} onHover={setHoveredId} />
       </div>
 
@@ -163,12 +155,12 @@ function Stats() {
           <TableRow>
             <TableHead>Rank</TableHead>
             <TableHead>Model</TableHead>
-            <TableHead>Provider</TableHead>
-            <TableHead>Input ($/1M)</TableHead>
-            <TableHead>Output ($/1M)</TableHead>
+            <TableHead className="hidden md:table-cell">Provider</TableHead>
+            <TableHead className="hidden md:table-cell">Input ($/1M)</TableHead>
+            <TableHead className="hidden md:table-cell">Output ($/1M)</TableHead>
             <TableHead>Avg (€/1M)</TableHead>
             <TableHead>Coding</TableHead>
-            <TableHead>Release</TableHead>
+            <TableHead className="hidden lg:table-cell">Release</TableHead>
             <TableHead className="w-12" />
           </TableRow>
         </TableHeader>
@@ -195,10 +187,10 @@ function Stats() {
                 <TableCell className="font-bold">{i + 1}</TableCell>
                 <TableCell>
                   {isFree ? (
-                    <span className="text-base font-semibold">{model.name}</span>
+                    <span className="text-sm sm:text-base font-semibold">{model.name}</span>
                   ) : (
                     <a
-                      className="hover:underline text-base font-semibold"
+                      className="hover:underline text-sm sm:text-base font-semibold"
                       href={`https://openrouter.ai/${model.id}`}
                       target="_blank"
                       rel="noreferrer"
@@ -211,18 +203,23 @@ function Stats() {
                       NEW
                     </span>
                   )}
+                  {model.openWeights === true && (
+                    <span className="ml-1.5 inline-block rounded bg-emerald-600 px-1 py-px text-[10px] font-bold leading-none text-white align-middle">
+                      OPEN
+                    </span>
+                  )}
                   {isPareto && <span className="ml-1 text-amber-600">◆</span>}
                 </TableCell>
-                <TableCell>{model.providerId}</TableCell>
-                <TableCell>${(model.cost.input * 1_000_000).toFixed(2)}</TableCell>
-                <TableCell>${(model.cost.output * 1_000_000).toFixed(2)}</TableCell>
+                <TableCell className="hidden md:table-cell">{model.providerId}</TableCell>
+                <TableCell className="hidden md:table-cell">${(model.cost.input * 1_000_000).toFixed(2)}</TableCell>
+                <TableCell className="hidden md:table-cell">${(model.cost.output * 1_000_000).toFixed(2)}</TableCell>
                 <TableCell className={`font-medium ${isBestValue ? "text-green-700 dark:text-green-400 font-bold" : ""}`}>
                   {isFree ? "Free ★" : `${model.avgPriceEur.toFixed(2)}€${isBestValue ? " ★" : ""}`}
                 </TableCell>
                 <TableCell className="font-bold text-blue-600">
                   {model.coding_index?.toFixed(1) ?? "N/A"}
                 </TableCell>
-                <TableCell>{model.release_date}</TableCell>
+                <TableCell className="hidden lg:table-cell">{model.release_date}</TableCell>
                 <TableCell>
                   <Button
                     variant="ghost"
@@ -248,7 +245,21 @@ function Stats() {
         </TableBody>
       </Table>
       <div className="mt-6 text-xs text-muted-foreground text-center">
-        ★ Best value ◆ Pareto frontier · NEW = released in last 20 days · Data via OpenRouter &amp; models.dev
+        ★ Best value ◆ Pareto frontier · OPEN = open weights (via models.dev) · NEW = released in last 20 days · Data via OpenRouter &amp; models.dev
+        {botUsername && (
+          <>
+            {" · "}
+            <a
+              className="underline hover:text-foreground"
+              href={`https://t.me/${botUsername}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              @{botUsername}
+            </a>{" "}
+            on Telegram to get notified about new Pareto frontier models
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import { differenceInHours } from "date-fns";
 import { ZEN_FREE_FILE, ZEN_LAST_FETCH_FILE, MODELS_DEV_URL } from "./zenConstants";
-import { OPENROUTER_MODELS_FILE } from "./constants";
+import { OPENROUTER_MODELS_FILE, OPEN_WEIGHTS_FILE } from "./constants";
+import { loadOpenWeightsMap, resolveZenOpenWeights } from "./openWeights";
 import { openRouterResponseSchema } from "./validation";
 import type { OpenRouterModel } from "./parseData";
 
@@ -31,12 +32,12 @@ function stripDateSuffix(s: string): string {
 
 function findBenchmarkForZenId(
   zenId: string,
-  parsed: { data: Array<{ id: string; canonical_slug: string; created: number; benchmarks?: { artificial_analysis?: { coding_index?: number | null } } }> },
-): { coding_index: number | null; release_date: string } | null {
+  parsed: { data: Array<{ id: string; canonical_slug: string; created: number; hugging_face_id: string | null; benchmarks?: { artificial_analysis?: { coding_index?: number | null } } }> },
+): { coding_index: number | null; release_date: string; matched_id: string | null; matched_hf: string | null } | null {
   const normZen = normalize(zenId);
 
   // Stage 1: exact match on canonical_slug base or id (strict equality)
-  let exactBest: { coding: number; date: string } | null = null;
+  let exactBest: { coding: number; date: string; id: string; hf: string | null } | null = null;
   let exactScore = -1;
   for (const m of parsed.data) {
     const coding = m.benchmarks?.artificial_analysis?.coding_index;
@@ -46,16 +47,16 @@ function findBenchmarkForZenId(
     if (normSlugBase === normZen || normId === normZen) {
       if (coding > exactScore) {
         exactScore = coding;
-        exactBest = { coding, date: new Date(m.created * 1000).toISOString().split("T")[0] ?? "" };
+        exactBest = { coding, date: new Date(m.created * 1000).toISOString().split("T")[0] ?? "", id: m.id, hf: m.hugging_face_id };
       }
     }
   }
-  if (exactBest) return { coding_index: exactBest.coding, release_date: exactBest.date };
+  if (exactBest) return { coding_index: exactBest.coding, release_date: exactBest.date, matched_id: exactBest.id, matched_hf: exactBest.hf };
 
   // Stage 2: prefix match with constraints to avoid over-matching families
   // - zen prefix of model: suffix must contain digit (version/params like glm5->glm53, nemotron3ultra->550b)
   // - model prefix of zen: allow any suffix (zen qualifier like contributor, fin)
-  let prefixBest: { coding: number; date: string } | null = null;
+  let prefixBest: { coding: number; date: string; id: string; hf: string | null } | null = null;
   let prefixScore = -1;
   for (const m of parsed.data) {
     const coding = m.benchmarks?.artificial_analysis?.coding_index;
@@ -69,7 +70,7 @@ function findBenchmarkForZenId(
         if (suffix && /[0-9]/.test(suffix)) {
           if (coding > prefixScore) {
             prefixScore = coding;
-            prefixBest = { coding, date: new Date(m.created * 1000).toISOString().split("T")[0] ?? "" };
+            prefixBest = { coding, date: new Date(m.created * 1000).toISOString().split("T")[0] ?? "", id: m.id, hf: m.hugging_face_id };
           }
         }
       } else if (normZen.startsWith(normOther)) {
@@ -77,17 +78,17 @@ function findBenchmarkForZenId(
         if (suffix) {
           if (coding > prefixScore) {
             prefixScore = coding;
-            prefixBest = { coding, date: new Date(m.created * 1000).toISOString().split("T")[0] ?? "" };
+            prefixBest = { coding, date: new Date(m.created * 1000).toISOString().split("T")[0] ?? "", id: m.id, hf: m.hugging_face_id };
           }
         }
       }
     }
   }
-  if (prefixBest) return { coding_index: prefixBest.coding, release_date: prefixBest.date };
+  if (prefixBest) return { coding_index: prefixBest.coding, release_date: prefixBest.date, matched_id: prefixBest.id, matched_hf: prefixBest.hf };
   return null;
 }
 
-export async function fetchOpencodeZenFreeModels(): Promise<OpenRouterModel[]> {
+export async function fetchOpencodeZenFreeModels(force = false): Promise<OpenRouterModel[]> {
   if (!fs.existsSync(ZEN_FREE_FILE)) {
     fs.writeFileSync(ZEN_FREE_FILE, "[]");
   }
@@ -96,10 +97,12 @@ export async function fetchOpencodeZenFreeModels(): Promise<OpenRouterModel[]> {
   }
 
   const lastFetchRaw = fs.readFileSync(ZEN_LAST_FETCH_FILE, "utf-8").trim();
-  if (lastFetchRaw && differenceInHours(new Date(), new Date(lastFetchRaw)) <= 1) {
+  if (!force && lastFetchRaw && differenceInHours(new Date(), new Date(lastFetchRaw)) <= 1) {
     try {
       const cached = JSON.parse(fs.readFileSync(ZEN_FREE_FILE, "utf-8"));
-      if (Array.isArray(cached) && cached.length > 0) return cached as OpenRouterModel[];
+      if (Array.isArray(cached) && cached.length > 0) {
+        return cached.map((m: OpenRouterModel) => ({ openWeights: null, ...m }));
+      }
     } catch {}
   }
 
@@ -131,6 +134,33 @@ export async function fetchOpencodeZenFreeModels(): Promise<OpenRouterModel[]> {
       throw new Error("Invalid OpenRouter data for Zen benchmark lookup");
     }
 
+    const weights: Record<string, boolean> = {};
+    type ModelsDevModel = { open_weights?: boolean; id?: string };
+    const orProvider = (modelsDev as { openrouter?: { models?: Record<string, ModelsDevModel> } })
+      .openrouter?.models;
+    if (orProvider) {
+      for (const [key, m] of Object.entries(orProvider)) {
+        if (typeof m?.open_weights === "boolean") {
+          weights[key] = m.open_weights;
+          if (typeof m.id === "string") weights[m.id] = m.open_weights;
+        }
+      }
+    }
+    const ocProvider = (modelsDev as { opencode?: { models?: Record<string, ModelsDevModel> } })
+      .opencode?.models;
+    if (ocProvider) {
+      for (const [key, m] of Object.entries(ocProvider)) {
+        if (typeof m?.open_weights === "boolean") {
+          weights[`opencode/${key}`] = m.open_weights;
+        }
+      }
+    }
+    const weightsMap: Record<string, boolean> =
+      Object.keys(weights).length > 0 ? weights : loadOpenWeightsMap();
+    if (Object.keys(weights).length > 0) {
+      fs.writeFileSync(OPEN_WEIGHTS_FILE, JSON.stringify(weights, null, 2));
+    }
+
     const opencode = modelsDev?.opencode;
     if (!opencode?.models) throw new Error("No opencode provider in models.dev");
 
@@ -160,6 +190,11 @@ export async function fetchOpencodeZenFreeModels(): Promise<OpenRouterModel[]> {
         release_date: bench.release_date,
         coding_index: bench.coding_index,
         providerId: "opencode",
+        openWeights: resolveZenOpenWeights(
+          `opencode/${normalizedId}`,
+          bench.matched_id ? { id: bench.matched_id, hugging_face_id: bench.matched_hf } : null,
+          weightsMap,
+        ),
       });
     }
 
@@ -185,7 +220,9 @@ export async function fetchOpencodeZenFreeModels(): Promise<OpenRouterModel[]> {
   } catch (error) {
     try {
       const cached = JSON.parse(fs.readFileSync(ZEN_FREE_FILE, "utf-8"));
-      if (Array.isArray(cached)) return cached as OpenRouterModel[];
+      if (Array.isArray(cached)) {
+        return cached.map((m: OpenRouterModel) => ({ openWeights: null, ...m }));
+      }
     } catch {}
     console.error("Error fetching Zen free models:", error);
     return [];

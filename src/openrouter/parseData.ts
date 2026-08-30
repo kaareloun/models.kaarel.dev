@@ -1,4 +1,5 @@
 import { openRouterResponseSchema } from "./validation";
+import { loadOpenWeightsMap, resolveOpenWeights } from "./openWeights";
 
 export interface OpenRouterModel {
   id: string;
@@ -10,10 +11,12 @@ export interface OpenRouterModel {
   release_date: string;
   coding_index: number | null;
   providerId: string;
+  openWeights?: boolean | null;
 }
 
 export function parseOpenRouterData(data: unknown): OpenRouterModel[] {
   const parsedData = openRouterResponseSchema.parse(data);
+  const weightsMap = loadOpenWeightsMap();
 
   const sorted = parsedData.data
     .filter(
@@ -32,6 +35,10 @@ export function parseOpenRouterData(data: unknown): OpenRouterModel[] {
       release_date: new Date(model.created * 1000).toISOString().split("T")[0] ?? "",
       coding_index: model.benchmarks?.artificial_analysis?.coding_index ?? null,
       providerId: model.id.split("/")[0] ?? "",
+      openWeights: resolveOpenWeights(model.id, {
+        weightsMap,
+        huggingFaceId: model.hugging_face_id,
+      }),
     }))
     .sort((a, b) => (b.coding_index ?? 0) - (a.coding_index ?? 0));
 
