@@ -136,3 +136,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+.recharts-wrapper,
+.recharts-wrapper :focus,
+.recharts-wrapper :focus-visible {
+  outline: none !important;
+}
+
+.recharts-wrapper,
+.recharts-wrapper * {
+  user-select: none;
+  -webkit-user-select: none;
+}
