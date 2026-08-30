@@ -10,12 +10,13 @@ import {
   ReferenceArea,
   LabelList,
 } from "recharts";
-import { useMemo } from "react";
+import { useMemo, type ComponentProps, type ReactElement } from "react";
 import type { OpenRouterModel } from "~/openrouter/parseData";
 import { getAvgPriceEur, getChartPrice, getParetoIds, isFreeModel } from "~/openrouter/pricing";
 
 interface PricePerformanceChartProps {
   models: OpenRouterModel[];
+  newIds?: Set<string>;
   hoveredId?: string | null;
   onHover?: (id: string | null) => void;
 }
@@ -30,6 +31,7 @@ interface ChartDataPoint {
   provider: string;
   value: number;
   isFree: boolean;
+  isNew: boolean;
 }
 
 function getShortName(full: string): string {
@@ -50,6 +52,54 @@ function codingIndexFormatter(value: number | string) {
   return num.toFixed(1);
 }
 
+function ChartNameLabel(props: unknown): ReactElement {
+  const { x, y, index, chartData, labelFill, labelWeight } = (props ?? {}) as {
+    x?: number;
+    y?: number;
+    index?: number;
+    chartData?: ChartDataPoint[];
+    labelFill?: string;
+    labelWeight?: number;
+  };
+  const d = typeof index === "number" ? chartData?.[index] : undefined;
+  if (x == null || y == null || !d) return <g />;
+  return (
+    <text
+      x={x}
+      y={y - 12}
+      textAnchor="middle"
+      fontSize={10}
+      fontWeight={labelWeight ?? 500}
+      fill={labelFill}
+      style={{ pointerEvents: "none" }}
+    >
+      {d.displayName}
+      {d.isNew && (
+        <tspan fill="#16a34a" fontWeight={700}>
+          {" NEW"}
+        </tspan>
+      )}
+    </text>
+  );
+}
+
+type NameLabelProps = ComponentProps<typeof LabelList> & {
+  chartData?: ChartDataPoint[];
+  labelFill?: string;
+  labelWeight?: number;
+};
+
+function nameLabels(data: ChartDataPoint[], fill: string, weight: number): ComponentProps<typeof LabelList> {
+  const props: NameLabelProps = {
+    dataKey: "displayName",
+    content: ChartNameLabel,
+    chartData: data,
+    labelFill: fill,
+    labelWeight: weight,
+  };
+  return props;
+}
+
 function CustomTooltip({
   active,
   payload,
@@ -62,7 +112,12 @@ function CustomTooltip({
   if (!d) return null;
   return (
     <div className="rounded-lg border bg-background p-3 shadow-md text-sm">
-      <p className="font-semibold leading-tight">{d.displayName}</p>
+      <p className="font-semibold leading-tight">
+        {d.displayName}
+        {d.isNew && (
+          <span className="ml-1 rounded bg-green-600 px-1 text-[10px] font-bold text-white align-middle">NEW</span>
+        )}
+      </p>
       <p className="text-muted-foreground text-xs mb-1">{d.provider}</p>
       <p>Price: {d.isFree ? "Free" : `${d.price.toFixed(2)}€ / 1M`}</p>
       <p>Coding Index: {d.codingIndex.toFixed(1)}</p>
@@ -71,7 +126,7 @@ function CustomTooltip({
   );
 }
 
-export function PricePerformanceChart({ models, hoveredId, onHover }: PricePerformanceChartProps) {
+export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: PricePerformanceChartProps) {
   const chartData: ChartDataPoint[] = useMemo(
     () =>
       models
@@ -91,9 +146,10 @@ export function PricePerformanceChart({ models, hoveredId, onHover }: PricePerfo
             provider: model.providerId,
             value: isFree ? 999 + coding : avgPriceEur > 0 ? coding / avgPriceEur : 0,
             isFree,
+            isNew: newIds?.has(model.id) ?? false,
           };
         }),
-    [models],
+    [models, newIds],
   );
 
   const maxPrice = chartData.length > 0 ? Math.max(...chartData.map((d) => d.price)) : 5;
@@ -113,6 +169,7 @@ export function PricePerformanceChart({ models, hoveredId, onHover }: PricePerfo
   );
   const paretoData = chartData.filter((d) => paretoIds.has(d.id));
   const restData = chartData.filter((d) => !paretoIds.has(d.id));
+  const paretoSorted = useMemo(() => [...paretoData].sort((a, b) => a.avgPriceEur - b.avgPriceEur), [paretoData]);
   const hoveredData = hoveredId ? chartData.filter((d) => d.id === hoveredId) : [];
 
   return (
@@ -199,16 +256,11 @@ export function PricePerformanceChart({ models, hoveredId, onHover }: PricePerfo
             }}
             onMouseLeave={() => onHover?.(null)}
           >
-            <LabelList
-              dataKey="displayName"
-              position="top"
-              offset={12}
-              style={{ fontSize: 10, fill: "hsl(var(--foreground))", fontWeight: 500, pointerEvents: "none" } as never}
-            />
+            <LabelList {...nameLabels(restData, "hsl(var(--foreground))", 500)} />
           </Scatter>
           <Scatter
             name="Pareto frontier"
-            data={[...paretoData].sort((a, b) => a.avgPriceEur - b.avgPriceEur)}
+            data={paretoSorted}
             fill="#f59e0b"
             stroke="#d97706"
             strokeWidth={2}
@@ -220,12 +272,7 @@ export function PricePerformanceChart({ models, hoveredId, onHover }: PricePerfo
             }}
             onMouseLeave={() => onHover?.(null)}
           >
-            <LabelList
-              dataKey="displayName"
-              position="top"
-              offset={12}
-              style={{ fontSize: 10, fill: "#92400e", fontWeight: 700, pointerEvents: "none" } as never}
-            />
+            <LabelList {...nameLabels(paretoSorted, "#92400e", 700)} />
           </Scatter>
           {hoveredData.length > 0 && (
             <Scatter

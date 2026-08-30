@@ -1,3 +1,3 @@
 # models.kaarel.dev
 
-Displays a list of the newest models
+Compares top coding LLMs by price vs coding index — chart + table. Data via OpenRouter & models.dev.

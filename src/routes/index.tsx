@@ -64,6 +64,11 @@ function Stats() {
     return { baseModels: finalModels, totalCount: totalBeforeHidden, freeCount: freeBeforeHidden };
   }, [models, zenFree, view, hiddenIds]);
 
+  const newIds = useMemo(() => {
+    const cutoff = new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+    return new Set(baseModels.filter((m) => m.release_date >= cutoff).map((m) => m.id));
+  }, [baseModels]);
+
   const enriched = useMemo(
     () =>
       baseModels.map((m) => {
@@ -108,6 +113,13 @@ function Stats() {
           </span>
           <span className="h-3 w-px bg-border hidden sm:block" />
           <span className="inline-flex items-center gap-1.5 text-xs font-medium">
+            <span className="inline-block rounded bg-green-600 px-1 text-[10px] font-bold leading-4 text-white">
+              NEW
+            </span>
+            New models
+          </span>
+          <span className="h-3 w-px bg-border hidden sm:block" />
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium">
             <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#3b82f6] border border-[#2563eb]" /> Models
           </span>
           <span className="h-3 w-px bg-border hidden sm:block" />
@@ -143,7 +155,7 @@ function Stats() {
       </div>
 
       <div className="mb-10">
-        <PricePerformanceChart models={baseModels} hoveredId={hoveredId} onHover={setHoveredId} />
+        <PricePerformanceChart models={baseModels} newIds={newIds} hoveredId={hoveredId} onHover={setHoveredId} />
       </div>
 
       <Table className="border-separate border-spacing-y-0">
@@ -194,6 +206,11 @@ function Stats() {
                       {model.name}
                     </a>
                   )}
+                  {newIds.has(model.id) && (
+                    <span className="ml-1.5 inline-block rounded bg-green-600 px-1 py-px text-[10px] font-bold leading-none text-white align-middle">
+                      NEW
+                    </span>
+                  )}
                   {isPareto && <span className="ml-1 text-amber-600">◆</span>}
                 </TableCell>
                 <TableCell>{model.providerId}</TableCell>
@@ -231,7 +248,7 @@ function Stats() {
         </TableBody>
       </Table>
       <div className="mt-6 text-xs text-muted-foreground text-center">
-        ★ Best value ◆ Pareto frontier · Data via OpenRouter & models.dev
+        ★ Best value ◆ Pareto frontier · NEW = released in last 20 days · Data via OpenRouter &amp; models.dev
       </div>
     </div>
   );
