@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { useEffect, useMemo, useState, type ComponentProps, type ReactElement } from "react";
 import type { OpenRouterModel } from "~/openrouter/parseData";
+import { CLAUDE_MAXED_EUR_PER_M } from "~/openrouter/constants";
 import { getAvgPriceEur, getChartPrice, getParetoIds, isFreeModel } from "~/openrouter/pricing";
 
 function useIsMobile() {
@@ -165,7 +166,8 @@ export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: Pr
     [models, newIds],
   );
 
-  const maxPrice = chartData.length > 0 ? Math.max(...chartData.map((d) => d.price)) : 5;
+  const claudeMaxed = CLAUDE_MAXED_EUR_PER_M;
+  const maxPrice = chartData.length > 0 ? Math.max(...chartData.map((d) => d.price), claudeMaxed) : claudeMaxed;
   const maxPriceCeil = Math.ceil(maxPrice);
 
   const codingIndices = chartData.map((d) => d.codingIndex);
@@ -220,6 +222,19 @@ export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: Pr
               value: "1€",
               position: "top",
               fill: "#16a34a",
+              fontSize: 11,
+              offset: 8,
+            }}
+          />
+          <ReferenceLine
+            x={claudeMaxed}
+            stroke="#9333ea"
+            strokeDasharray="6 3"
+            strokeWidth={1.5}
+            label={{
+              value: "Claude maxed subscription",
+              position: "top",
+              fill: "#9333ea",
               fontSize: 11,
               offset: 8,
             }}

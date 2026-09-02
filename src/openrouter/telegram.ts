@@ -38,17 +38,28 @@ function botToken(): string {
 async function tgApi<T = unknown>(
   method: string,
   body: Record<string, unknown>,
-): Promise<{ ok: boolean; result?: T; error_code?: number; description?: string }> {
-  const response = await fetch(`${TELEGRAM_API_URL}/bot${botToken()}/${method}`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(40_000),
-  });
+): Promise<{
+  ok: boolean;
+  result?: T;
+  error_code?: number;
+  description?: string;
+}> {
+  const response = await fetch(
+    `${TELEGRAM_API_URL}/bot${botToken()}/${method}`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(40_000),
+    },
+  );
   return response.json();
 }
 
-async function sendTelegramMessage(chatId: number, text: string): Promise<boolean> {
+async function sendTelegramMessage(
+  chatId: number,
+  text: string,
+): Promise<boolean> {
   const res = await tgApi("sendMessage", {
     chat_id: chatId,
     text,
@@ -56,7 +67,9 @@ async function sendTelegramMessage(chatId: number, text: string): Promise<boolea
   });
   if (!res.ok) {
     if (res.error_code === 403) removeChat(chatId);
-    throw new Error(`Telegram sendMessage failed: ${res.error_code} ${res.description}`);
+    throw new Error(
+      `Telegram sendMessage failed: ${res.error_code} ${res.description}`,
+    );
   }
   return true;
 }
@@ -90,6 +103,48 @@ export async function broadcastParetoNotification(
   }
 }
 
+export async function broadcastCombinedNotification({
+  paretoEntries,
+  freeEntries,
+}: {
+  paretoEntries: Array<{ rank: number; model: EnrichedModel }>;
+  freeEntries: Array<{ rank: number; model: EnrichedModel }>;
+}): Promise<void> {
+  if (!botToken()) return;
+  if (paretoEntries.length === 0 && freeEntries.length === 0) return;
+
+  const lines: string[] = ["🆕 New on https://models.kaarel.dev", ""];
+  if (paretoEntries.length > 0) {
+    lines.push(`Pareto frontier (${paretoEntries.length}):`);
+    lines.push(...paretoEntries.map((e) => `#${e.rank} ${e.model.name}`));
+    lines.push("");
+  }
+  if (freeEntries.length > 0) {
+    lines.push(`Free in Top 20 (${freeEntries.length}):`);
+    lines.push(...freeEntries.map((e) => `#${e.rank} ${e.model.name}`));
+    lines.push("");
+  }
+  lines.push("https://models.kaarel.dev");
+
+  const text = lines.join("\n");
+  const targets = readState().chats.map((c) => c.id);
+  if (targets.length === 0) {
+    console.warn("Telegram: no subscribed chats yet, skipping broadcast");
+    return;
+  }
+  console.log(
+    `Telegram: broadcasting combined update to ${targets.length} chat(s) (pareto=${paretoEntries.length}, free=${freeEntries.length})`,
+  );
+
+  for (const chatId of targets) {
+    try {
+      await sendTelegramMessage(chatId, text);
+    } catch (error) {
+      console.error(`Failed to notify Telegram chat ${chatId}:`, error);
+    }
+  }
+}
+
 function addChat(chat: ChatInfo): void {
   const state = readState();
   if (state.chats.some((c) => c.id === chat.id)) return;
@@ -106,25 +161,38 @@ function removeChat(chatId: number): void {
   }
 }
 
-async function handleMessage(
-  msg?: { chat?: { id?: number; title?: string; first_name?: string; username?: string }; text?: string },
-): Promise<void> {
+async function handleMessage(msg?: {
+  chat?: {
+    id?: number;
+    title?: string;
+    first_name?: string;
+    username?: string;
+  };
+  text?: string;
+}): Promise<void> {
   const chatId = msg?.chat?.id;
   if (!chatId) return;
   const text = (msg.text ?? "").trim();
 
   if (text.startsWith("/stop") || text.startsWith("/unsubscribe")) {
     removeChat(chatId);
-    await sendTelegramMessage(chatId, "Unsubscribed. You will no longer receive Pareto frontier updates.");
+    await sendTelegramMessage(
+      chatId,
+      "Unsubscribed. You will no longer receive updates.",
+    );
     return;
   }
 
   if (text.startsWith("/start") || text.startsWith("/subscribe")) {
-    const title = msg.chat?.title || msg.chat?.first_name || msg.chat?.username || `chat ${chatId}`;
+    const title =
+      msg.chat?.title ||
+      msg.chat?.first_name ||
+      msg.chat?.username ||
+      `chat ${chatId}`;
     addChat({ id: chatId, title, addedAt: new Date().toISOString() });
     await sendTelegramMessage(
       chatId,
-      "👋 Subscribed! You'll get a message here whenever a new model appears on the Pareto frontier of https://models.kaarel.dev\n\nSend /stop to unsubscribe.",
+      "👋 Subscribed! You'll get a message here whenever a new model appears on the Pareto frontier or a new free model enters Top 20 of https://models.kaarel.dev\n\nSend /stop to unsubscribe.",
     );
   }
 }
@@ -134,12 +202,23 @@ export async function processTelegramUpdates(): Promise<void> {
 
   const state = readState();
   try {
-    const res = await tgApi<{ update_id: number; message?: { chat?: { id?: number }; text?: string } }[]>(
-      "getUpdates",
-      { offset: state.lastOffset, timeout: 0, allowed_updates: ["message"] },
-    );
+    const res = await tgApi<
+      {
+        update_id: number;
+        message?: { chat?: { id?: number }; text?: string };
+      }[]
+    >("getUpdates", {
+      offset: state.lastOffset,
+      timeout: 0,
+      allowed_updates: ["message"],
+    });
     if (!res.ok || !Array.isArray(res.result)) {
-      if (!res.ok) console.error("Telegram getUpdates failed:", res.error_code, res.description);
+      if (!res.ok)
+        console.error(
+          "Telegram getUpdates failed:",
+          res.error_code,
+          res.description,
+        );
       return;
     }
     let offset = state.lastOffset;

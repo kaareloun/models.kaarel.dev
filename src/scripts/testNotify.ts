@@ -1,9 +1,10 @@
 import fs from "node:fs";
-import { PARETO_KNOWN_FILE } from "~/openrouter/constants";
+import { FREE_KNOWN_FILE, PARETO_KNOWN_FILE } from "~/openrouter/constants";
 import { runParetoWatchCycle } from "~/openrouter/paretoWatch";
 
 fs.writeFileSync(PARETO_KNOWN_FILE, JSON.stringify({ ids: [] }, null, 2));
-console.log("Cleared known Pareto ids — announcing all current frontier models");
+fs.writeFileSync(FREE_KNOWN_FILE, JSON.stringify({ ids: [] }, null, 2));
+console.log("Cleared known Pareto + free ids — announcing all current frontier and free models");
 
 await runParetoWatchCycle();
 console.log("Test cycle done");

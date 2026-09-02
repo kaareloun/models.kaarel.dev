@@ -118,6 +118,10 @@ function Stats() {
           <span className="inline-flex items-center gap-1.5 text-xs font-medium">
             <span className="inline-block h-2.5 w-2.5 rounded-full bg-amber-500 border border-amber-600" /> Pareto frontier
           </span>
+          <span className="h-3 w-px bg-border hidden sm:block" />
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium">
+            <span className="inline-block h-2.5 w-0.5 bg-[#9333ea]" /> Claude maxed subscription
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex rounded-md border overflow-hidden">
@@ -257,7 +261,7 @@ function Stats() {
             >
               @{botUsername}
             </a>{" "}
-            on Telegram to get notified about new Pareto frontier models
+            on Telegram — send /start to get notified about new Pareto frontier and free models
           </>
         )}
       </div>
