@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { useEffect, useMemo, useState, type ComponentProps, type ReactElement } from "react";
 import type { OpenRouterModel } from "~/openrouter/parseData";
-import { CLAUDE_MAXED_EUR_PER_M } from "~/openrouter/constants";
+import { CLAUDE_MAXED_EUR_PER_M, OPENAI_MAXED_EUR_PER_M } from "~/openrouter/constants";
 import { getAvgPriceEur, getChartPrice, getParetoIds, isFreeModel } from "~/openrouter/pricing";
 
 function useIsMobile() {
@@ -167,7 +167,8 @@ export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: Pr
   );
 
   const claudeMaxed = CLAUDE_MAXED_EUR_PER_M;
-  const maxPrice = chartData.length > 0 ? Math.max(...chartData.map((d) => d.price), claudeMaxed) : claudeMaxed;
+  const openaiMaxed = OPENAI_MAXED_EUR_PER_M;
+  const maxPrice = chartData.length > 0 ? Math.max(...chartData.map((d) => d.price), claudeMaxed, openaiMaxed) : claudeMaxed;
   const maxPriceCeil = Math.ceil(maxPrice);
 
   const codingIndices = chartData.map((d) => d.codingIndex);
@@ -235,6 +236,19 @@ export function PricePerformanceChart({ models, newIds, hoveredId, onHover }: Pr
               value: "Claude maxed subscription",
               position: "top",
               fill: "#9333ea",
+              fontSize: 11,
+              offset: 8,
+            }}
+          />
+          <ReferenceLine
+            x={openaiMaxed}
+            stroke="#0ea5e9"
+            strokeDasharray="6 3"
+            strokeWidth={1.5}
+            label={{
+              value: "OpenAI maxed subscription",
+              position: "top",
+              fill: "#0ea5e9",
               fontSize: 11,
               offset: 8,
             }}

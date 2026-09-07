@@ -122,6 +122,10 @@ function Stats() {
           <span className="inline-flex items-center gap-1.5 text-xs font-medium">
             <span className="inline-block h-2.5 w-0.5 bg-[#9333ea]" /> Claude maxed subscription
           </span>
+          <span className="h-3 w-px bg-border hidden sm:block" />
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium">
+            <span className="inline-block h-2.5 w-0.5 bg-[#0ea5e9]" /> OpenAI maxed subscription
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex rounded-md border overflow-hidden">

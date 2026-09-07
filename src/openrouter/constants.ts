@@ -12,3 +12,4 @@ export const PARETO_CYCLE_INTERVAL_MS = 5 * 60 * 1000;
 export const PARETO_STARTUP_DELAY_MS = 10_000;
 export const TELEGRAM_BOT_USERNAME = "pareto_frontier_bot";
 export const CLAUDE_MAXED_EUR_PER_M = 7.67;
+export const OPENAI_MAXED_EUR_PER_M = 4;
