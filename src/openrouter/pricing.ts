@@ -1,11 +1,11 @@
 import { EUR_RATE } from "./constants";
-import type { OpenRouterModel } from "./parseData";
+import type { Model } from "./model";
 
-export function getAvgPriceEur(model: Pick<OpenRouterModel, "cost">): number {
-  return ((model.cost.input + model.cost.output) / 2) * 1_000_000 * EUR_RATE;
+export function getAvgPriceEur(model: Pick<Model, "cost">): number {
+  return ((model.cost.input + model.cost.output) / 2) * EUR_RATE;
 }
 
-export function isFreeModel(model: Pick<OpenRouterModel, "cost">): boolean {
+export function isFreeModel(model: Pick<Model, "cost">): boolean {
   return model.cost.input === 0 && model.cost.output === 0;
 }
 
@@ -15,7 +15,7 @@ export function hashString(s: string): number {
   return h;
 }
 
-export function getChartPrice(model: OpenRouterModel): number {
+export function getChartPrice(model: Pick<Model, "id" | "cost">): number {
   if (isFreeModel(model)) {
     const h = hashString(model.id);
     return 0.05 + (h % 5) * 0.04 + ((h * 7) % 3) * 0.015;
@@ -23,25 +23,14 @@ export function getChartPrice(model: OpenRouterModel): number {
   return getAvgPriceEur(model);
 }
 
-/**
- * Global Pareto frontier: sorts by price (avgPriceEur) ascending, then coding descending.
- * All free models have avgPriceEur=0, so only the highest coding_index among free will be Pareto.
- * This is intentional — global frontier shows best price/performance across all tiers.
- * If a separate free-tier frontier is desired, compute pareto per isFree group.
- */
-export function getParetoIds<T extends { id: string; avgPriceEur: number; coding_index: number | null }>(
-  items: T[],
-): Set<string> {
-  const sorted = [...items].sort(
-    (a, b) => a.avgPriceEur - b.avgPriceEur || (b.coding_index ?? 0) - (a.coding_index ?? 0),
-  );
-  let maxCoding = Number.NEGATIVE_INFINITY;
+export function getParetoIds<T extends { id: string; avgPriceEur: number; score: number }>(items: T[]): Set<string> {
+  const sorted = [...items].sort((a, b) => a.avgPriceEur - b.avgPriceEur || b.score - a.score);
+  let maxScore = Number.NEGATIVE_INFINITY;
   const ids = new Set<string>();
   for (const m of sorted) {
-    const coding = m.coding_index ?? 0;
-    if (coding > maxCoding) {
+    if (m.score > maxScore) {
       ids.add(m.id);
-      maxCoding = coding;
+      maxScore = m.score;
     }
   }
   return ids;

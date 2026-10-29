@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import { OPEN_WEIGHTS_FILE } from "./constants";
+import { normalizeModelKey } from "./normalize";
 
 export function loadOpenWeightsMap(): Record<string, boolean> {
   try {
@@ -11,32 +12,10 @@ export function loadOpenWeightsMap(): Record<string, boolean> {
   return {};
 }
 
-function stripVariantSuffix(id: string): string {
-  return id.replace(/:(batch|free)$/, "");
-}
-
-function mapLookup(map: Record<string, boolean>, id: string): boolean | null {
-  const v = map[id] ?? map[stripVariantSuffix(id)];
-  return typeof v === "boolean" ? v : null;
-}
-
-export function resolveOpenWeights(
-  modelId: string,
-  opts: { weightsMap: Record<string, boolean>; huggingFaceId?: string | null },
-): boolean | null {
-  if (opts.huggingFaceId != null && opts.huggingFaceId !== "") return true;
-  return mapLookup(opts.weightsMap, modelId);
-}
-
-export function resolveZenOpenWeights(
-  zenId: string,
-  matched: { id: string; hugging_face_id: string | null } | null,
-  weightsMap: Record<string, boolean>,
-): boolean | null {
-  if (matched) {
-    if (matched.hugging_face_id != null && matched.hugging_face_id !== "") return true;
-    const matchedFlag = mapLookup(weightsMap, matched.id);
-    if (matchedFlag !== null) return matchedFlag;
+export function resolveOpenWeights(keys: string[], weightsMap: Record<string, boolean>): boolean | null {
+  for (const key of keys) {
+    const v = weightsMap[normalizeModelKey(key)];
+    if (typeof v === "boolean") return v;
   }
-  return mapLookup(weightsMap, zenId);
+  return null;
 }

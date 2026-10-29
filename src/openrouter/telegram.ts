@@ -1,5 +1,6 @@
 import fs from "node:fs";
-import { TELEGRAM_API_URL, TELEGRAM_CHATS_FILE } from "./constants";
+import { TELEGRAM_API_URL, TELEGRAM_CHATS_FILE, WATCH_METRIC } from "./constants";
+import { METRIC_LABELS } from "./model";
 import type { EnrichedModel } from "./enrich";
 
 type ChatInfo = { id: number; title: string; addedAt: string };
@@ -74,54 +75,39 @@ async function sendTelegramMessage(
   return true;
 }
 
-export async function broadcastParetoNotification(
-  entries: Array<{ rank: number; model: EnrichedModel }>,
-): Promise<void> {
-  if (!botToken() || entries.length === 0) return;
+type Entry = { rank: number; model: EnrichedModel };
 
-  const text = [
-    `🆕 New model${entries.length > 1 ? "s" : ""} on the Pareto frontier:`,
-    "",
-    ...entries.map((e) => `#${e.rank} ${e.model.name}`),
-    "",
-    "https://models.kaarel.dev",
-  ].join("\n");
-
-  const targets = readState().chats.map((c) => c.id);
-  if (targets.length === 0) {
-    console.warn("Telegram: no subscribed chats yet, skipping broadcast");
-    return;
-  }
-  console.log(`Telegram: broadcasting to ${targets.length} chat(s)`);
-
-  for (const chatId of targets) {
-    try {
-      await sendTelegramMessage(chatId, text);
-    } catch (error) {
-      console.error(`Failed to notify Telegram chat ${chatId}:`, error);
-    }
-  }
+function entryLine(e: Entry): string {
+  const rank = e.rank > 0 ? ` (#${e.rank})` : "";
+  return `${e.model.name} · ${METRIC_LABELS[WATCH_METRIC]} ${e.model.score.toFixed(1)}${rank}`;
 }
 
 export async function broadcastCombinedNotification({
+  benchmarkedEntries,
   paretoEntries,
   freeEntries,
 }: {
-  paretoEntries: Array<{ rank: number; model: EnrichedModel }>;
-  freeEntries: Array<{ rank: number; model: EnrichedModel }>;
+  benchmarkedEntries: Entry[];
+  paretoEntries: Entry[];
+  freeEntries: Entry[];
 }): Promise<void> {
   if (!botToken()) return;
-  if (paretoEntries.length === 0 && freeEntries.length === 0) return;
+  if (benchmarkedEntries.length === 0 && paretoEntries.length === 0 && freeEntries.length === 0) return;
 
   const lines: string[] = ["🆕 New on https://models.kaarel.dev", ""];
+  if (benchmarkedEntries.length > 0) {
+    lines.push(`Frontier lab model benchmarked (${benchmarkedEntries.length}):`);
+    lines.push(...benchmarkedEntries.map((e) => `${entryLine(e)} by ${e.model.creator}`));
+    lines.push("");
+  }
   if (paretoEntries.length > 0) {
     lines.push(`Pareto frontier (${paretoEntries.length}):`);
-    lines.push(...paretoEntries.map((e) => `#${e.rank} ${e.model.name}`));
+    lines.push(...paretoEntries.map(entryLine));
     lines.push("");
   }
   if (freeEntries.length > 0) {
     lines.push(`Free in Top 20 (${freeEntries.length}):`);
-    lines.push(...freeEntries.map((e) => `#${e.rank} ${e.model.name}`));
+    lines.push(...freeEntries.map(entryLine));
     lines.push("");
   }
   lines.push("https://models.kaarel.dev");
@@ -133,7 +119,7 @@ export async function broadcastCombinedNotification({
     return;
   }
   console.log(
-    `Telegram: broadcasting combined update to ${targets.length} chat(s) (pareto=${paretoEntries.length}, free=${freeEntries.length})`,
+    `Telegram: broadcasting combined update to ${targets.length} chat(s) (benchmarked=${benchmarkedEntries.length}, pareto=${paretoEntries.length}, free=${freeEntries.length})`,
   );
 
   for (const chatId of targets) {
@@ -192,7 +178,7 @@ async function handleMessage(msg?: {
     addChat({ id: chatId, title, addedAt: new Date().toISOString() });
     await sendTelegramMessage(
       chatId,
-      "👋 Subscribed! You'll get a message here whenever a new model appears on the Pareto frontier or a new free model enters Top 20 of https://models.kaarel.dev\n\nSend /stop to unsubscribe.",
+      "👋 Subscribed! You'll get a message here whenever a frontier lab model gets benchmarked, a new model appears on the Pareto frontier, or a new free model enters Top 20 of https://models.kaarel.dev\n\nSend /stop to unsubscribe.",
     );
   }
 }

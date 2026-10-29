@@ -1,94 +1,77 @@
 import fs from "node:fs";
 import { differenceInHours } from "date-fns";
 import { ZEN_FREE_FILE, ZEN_LAST_FETCH_FILE, MODELS_DEV_URL } from "./zenConstants";
-import { OPENROUTER_MODELS_FILE, OPEN_WEIGHTS_FILE } from "./constants";
-import { loadOpenWeightsMap, resolveZenOpenWeights } from "./openWeights";
-import { openRouterResponseSchema } from "./validation";
-import type { OpenRouterModel } from "./parseData";
+import { OPEN_WEIGHTS_FILE } from "./constants";
+import { fetchAAModels } from "./fetchModels";
+import { normalizeModelKey } from "./normalize";
+import { loadOpenWeightsMap, resolveOpenWeights } from "./openWeights";
+import { METRICS, type Model } from "./model";
 
-/**
- * Normalized id for fuzzy matching. Collisions are intentional for cross-provider
- * mapping (e.g. opencode/glm-5-free → z-ai/glm-5.3) but weak heuristic:
- * - strips :free/:batch and non-alphanum, lowercases
- * - prefix logic in findBenchmarkForZenId then applies digit guard to avoid
- *   matching unrelated families (gpt-4 → gpt-4o blocked, kimi-k2 → kimi-k2-thinking blocked)
- * Limits: mimo-v2.5-pro vs mimo-v2.5 correctly distinguished (exact), hy3 vs hy3-preview
- * currently not matched (hy3-free excluded) — add explicit allowlist if needed.
- */
-function normalize(s: string): string {
-  const base = s.split("/").pop() ?? s;
-  return base
-    .toLowerCase()
-    .replace(/:free$/, "")
-    .replace(/-free$/, "")
-    .replace(/:batch$/, "")
-    .replace(/-batch$/, "")
-    .replace(/[^a-z0-9]/g, "");
+type ModelsDevModel = { id?: string; name?: string; open_weights?: boolean; cost?: { input?: number; output?: number } };
+type ModelsDev = Record<string, { models?: Record<string, ModelsDevModel> }>;
+
+function bestScore(m: Model): number {
+  for (const metric of METRICS) {
+    const s = m.scores[metric];
+    if (s != null) return s;
+  }
+  return -1;
 }
 
-function stripDateSuffix(s: string): string {
-  return s.replace(/-\d{8}$/, "");
+function hasScore(m: Model): boolean {
+  return bestScore(m) >= 0;
 }
 
-function findBenchmarkForZenId(
-  zenId: string,
-  parsed: { data: Array<{ id: string; canonical_slug: string; created: number; hugging_face_id: string | null; benchmarks?: { artificial_analysis?: { coding_index?: number | null } } }> },
-): { coding_index: number | null; release_date: string; matched_id: string | null; matched_hf: string | null } | null {
-  const normZen = normalize(zenId);
+function keysOf(m: Model): string[] {
+  return [normalizeModelKey(m.name), ...(m.slug ? [normalizeModelKey(m.slug)] : [])];
+}
 
-  // Stage 1: exact match on canonical_slug base or id (strict equality)
-  let exactBest: { coding: number; date: string; id: string; hf: string | null } | null = null;
-  let exactScore = -1;
-  for (const m of parsed.data) {
-    const coding = m.benchmarks?.artificial_analysis?.coding_index;
-    if (coding == null) continue;
-    const normSlugBase = normalize(stripDateSuffix(m.canonical_slug));
-    const normId = normalize(m.id);
-    if (normSlugBase === normZen || normId === normZen) {
-      if (coding > exactScore) {
-        exactScore = coding;
-        exactBest = { coding, date: new Date(m.created * 1000).toISOString().split("T")[0] ?? "", id: m.id, hf: m.hugging_face_id };
+function isBetter(a: Model, b: Model): boolean {
+  for (const metric of METRICS) {
+    const sa = a.scores[metric];
+    const sb = b.scores[metric];
+    if (sa != null && sb != null && sa !== sb) return sa > sb;
+  }
+  const count = (m: Model) => METRICS.filter((metric) => m.scores[metric] != null).length;
+  return count(a) > count(b);
+}
+
+function pickBest(candidates: Model[]): Model | null {
+  return candidates.reduce<Model | null>((best, m) => (!best || isBetter(m, best) ? m : best), null);
+}
+
+function findBenchmarkForZen(zenKeys: string[], models: Model[]): Model | null {
+  const scored = models.filter(hasScore);
+
+  const exact = scored.filter((m) => keysOf(m).some((k) => zenKeys.includes(k)));
+  if (exact.length) return pickBest(exact);
+
+  const prefix = scored.filter((m) =>
+    keysOf(m).some((other) =>
+      zenKeys.some((zen) => {
+        if (other.startsWith(zen)) return /[0-9]/.test(other.slice(zen.length));
+        if (zen.startsWith(other)) return zen.length > other.length;
+        return false;
+      }),
+    ),
+  );
+  return pickBest(prefix);
+}
+
+function buildOpenWeightsMap(modelsDev: ModelsDev): Record<string, boolean> {
+  const weights: Record<string, boolean> = {};
+  for (const provider of Object.values(modelsDev)) {
+    for (const [key, m] of Object.entries(provider?.models ?? {})) {
+      if (typeof m?.open_weights !== "boolean") continue;
+      for (const k of [key, m.id, m.name]) {
+        if (typeof k === "string") weights[normalizeModelKey(k)] = m.open_weights;
       }
     }
   }
-  if (exactBest) return { coding_index: exactBest.coding, release_date: exactBest.date, matched_id: exactBest.id, matched_hf: exactBest.hf };
-
-  // Stage 2: prefix match with constraints to avoid over-matching families
-  // - zen prefix of model: suffix must contain digit (version/params like glm5->glm53, nemotron3ultra->550b)
-  // - model prefix of zen: allow any suffix (zen qualifier like contributor, fin)
-  let prefixBest: { coding: number; date: string; id: string; hf: string | null } | null = null;
-  let prefixScore = -1;
-  for (const m of parsed.data) {
-    const coding = m.benchmarks?.artificial_analysis?.coding_index;
-    if (coding == null) continue;
-    const normSlugBase = normalize(stripDateSuffix(m.canonical_slug));
-    const normId = normalize(m.id);
-    for (const normOther of [normSlugBase, normId]) {
-      if (normOther === normZen) continue;
-      if (normOther.startsWith(normZen)) {
-        const suffix = normOther.slice(normZen.length);
-        if (suffix && /[0-9]/.test(suffix)) {
-          if (coding > prefixScore) {
-            prefixScore = coding;
-            prefixBest = { coding, date: new Date(m.created * 1000).toISOString().split("T")[0] ?? "", id: m.id, hf: m.hugging_face_id };
-          }
-        }
-      } else if (normZen.startsWith(normOther)) {
-        const suffix = normZen.slice(normOther.length);
-        if (suffix) {
-          if (coding > prefixScore) {
-            prefixScore = coding;
-            prefixBest = { coding, date: new Date(m.created * 1000).toISOString().split("T")[0] ?? "", id: m.id, hf: m.hugging_face_id };
-          }
-        }
-      }
-    }
-  }
-  if (prefixBest) return { coding_index: prefixBest.coding, release_date: prefixBest.date, matched_id: prefixBest.id, matched_hf: prefixBest.hf };
-  return null;
+  return weights;
 }
 
-export async function fetchOpencodeZenFreeModels(force = false): Promise<OpenRouterModel[]> {
+export async function fetchOpencodeZenFreeModels(force = false): Promise<Model[]> {
   if (!fs.existsSync(ZEN_FREE_FILE)) {
     fs.writeFileSync(ZEN_FREE_FILE, "[]");
   }
@@ -100,107 +83,60 @@ export async function fetchOpencodeZenFreeModels(force = false): Promise<OpenRou
   if (!force && lastFetchRaw && differenceInHours(new Date(), new Date(lastFetchRaw)) <= 1) {
     try {
       const cached = JSON.parse(fs.readFileSync(ZEN_FREE_FILE, "utf-8"));
-      if (Array.isArray(cached) && cached.length > 0) {
-        return cached.map((m: OpenRouterModel) => ({ openWeights: null, ...m }));
+      if (Array.isArray(cached) && cached.length > 0 && cached[0]?.scores && "engineering" in cached[0].scores) {
+        return cached as Model[];
       }
     } catch {}
   }
 
   try {
-    const [modelsDev, openRouterRaw] = await Promise.all([
-      fetch(MODELS_DEV_URL).then(async (r) => {
-        if (!r.ok) throw new Error(`models.dev fetch failed: ${r.status}`);
-        return r.json();
-      }),
-      (async () => {
-        if (fs.existsSync(OPENROUTER_MODELS_FILE)) {
-          try {
-            const raw = JSON.parse(fs.readFileSync(OPENROUTER_MODELS_FILE, "utf-8"));
-            // Validate before using cached file; fall through to network on failure
-            openRouterResponseSchema.parse(raw);
-            return raw;
-          } catch {}
-        }
-        const r = await fetch("https://openrouter.ai/api/v1/models");
-        if (!r.ok) throw new Error(`OpenRouter fallback fetch failed: ${r.status}`);
-        return r.json();
-      })(),
-    ]);
+    const modelsDevResponse = await fetch(MODELS_DEV_URL);
+    if (!modelsDevResponse.ok) throw new Error(`models.dev fetch failed: ${modelsDevResponse.status}`);
+    const modelsDev = (await modelsDevResponse.json()) as ModelsDev;
 
-    let parsedOpenRouter: ReturnType<typeof openRouterResponseSchema.parse>;
-    try {
-      parsedOpenRouter = openRouterResponseSchema.parse(openRouterRaw);
-    } catch {
-      throw new Error("Invalid OpenRouter data for Zen benchmark lookup");
+    const builtWeights = buildOpenWeightsMap(modelsDev);
+    const weightsMap = Object.keys(builtWeights).length > 0 ? builtWeights : loadOpenWeightsMap();
+    if (Object.keys(builtWeights).length > 0) {
+      fs.writeFileSync(OPEN_WEIGHTS_FILE, JSON.stringify(builtWeights, null, 2));
     }
 
-    const weights: Record<string, boolean> = {};
-    type ModelsDevModel = { open_weights?: boolean; id?: string };
-    const orProvider = (modelsDev as { openrouter?: { models?: Record<string, ModelsDevModel> } })
-      .openrouter?.models;
-    if (orProvider) {
-      for (const [key, m] of Object.entries(orProvider)) {
-        if (typeof m?.open_weights === "boolean") {
-          weights[key] = m.open_weights;
-          if (typeof m.id === "string") weights[m.id] = m.open_weights;
-        }
-      }
-    }
-    const ocProvider = (modelsDev as { opencode?: { models?: Record<string, ModelsDevModel> } })
-      .opencode?.models;
-    if (ocProvider) {
-      for (const [key, m] of Object.entries(ocProvider)) {
-        if (typeof m?.open_weights === "boolean") {
-          weights[`opencode/${key}`] = m.open_weights;
-        }
-      }
-    }
-    const weightsMap: Record<string, boolean> =
-      Object.keys(weights).length > 0 ? weights : loadOpenWeightsMap();
-    if (Object.keys(weights).length > 0) {
-      fs.writeFileSync(OPEN_WEIGHTS_FILE, JSON.stringify(weights, null, 2));
-    }
+    const opencode = modelsDev.opencode?.models;
+    if (!opencode) throw new Error("No opencode provider in models.dev");
 
-    const opencode = modelsDev?.opencode;
-    if (!opencode?.models) throw new Error("No opencode provider in models.dev");
+    const aaModels = await fetchAAModels();
+    if (aaModels.length === 0) throw new Error("No Artificial Analysis data for Zen benchmark lookup");
 
-    const freeEntries: Array<{ id: string; name: string }> = [];
-    for (const [mid, m] of Object.entries(opencode.models as Record<string, { name: string; cost?: { input?: number; output?: number } }>)) {
-      const cost = (m as { cost?: { input?: number; output?: number } }).cost;
-      if (cost?.input === 0 && cost?.output === 0) {
-        freeEntries.push({ id: mid, name: (m as { name: string }).name });
-      }
-    }
-
-    const result: OpenRouterModel[] = [];
+    const result: Model[] = [];
     const seen = new Set<string>();
-    for (const entry of freeEntries) {
-      const rawId = entry.id;
-      // Guard against double prefix if models.dev already returns opencode/...
-      const normalizedId = rawId.startsWith("opencode/") ? rawId.slice("opencode/".length) : rawId;
-      if (seen.has(normalizedId)) continue;
-      seen.add(normalizedId);
-      const bench = findBenchmarkForZenId(normalizedId, parsedOpenRouter);
-      // Include only if we have a coding benchmark, otherwise chart has no Y
-      if (!bench || bench.coding_index == null) continue;
+    for (const [rawId, m] of Object.entries(opencode)) {
+      if (m?.cost?.input !== 0 || m?.cost?.output !== 0) continue;
+      const id = rawId.startsWith("opencode/") ? rawId.slice("opencode/".length) : rawId;
+      if (seen.has(id)) continue;
+      seen.add(id);
+
+      const name = m.name ?? id;
+      const zenKeys = [...new Set([normalizeModelKey(id), normalizeModelKey(name)])];
+      const bench = findBenchmarkForZen(zenKeys, aaModels);
+      if (!bench) continue;
+
       result.push({
-        id: `opencode/${normalizedId}`,
-        name: entry.name,
+        id: `opencode/${id}`,
+        slug: bench.slug,
+        name,
+        creator: "OpenCode Zen",
         cost: { input: 0, output: 0 },
         release_date: bench.release_date,
-        coding_index: bench.coding_index,
+        scores: bench.scores,
+        variants: bench.variants,
+        speed: null,
+        hasPrice: true,
         providerId: "opencode",
-        openWeights: resolveZenOpenWeights(
-          `opencode/${normalizedId}`,
-          bench.matched_id ? { id: bench.matched_id, hugging_face_id: bench.matched_hf } : null,
-          weightsMap,
-        ),
+        openWeights: bench.openWeights ?? resolveOpenWeights([id, name], weightsMap),
       });
     }
 
-    result.sort((a, b) => (b.coding_index ?? 0) - (a.coding_index ?? 0));
+    result.sort((a, b) => bestScore(b) - bestScore(a));
 
-    // Avoid overwriting good cache with empty result due to transient parse failures
     if (result.length === 0) {
       try {
         const cached = JSON.parse(fs.readFileSync(ZEN_FREE_FILE, "utf-8"));
@@ -209,7 +145,6 @@ export async function fetchOpencodeZenFreeModels(force = false): Promise<OpenRou
         }
       } catch (e) {
         if (e instanceof Error && e.message.includes("keeping cached")) throw e;
-        // ignore parse errors, will write empty
       }
     }
 
@@ -220,9 +155,7 @@ export async function fetchOpencodeZenFreeModels(force = false): Promise<OpenRou
   } catch (error) {
     try {
       const cached = JSON.parse(fs.readFileSync(ZEN_FREE_FILE, "utf-8"));
-      if (Array.isArray(cached)) {
-        return cached.map((m: OpenRouterModel) => ({ openWeights: null, ...m }));
-      }
+      if (Array.isArray(cached) && cached[0]?.scores) return cached as Model[];
     } catch {}
     console.error("Error fetching Zen free models:", error);
     return [];

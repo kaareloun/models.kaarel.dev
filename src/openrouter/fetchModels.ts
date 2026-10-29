@@ -1,62 +1,75 @@
 import fs from "node:fs";
-import { differenceInHours } from "date-fns";
 import {
-  OPENROUTER_LAST_FETCH_FILE,
-  OPENROUTER_MODELS_FILE,
-  OPENROUTER_API_URL,
+  AA_API_URL,
+  AA_FETCH_INTERVAL_MS,
+  AA_INDEX_VERSION_FILE,
+  AA_LAST_ATTEMPT_FILE,
+  AA_LAST_FETCH_FILE,
+  AA_MAX_PAGES,
+  AA_MODELS_FILE,
 } from "./constants";
-import { parseOpenRouterData, type OpenRouterModel } from "./parseData";
+import { recordSnapshot } from "./history";
+import { parseAAData } from "./parseData";
+import type { Model } from "./model";
+import { aaModelsFileSchema, aaPageSchema, type AAModel } from "./validation";
 
-export async function fetchOpenRouterModels(force = false): Promise<OpenRouterModel[]> {
-  if (!fs.existsSync(OPENROUTER_MODELS_FILE)) {
-    fs.writeFileSync(
-      OPENROUTER_MODELS_FILE,
-      JSON.stringify({ data: [], total_count: 0, links: { next: null } }),
-    );
-  }
-
-  if (!fs.existsSync(OPENROUTER_LAST_FETCH_FILE)) {
-    fs.writeFileSync(OPENROUTER_LAST_FETCH_FILE, "2000-01-01T00:00:00.000Z");
-  }
-
-  const lastFetchDate = fs.readFileSync(OPENROUTER_LAST_FETCH_FILE, "utf-8").trim();
-
-  if (
-    !force &&
-    lastFetchDate &&
-    differenceInHours(new Date(), new Date(lastFetchDate)) <= 1
-  ) {
-    try {
-      const data = JSON.parse(fs.readFileSync(OPENROUTER_MODELS_FILE, "utf-8"));
-      return parseOpenRouterData(data);
-    } catch {
-      // Fall through to fetch on corrupted cache
-    }
-  }
-
+function readTimestamp(file: string): number {
   try {
-    const response = await fetch(OPENROUTER_API_URL);
+    const t = new Date(fs.readFileSync(file, "utf-8").trim()).getTime();
+    return Number.isNaN(t) ? 0 : t;
+  } catch {
+    return 0;
+  }
+}
+
+function readCachedRaw(): AAModel[] | null {
+  try {
+    return aaModelsFileSchema.parse(JSON.parse(fs.readFileSync(AA_MODELS_FILE, "utf-8")));
+  } catch {
+    return null;
+  }
+}
+
+async function fetchAllPages(apiKey: string): Promise<{ models: AAModel[]; indexVersion: number | null }> {
+  const all: AAModel[] = [];
+  let indexVersion: number | null = null;
+  for (let page = 1; page <= AA_MAX_PAGES; page++) {
+    const response = await fetch(`${AA_API_URL}?page=${page}`, {
+      headers: { "x-api-key": apiKey },
+      signal: AbortSignal.timeout(30_000),
+    });
     if (!response.ok) {
-      throw new Error(`OpenRouter fetch failed: ${response.status} ${response.statusText}`);
+      throw new Error(`Artificial Analysis fetch failed: ${response.status} ${response.statusText}`);
     }
-    const data = await response.json();
+    const parsed = aaPageSchema.parse(await response.json());
+    all.push(...parsed.data);
+    indexVersion ??= parsed.intelligence_index_version ?? null;
+    if (!parsed.pagination.has_more) return { models: all, indexVersion };
+  }
+  throw new Error(`Artificial Analysis returned more than ${AA_MAX_PAGES} pages`);
+}
 
-    // Validate before caching to avoid persisting error payloads
-    const parsed = parseOpenRouterData(data);
+export async function fetchAAModels(force = false): Promise<Model[]> {
+  const cached = readCachedRaw();
+  const apiKey = process.env.ARTIFICIAL_ANALYSIS_API_KEY ?? "";
+  const isFresh = Date.now() - readTimestamp(AA_LAST_ATTEMPT_FILE) < AA_FETCH_INTERVAL_MS;
 
-    fs.writeFileSync(OPENROUTER_MODELS_FILE, JSON.stringify(data, null, 2));
-    fs.writeFileSync(OPENROUTER_LAST_FETCH_FILE, new Date().toISOString());
+  if (!apiKey || (!force && cached && isFresh)) {
+    if (!apiKey && !cached) console.error("ARTIFICIAL_ANALYSIS_API_KEY is not set and no cache exists");
+    return cached ? parseAAData(cached) : [];
+  }
 
-    return parsed;
+  fs.writeFileSync(AA_LAST_ATTEMPT_FILE, new Date().toISOString());
+  try {
+    const { models: raw, indexVersion } = await fetchAllPages(apiKey);
+    fs.writeFileSync(AA_MODELS_FILE, JSON.stringify(raw));
+    fs.writeFileSync(AA_LAST_FETCH_FILE, new Date().toISOString());
+    if (indexVersion != null) fs.writeFileSync(AA_INDEX_VERSION_FILE, String(indexVersion));
+    const models = parseAAData(raw);
+    recordSnapshot(models, indexVersion);
+    return models;
   } catch (error) {
-    try {
-      const data = JSON.parse(fs.readFileSync(OPENROUTER_MODELS_FILE, "utf-8"));
-      return parseOpenRouterData(data);
-    } catch {
-      // ignore
-    }
-
-    console.error("Error fetching or parsing OpenRouter data:", error);
-    return [];
+    console.error("Error fetching Artificial Analysis data:", error);
+    return cached ? parseAAData(cached) : [];
   }
 }

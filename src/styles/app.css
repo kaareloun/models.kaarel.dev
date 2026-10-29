@@ -5,6 +5,9 @@
 @layer base {
   html {
     color-scheme: light dark;
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
   }
 
   .using-mouse * {
@@ -12,119 +15,71 @@
   }
 
   :root {
-    --background: 48 33.3333% 97.0588%;
-    --foreground: 48 19.6078% 20%;
-    --card: 48 33.3333% 97.0588%;
-    --card-foreground: 60 2.5641% 7.6471%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 50.7692 19.403% 13.1373%;
-    --primary: 15.1111 55.5556% 52.3529%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 46.1538 22.807% 88.8235%;
-    --secondary-foreground: 50.7692 8.4967% 30%;
-    --muted: 44 29.4118% 90%;
-    --muted-foreground: 50 2.3622% 50.1961%;
-    --accent: 46.1538 22.807% 88.8235%;
-    --accent-foreground: 50.7692 19.403% 13.1373%;
-    --destructive: 60 2.5641% 7.6471%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 50 7.5% 84.3137%;
-    --input: 50.7692 7.9755% 68.0392%;
-    --ring: 210 74.8031% 49.8039%;
-    --chart-1: 18.2813 57.1429% 43.9216%;
-    --chart-2: 251.4545 84.6154% 74.5098%;
-    --chart-3: 46.1538 28.2609% 81.9608%;
-    --chart-4: 256.5517 49.1525% 88.4314%;
-    --chart-5: 17.7778 60% 44.1176%;
-    --sidebar: 51.4286 25.9259% 94.7059%;
-    --sidebar-foreground: 60 2.521% 23.3333%;
-    --sidebar-primary: 15.1111 55.5556% 52.3529%;
-    --sidebar-primary-foreground: 0 0% 98.4314%;
-    --sidebar-accent: 46.1538 22.807% 88.8235%;
-    --sidebar-accent-foreground: 0 0% 20.3922%;
-    --sidebar-border: 0 0% 92.1569%;
-    --sidebar-ring: 0 0% 70.9804%;
-    --font-sans:
-      ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-      "Noto Color Emoji";
-    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    --font-mono:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-      "Courier New", monospace;
-    --radius: 0.5rem;
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-sm:
-      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow:
-      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-md:
-      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg:
-      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-xl:
-      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
-    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+    --background: 0.975 0.006 80;
+    --foreground: 0.22 0.012 70;
+    --card: 0.995 0.004 80;
+    --card-foreground: 0.22 0.012 70;
+    --popover: 0.995 0.004 80;
+    --popover-foreground: 0.22 0.012 70;
+    --primary: 0.5 0.13 130;
+    --primary-foreground: 0.985 0.01 120;
+    --secondary: 0.94 0.006 80;
+    --secondary-foreground: 0.3 0.012 70;
+    --muted: 0.945 0.006 80;
+    --muted-foreground: 0.5 0.012 70;
+    --accent: 0.94 0.006 80;
+    --accent-foreground: 0.22 0.012 70;
+    --destructive: 0.55 0.18 15;
+    --destructive-foreground: 0.985 0.005 80;
+    --border: 0.9 0.006 80;
+    --input: 0.86 0.006 80;
+    --ring: 0.5 0.13 130;
+    --up: 0.52 0.13 150;
+    --down: 0.55 0.17 15;
+    --grid: 0.9 0.006 80;
+    --axis: 0.78 0.008 80;
+    --lab-1: #2a78d6;
+    --lab-2: #eb6834;
+    --lab-3: #1baf7a;
+    --lab-other: oklch(0.72 0.01 75);
+    --surface-ring: oklch(0.995 0.004 80);
+    --shadow-tint: 0.35 0.03 70;
+    --radius: 0.875rem;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --font-sans: "Geist", ui-sans-serif, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, monospace;
   }
 
   .dark {
-    --background: 60 2.7027% 14.5098%;
-    --foreground: 46.1538 9.7744% 73.9216%;
-    --card: 60 2.7027% 14.5098%;
-    --card-foreground: 48 33.3333% 97.0588%;
-    --popover: 60 2.1277% 18.4314%;
-    --popover-foreground: 60 5.4545% 89.2157%;
-    --primary: 14.7692 63.1068% 59.6078%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 48 33.3333% 97.0588%;
-    --secondary-foreground: 60 2.1277% 18.4314%;
-    --muted: 60 3.8462% 10.1961%;
-    --muted-foreground: 51.4286 8.8608% 69.0196%;
-    --accent: 48 10.6383% 9.2157%;
-    --accent-foreground: 51.4286 25.9259% 94.7059%;
-    --destructive: 0 84.2365% 60.1961%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 60 5.0847% 23.1373%;
-    --input: 52.5 5.1282% 30.5882%;
-    --ring: 210 74.8031% 49.8039%;
-    --chart-1: 18.2813 57.1429% 43.9216%;
-    --chart-2: 251.4545 84.6154% 74.5098%;
-    --chart-3: 48 10.6383% 9.2157%;
-    --chart-4: 248.2759 25.2174% 22.549%;
-    --chart-5: 17.7778 60% 44.1176%;
-    --sidebar: 30 3.3333% 11.7647%;
-    --sidebar-foreground: 46.1538 9.7744% 73.9216%;
-    --sidebar-primary: 0 0% 20.3922%;
-    --sidebar-primary-foreground: 0 0% 98.4314%;
-    --sidebar-accent: 60 3.4483% 5.6863%;
-    --sidebar-accent-foreground: 46.1538 9.7744% 73.9216%;
-    --sidebar-border: 0 0% 92.1569%;
-    --sidebar-ring: 0 0% 70.9804%;
-    --font-sans:
-      ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-      "Noto Color Emoji";
-    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    --font-mono:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-      "Courier New", monospace;
-    --radius: 0.5rem;
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-sm:
-      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow:
-      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-md:
-      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg:
-      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-xl:
-      0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
-    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+    --background: 0.2 0.006 70;
+    --foreground: 0.95 0.008 85;
+    --card: 0.225 0.006 70;
+    --card-foreground: 0.95 0.008 85;
+    --popover: 0.25 0.007 70;
+    --popover-foreground: 0.95 0.008 85;
+    --primary: 0.88 0.16 125;
+    --primary-foreground: 0.22 0.04 125;
+    --secondary: 0.27 0.006 70;
+    --secondary-foreground: 0.9 0.008 85;
+    --muted: 0.255 0.006 70;
+    --muted-foreground: 0.7 0.012 80;
+    --accent: 0.28 0.007 70;
+    --accent-foreground: 0.95 0.008 85;
+    --destructive: 0.65 0.17 15;
+    --destructive-foreground: 0.98 0.005 80;
+    --border: 0.31 0.007 70;
+    --input: 0.34 0.007 70;
+    --ring: 0.88 0.16 125;
+    --up: 0.72 0.15 150;
+    --down: 0.7 0.15 15;
+    --grid: 0.27 0.006 70;
+    --axis: 0.38 0.007 70;
+    --lab-1: #3987e5;
+    --lab-2: #d95926;
+    --lab-3: #199e70;
+    --lab-other: oklch(0.52 0.01 75);
+    --surface-ring: oklch(0.225 0.006 70);
+    --shadow-tint: 0.08 0.01 70;
   }
 }
 
@@ -137,14 +92,162 @@
   }
 }
 
-.recharts-wrapper,
-.recharts-wrapper :focus,
-.recharts-wrapper :focus-visible {
-  outline: none !important;
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 
-.recharts-wrapper,
-.recharts-wrapper * {
-  user-select: none;
-  -webkit-user-select: none;
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.55;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.animate-rise {
+  opacity: 0;
+  animation: rise 0.7s var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+.svg-origin-center {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.range-input {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  width: 100%;
+  height: 44px;
+  cursor: pointer;
+}
+
+.range-input:focus-visible {
+  outline: none;
+}
+
+.range-input::-webkit-slider-runnable-track {
+  height: 2px;
+  background: transparent;
+}
+
+.range-input::-moz-range-track {
+  height: 2px;
+  background: transparent;
+}
+
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 22px;
+  width: 22px;
+  margin-top: -10px;
+  border-radius: 9999px;
+  background: oklch(var(--primary));
+  border: 4px solid oklch(var(--background));
+  box-shadow: 0 0 0 1px oklch(var(--primary) / 0.5), 0 6px 20px -6px oklch(var(--primary) / 0.7);
+  transition: transform 0.25s var(--ease-out-expo);
+}
+
+.range-input::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 9999px;
+  background: oklch(var(--primary));
+  border: 4px solid oklch(var(--background));
+  box-shadow: 0 0 0 1px oklch(var(--primary) / 0.5), 0 6px 20px -6px oklch(var(--primary) / 0.7);
+}
+
+.range-input:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+.range-input:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px oklch(var(--ring) / 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-ripple {
+    display: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

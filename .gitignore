@@ -22,3 +22,5 @@ yarn.lock
 
 src/data/*
 !src/data/.gitkeep
+
+.claude/worktrees/
