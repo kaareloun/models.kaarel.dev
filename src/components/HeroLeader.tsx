@@ -10,9 +10,18 @@ interface HeroLeaderProps {
   frameLabel: string;
 }
 
-export function HeroLeader({ leader, runnerUp, metric, frameLabel }: HeroLeaderProps) {
+export function HeroLeader({
+  leader,
+  runnerUp,
+  metric,
+  frameLabel,
+}: HeroLeaderProps) {
   if (!leader) {
-    return <p className="text-sm text-muted-foreground">No scored models for this index yet.</p>;
+    return (
+      <p className="text-sm text-muted-foreground">
+        No scored models for this index yet.
+      </p>
+    );
   }
   const lead = runnerUp ? leader.score - runnerUp.score : null;
   return (
@@ -25,14 +34,25 @@ export function HeroLeader({ leader, runnerUp, metric, frameLabel }: HeroLeaderP
           value={leader.score}
           className="text-[64px] font-semibold leading-[0.85] tracking-tighter md:text-[88px]"
         />
-        <div className="pb-1.5 min-w-0">
-          <div key={leader.id} className="flex items-center gap-2" style={{ animation: "rise 0.5s var(--ease-out-expo)" }}>
-            <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: labColor(leader.creator) }} />
-            <span className="truncate text-lg font-semibold tracking-tight">{leader.name}</span>
+        <div className="min-w-0 pb-1.5">
+          <div
+            key={leader.id}
+            className="flex items-center gap-2"
+            style={{ animation: "rise 0.5s var(--ease-out-expo)" }}
+          >
+            <span
+              className="h-2.5 w-2.5 shrink-0 rounded-full"
+              style={{ background: labColor(leader.creator) }}
+            />
+            <span className="truncate text-lg font-semibold tracking-tight">
+              {leader.name}
+            </span>
           </div>
-          <div className="mt-1 font-mono text-xs text-muted-foreground tabular">
+          <div className="tabular mt-1 font-mono text-xs text-muted-foreground">
             {leader.creator} · €{leader.avgPriceEur.toFixed(2)}/1M
-            {lead != null && runnerUp ? ` · +${lead.toFixed(1)} over ${runnerUp.name}` : ""}
+            {lead != null && runnerUp
+              ? ` · +${lead.toFixed(1)} over ${runnerUp.name}`
+              : ""}
           </div>
         </div>
       </div>

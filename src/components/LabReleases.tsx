@@ -24,7 +24,10 @@ export function LabReleases({ models, metric, count = 6 }: LabReleasesProps) {
   if (recent.length === 0) return null;
 
   return (
-    <section aria-labelledby="releases-title" className="border-y border-border/70">
+    <section
+      aria-labelledby="releases-title"
+      className="border-y border-border/70"
+    >
       <h2 id="releases-title" className="sr-only">
         Latest frontier lab releases
       </h2>
@@ -45,13 +48,16 @@ export function LabReleases({ models, metric, count = 6 }: LabReleasesProps) {
                 className="group block h-full px-4 py-4 transition-colors duration-300 hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring md:px-5"
               >
                 <div className="flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
-                  <span className="h-1.5 w-1.5 rounded-full" style={{ background: labColor(m.creator) }} />
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ background: labColor(m.creator) }}
+                  />
                   {m.creator} · {m.release_date.slice(5)}
                 </div>
-                <div className="mt-2 truncate text-sm font-semibold tracking-tight group-hover:underline underline-offset-4">
+                <div className="mt-2 truncate text-sm font-semibold tracking-tight underline-offset-4 group-hover:underline">
                   {m.name}
                 </div>
-                <div className="mt-1 font-mono text-xs tabular">
+                <div className="tabular mt-1 font-mono text-xs">
                   {score != null ? (
                     <>
                       <span className="font-semibold">{score.toFixed(1)}</span>
@@ -62,7 +68,9 @@ export function LabReleases({ models, metric, count = 6 }: LabReleasesProps) {
                       </span>
                     </>
                   ) : (
-                    <span className="text-muted-foreground">awaiting {METRIC_LABELS[metric].toLowerCase()} score</span>
+                    <span className="text-muted-foreground">
+                      awaiting {METRIC_LABELS[metric].toLowerCase()} score
+                    </span>
                   )}
                 </div>
               </a>

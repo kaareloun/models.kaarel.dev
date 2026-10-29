@@ -16,7 +16,11 @@ export const Route = createRootRoute({
   head: () => ({
     meta: [
       { title: "The frontier, priced | models.kaarel.dev" },
-      { name: "description", content: "Frontier LLM price vs Artificial Analysis benchmarks — Pareto frontier and Opencode Zen free models | models.kaarel.dev" },
+      {
+        name: "description",
+        content:
+          "Frontier LLM price vs Artificial Analysis benchmarks — Pareto frontier and Opencode Zen free models | models.kaarel.dev",
+      },
       {
         charSet: "utf-8",
       },
@@ -27,7 +31,11 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap",

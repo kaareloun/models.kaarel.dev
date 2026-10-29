@@ -7,5 +7,7 @@ export const CHART_LABS = [
 export const OTHER_LAB_COLOR = "var(--lab-other)";
 
 export function labColor(creator: string): string {
-  return CHART_LABS.find((l) => l.creator === creator)?.color ?? OTHER_LAB_COLOR;
+  return (
+    CHART_LABS.find((l) => l.creator === creator)?.color ?? OTHER_LAB_COLOR
+  );
 }

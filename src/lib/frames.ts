@@ -1,5 +1,16 @@
-import { buildModelList, type EnrichedModel, type ModelView } from "~/openrouter/enrich";
-import { METRICS, emptyScores, emptyVariants, type Metric, type Model, type Snapshot } from "~/openrouter/model";
+import {
+  buildModelList,
+  type EnrichedModel,
+  type ModelView,
+} from "~/openrouter/enrich";
+import {
+  METRICS,
+  emptyScores,
+  emptyVariants,
+  type Metric,
+  type Model,
+  type Snapshot,
+} from "~/openrouter/model";
 import { getParetoIds, isFreeModel } from "~/openrouter/pricing";
 
 export type FrameMode = "snapshots" | "releases";
@@ -31,12 +42,23 @@ const MIN_SCORED_MODELS = 5;
 
 export function availableMetrics(models: Model[]): Metric[] {
   return METRICS.filter(
-    (metric) => models.filter((m) => m.hasPrice && !isFreeModel(m) && m.scores[metric] != null).length >= MIN_SCORED_MODELS,
+    (metric) =>
+      models.filter(
+        (m) => m.hasPrice && !isFreeModel(m) && m.scores[metric] != null,
+      ).length >= MIN_SCORED_MODELS,
   );
 }
 
-function makeFrame(key: string, date: string, label: string, caption: string, list: EnrichedModel[]): Frame {
-  const sorted = [...list].sort((a, b) => b.score - a.score || a.avgPriceEur - b.avgPriceEur);
+function makeFrame(
+  key: string,
+  date: string,
+  label: string,
+  caption: string,
+  list: EnrichedModel[],
+): Frame {
+  const sorted = [...list].sort(
+    (a, b) => b.score - a.score || a.avgPriceEur - b.avgPriceEur,
+  );
   return {
     key,
     date,
@@ -64,8 +86,15 @@ function formatDay(iso: string): string {
   });
 }
 
-export function releaseFrames(models: Model[], zenFree: Model[], view: ModelView, metric: Metric): Frame[] {
-  const candidates = [...models, ...zenFree].filter((m) => m.scores[metric] != null && m.release_date);
+export function releaseFrames(
+  models: Model[],
+  zenFree: Model[],
+  view: ModelView,
+  metric: Metric,
+): Frame[] {
+  const candidates = [...models, ...zenFree].filter(
+    (m) => m.scores[metric] != null && m.release_date,
+  );
   const dates = [...new Set(candidates.map((m) => m.release_date))].sort();
   const frames: Frame[] = [];
   let previous = "";
@@ -80,13 +109,26 @@ export function releaseFrames(models: Model[], zenFree: Model[], view: ModelView
     const sig = signature(baseModels);
     if (sig === previous) continue;
     previous = sig;
-    const released = candidates.filter((m) => m.release_date === date && !isFreeModel(m)).map((m) => m.name);
-    frames.push(makeFrame(date, date, formatDay(date), released.length ? `${released.join(", ")} released` : "", baseModels));
+    const released = candidates
+      .filter((m) => m.release_date === date && !isFreeModel(m))
+      .map((m) => m.name);
+    frames.push(
+      makeFrame(
+        date,
+        date,
+        formatDay(date),
+        released.length ? `${released.join(", ")} released` : "",
+        baseModels,
+      ),
+    );
   }
   return frames;
 }
 
-function fromSnapshot(snapshot: Snapshot, current: Map<string, Model>): Model[] {
+function fromSnapshot(
+  snapshot: Snapshot,
+  current: Map<string, Model>,
+): Model[] {
   return snapshot.models.map((s) => {
     const live = current.get(s.id);
     return {
@@ -118,25 +160,47 @@ export function snapshotFrames(
   for (const snapshot of snapshots) {
     const snapModels = fromSnapshot(snapshot, current);
     const bySlug = new Map(snapModels.map((m) => [m.slug, m]));
-    const snapZen = zenFree.map((z) => ({ ...z, scores: bySlug.get(z.slug)?.scores ?? emptyScores() }));
+    const snapZen = zenFree.map((z) => ({
+      ...z,
+      scores: bySlug.get(z.slug)?.scores ?? emptyScores(),
+    }));
     const { baseModels } = buildModelList(snapModels, snapZen, view, metric);
     if (baseModels.length === 0) continue;
-    const version = snapshot.indexVersion != null ? `Index v${snapshot.indexVersion}` : "Snapshot";
+    const version =
+      snapshot.indexVersion != null
+        ? `Index v${snapshot.indexVersion}`
+        : "Snapshot";
     frames.push(
-      makeFrame(snapshot.fetchedAt, snapshot.fetchedAt, formatDay(snapshot.fetchedAt), `${version} · fetched ${snapshot.fetchedAt.slice(11, 16)} UTC`, baseModels),
+      makeFrame(
+        snapshot.fetchedAt,
+        snapshot.fetchedAt,
+        formatDay(snapshot.fetchedAt),
+        `${version} · fetched ${snapshot.fetchedAt.slice(11, 16)} UTC`,
+        baseModels,
+      ),
     );
   }
   return frames;
 }
 
-export function diffFrames(current: Frame, previous: Frame | undefined): FrameDiff {
-  if (!previous) return { entered: [], dropped: [], leaderChanged: false, scoreChanges: new Map() };
+export function diffFrames(
+  current: Frame,
+  previous: Frame | undefined,
+): FrameDiff {
+  if (!previous)
+    return {
+      entered: [],
+      dropped: [],
+      leaderChanged: false,
+      scoreChanges: new Map(),
+    };
   const prevById = new Map(previous.list.map((m) => [m.id, m]));
   const curIds = new Set(current.list.map((m) => m.id));
   const scoreChanges = new Map<string, number>();
   for (const m of current.list) {
     const p = prevById.get(m.id);
-    if (p && Math.abs(p.score - m.score) >= 0.05) scoreChanges.set(m.id, m.score - p.score);
+    if (p && Math.abs(p.score - m.score) >= 0.05)
+      scoreChanges.set(m.id, m.score - p.score);
   }
   return {
     entered: current.list.filter((m) => !prevById.has(m.id)),

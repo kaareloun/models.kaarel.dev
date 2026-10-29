@@ -16,17 +16,23 @@ function loadDotEnv() {
 export function startBackgroundScheduler(): void {
   if (typeof window !== "undefined") return;
 
-  const g = globalThis as typeof globalThis & { __modelsSchedulerStarted?: boolean };
+  const g = globalThis as typeof globalThis & {
+    __modelsSchedulerStarted?: boolean;
+  };
   if (g.__modelsSchedulerStarted) return;
   g.__modelsSchedulerStarted = true;
 
   loadDotEnv();
 
   setTimeout(() => {
-    runParetoWatchCycle().catch((error) => console.error("Pareto startup cycle failed:", error));
+    runParetoWatchCycle().catch((error) =>
+      console.error("Pareto startup cycle failed:", error),
+    );
   }, PARETO_STARTUP_DELAY_MS);
 
   setInterval(() => {
-    runParetoWatchCycle().catch((error) => console.error("Pareto cycle failed:", error));
+    runParetoWatchCycle().catch((error) =>
+      console.error("Pareto cycle failed:", error),
+    );
   }, PARETO_CYCLE_INTERVAL_MS);
 }

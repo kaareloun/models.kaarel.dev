@@ -28,7 +28,10 @@ export function emptyScores(): Scores {
 }
 
 export function emptyVariants(): Record<Metric, string | null> {
-  return Object.fromEntries(METRICS.map((m) => [m, null])) as Record<Metric, string | null>;
+  return Object.fromEntries(METRICS.map((m) => [m, null])) as Record<
+    Metric,
+    string | null
+  >;
 }
 
 export interface SnapshotModel {

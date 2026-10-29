@@ -2,19 +2,31 @@ import { CHART_LABS, OTHER_LAB_COLOR } from "~/lib/labs";
 
 export function ChartLegend() {
   return (
-    <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground" aria-label="Chart legend">
+    <ul
+      className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground"
+      aria-label="Chart legend"
+    >
       {CHART_LABS.map((l) => (
         <li key={l.creator} className="inline-flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full" style={{ background: l.color }} />
+          <span
+            className="h-2.5 w-2.5 rounded-full"
+            style={{ background: l.color }}
+          />
           {l.creator}
         </li>
       ))}
       <li className="inline-flex items-center gap-2">
-        <span className="h-2.5 w-2.5 rounded-full" style={{ background: OTHER_LAB_COLOR }} />
+        <span
+          className="h-2.5 w-2.5 rounded-full"
+          style={{ background: OTHER_LAB_COLOR }}
+        />
         Other labs
       </li>
       <li className="inline-flex items-center gap-2">
-        <span className="h-2.5 w-2.5 rounded-full" style={{ boxShadow: "inset 0 0 0 2px oklch(var(--foreground))" }} />
+        <span
+          className="h-2.5 w-2.5 rounded-full"
+          style={{ boxShadow: "inset 0 0 0 2px oklch(var(--foreground))" }}
+        />
         Free on Opencode Zen
       </li>
       <li className="inline-flex items-center gap-2">

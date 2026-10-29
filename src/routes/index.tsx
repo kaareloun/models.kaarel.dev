@@ -5,7 +5,12 @@ import { getLastUpdate } from "~/serverFunctions/getLastUpdate";
 import { getZenFreeModels } from "~/serverFunctions/getZenFreeModels";
 import { getTelegramBot } from "~/serverFunctions/getTelegramBot";
 import { getSnapshots } from "~/serverFunctions/getSnapshots";
-import { METRIC_LABELS, type Metric, type Model, type Snapshot } from "~/openrouter/model";
+import {
+  METRIC_LABELS,
+  type Metric,
+  type Model,
+  type Snapshot,
+} from "~/openrouter/model";
 import type { ModelView } from "~/openrouter/enrich";
 import { isFreeModel } from "~/openrouter/pricing";
 import {
@@ -37,19 +42,21 @@ export const Route = createFileRoute("/")({
     lastUpdate: string;
     botUsername: string | null;
   }> => {
-    const [modelsRes, zenFreeRes, snapshotsRes, lastUpdateRes, botRes] = await Promise.allSettled([
-      getModels(),
-      getZenFreeModels(),
-      getSnapshots(),
-      getLastUpdate(),
-      getTelegramBot(),
-    ]);
+    const [modelsRes, zenFreeRes, snapshotsRes, lastUpdateRes, botRes] =
+      await Promise.allSettled([
+        getModels(),
+        getZenFreeModels(),
+        getSnapshots(),
+        getLastUpdate(),
+        getTelegramBot(),
+      ]);
 
     return {
       models: modelsRes.status === "fulfilled" ? modelsRes.value : [],
       zenFree: zenFreeRes.status === "fulfilled" ? zenFreeRes.value : [],
       snapshots: snapshotsRes.status === "fulfilled" ? snapshotsRes.value : [],
-      lastUpdate: lastUpdateRes.status === "fulfilled" ? lastUpdateRes.value : "unknown",
+      lastUpdate:
+        lastUpdateRes.status === "fulfilled" ? lastUpdateRes.value : "unknown",
       botUsername: botRes.status === "fulfilled" ? botRes.value : null,
     };
   },
@@ -64,18 +71,27 @@ const NEW_WINDOW_DAYS = 21;
 const PLAY_STEP_MS = 1300;
 
 function Stats() {
-  const { models, zenFree, snapshots, lastUpdate, botUsername } = Route.useLoaderData();
+  const { models, zenFree, snapshots, lastUpdate, botUsername } =
+    Route.useLoaderData();
   const metrics = useMemo(() => availableMetrics(models), [models]);
   const [metric, setMetric] = useState<Metric>(metrics[0] ?? "intelligence");
   const [view, setView] = useState<ModelView>("top");
-  const [mode, setMode] = useState<FrameMode>(snapshots.length >= 2 ? "snapshots" : "releases");
+  const [mode, setMode] = useState<FrameMode>(
+    snapshots.length >= 2 ? "snapshots" : "releases",
+  );
   const [index, setIndex] = useState<number | null>(null);
   const [playing, setPlaying] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set());
 
-  const visibleModels = useMemo(() => models.filter((m) => !hiddenIds.has(m.id)), [models, hiddenIds]);
-  const visibleZen = useMemo(() => zenFree.filter((m) => !hiddenIds.has(m.id)), [zenFree, hiddenIds]);
+  const visibleModels = useMemo(
+    () => models.filter((m) => !hiddenIds.has(m.id)),
+    [models, hiddenIds],
+  );
+  const visibleZen = useMemo(
+    () => zenFree.filter((m) => !hiddenIds.has(m.id)),
+    [zenFree, hiddenIds],
+  );
 
   const frames = useMemo(
     () =>
@@ -89,15 +105,25 @@ function Stats() {
   const frame = frames[current];
   const previous = current > 0 ? frames[current - 1] : undefined;
   const domain = useMemo(() => frameDomain(frames), [frames]);
-  const diff = useMemo(() => (frame ? diffFrames(frame, previous) : null), [frame, previous]);
-  const showFreeBand = useMemo(() => frames.some((f) => f.list.some(isFreeModel)), [frames]);
+  const diff = useMemo(
+    () => (frame ? diffFrames(frame, previous) : null),
+    [frame, previous],
+  );
+  const showFreeBand = useMemo(
+    () => frames.some((f) => f.list.some(isFreeModel)),
+    [frames],
+  );
   const indexVersion = snapshots.at(-1)?.indexVersion;
 
   const newIds = useMemo(() => {
     if (!frame) return new Set<string>();
     const end = new Date(`${frame.date.slice(0, 10)}T00:00:00Z`).getTime();
-    const cutoff = new Date(end - NEW_WINDOW_DAYS * 86_400_000).toISOString().slice(0, 10);
-    return new Set(frame.list.filter((m) => m.release_date >= cutoff).map((m) => m.id));
+    const cutoff = new Date(end - NEW_WINDOW_DAYS * 86_400_000)
+      .toISOString()
+      .slice(0, 10);
+    return new Set(
+      frame.list.filter((m) => m.release_date >= cutoff).map((m) => m.id),
+    );
   }, [frame]);
 
   useEffect(() => {
@@ -107,7 +133,10 @@ function Stats() {
 
   useEffect(() => {
     if (!playing) return;
-    const timer = setInterval(() => setIndex((i) => Math.min((i ?? last) + 1, last)), PLAY_STEP_MS);
+    const timer = setInterval(
+      () => setIndex((i) => Math.min((i ?? last) + 1, last)),
+      PLAY_STEP_MS,
+    );
     return () => clearInterval(timer);
   }, [playing, last]);
 
@@ -121,24 +150,38 @@ function Stats() {
     setPlaying(true);
   };
 
-  const metricOptions = metrics.map((m) => ({ value: m, label: METRIC_LABELS[m] }));
+  const metricOptions = metrics.map((m) => ({
+    value: m,
+    label: METRIC_LABELS[m],
+  }));
 
   return (
     <div className="relative isolate overflow-x-clip">
-      <div aria-hidden="true" className="grain pointer-events-none fixed inset-0 -z-10 opacity-[0.035] mix-blend-overlay" />
+      <div
+        aria-hidden="true"
+        className="grain pointer-events-none fixed inset-0 -z-10 opacity-[0.035] mix-blend-overlay"
+      />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -left-40 -top-56 -z-10 h-[640px] w-[900px] rounded-full opacity-60 blur-3xl"
-        style={{ background: "radial-gradient(closest-side, oklch(var(--primary) / 0.14), transparent)" }}
+        style={{
+          background:
+            "radial-gradient(closest-side, oklch(var(--primary) / 0.14), transparent)",
+        }}
       />
 
       <main className="mx-auto max-w-[1400px] px-4 pb-16 md:px-10">
         <header className="grid gap-10 pb-10 pt-10 md:pt-16 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
-            <div className="animate-rise flex items-center gap-2.5 font-mono text-xs text-muted-foreground" style={{ "--i": 0 } as React.CSSProperties}>
+            <div
+              className="animate-rise flex items-center gap-2.5 font-mono text-xs text-muted-foreground"
+              style={{ "--i": 0 } as React.CSSProperties}
+            >
               <LiveDot />
               <span>
-                models.kaarel.dev · Artificial Analysis{indexVersion ? ` Index v${indexVersion}` : ""} · updated {lastUpdate}
+                models.kaarel.dev · Artificial Analysis
+                {indexVersion ? ` Index v${indexVersion}` : ""} · updated{" "}
+                {lastUpdate}
               </span>
             </div>
             <h1
@@ -153,12 +196,19 @@ function Stats() {
               className="animate-rise mt-6 max-w-[56ch] text-base leading-relaxed text-muted-foreground"
               style={{ "--i": 2 } as React.CSSProperties}
             >
-              The top 20 models on the Artificial Analysis {METRIC_LABELS[metric]} Index, plotted against what a million
-              tokens costs. Free Opencode Zen models get their own lane. Drag the timeline to see how the ranking moved.
+              The top 20 models on the Artificial Analysis{" "}
+              {METRIC_LABELS[metric]} Index, plotted against what a million
+              tokens costs. Free Opencode Zen models get their own lane. Drag
+              the timeline to see how the ranking moved.
             </p>
           </div>
           <div className="lg:col-span-5 lg:justify-self-end">
-            <HeroLeader leader={frame?.list[0]} runnerUp={frame?.list[1]} metric={metric} frameLabel={frame?.label ?? ""} />
+            <HeroLeader
+              leader={frame?.list[0]}
+              runnerUp={frame?.list[1]}
+              metric={metric}
+              frameLabel={frame?.label ?? ""}
+            />
           </div>
         </header>
 
@@ -166,19 +216,34 @@ function Stats() {
 
         {models.length === 0 || !frame ? (
           <section className="mt-16 max-w-[60ch]">
-            <h2 className="text-2xl font-semibold tracking-tight">No benchmark data yet</h2>
+            <h2 className="text-2xl font-semibold tracking-tight">
+              No benchmark data yet
+            </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              The server fetches Artificial Analysis on start and every two hours. If this stays empty, check that
-              ARTIFICIAL_ANALYSIS_API_KEY is set in .env and that the daily request limit is not used up.
+              The server fetches Artificial Analysis on start and every two
+              hours. If this stays empty, check that ARTIFICIAL_ANALYSIS_API_KEY
+              is set in .env and that the daily request limit is not used up.
             </p>
           </section>
         ) : (
           <>
             <div className="sticky top-0 z-30 -mx-4 mt-8 border-b border-border/70 bg-background/80 px-4 backdrop-blur-xl md:-mx-10 md:px-10">
               <div className="flex flex-col gap-1 py-2 md:flex-row md:items-center md:justify-between md:gap-6">
-                <SegmentedControl label="Benchmark index" options={metricOptions} value={metric} onChange={setMetric} className="-mx-3" />
+                <SegmentedControl
+                  label="Benchmark index"
+                  options={metricOptions}
+                  value={metric}
+                  onChange={setMetric}
+                  className="-mx-3"
+                />
                 <div className="flex items-center gap-4">
-                  <SegmentedControl label="Models shown" options={VIEWS} value={view} onChange={setView} className="-mx-3 md:mx-0" />
+                  <SegmentedControl
+                    label="Models shown"
+                    options={VIEWS}
+                    value={view}
+                    onChange={setView}
+                    className="-mx-3 md:mx-0"
+                  />
                   {hiddenIds.size > 0 && (
                     <button
                       type="button"
@@ -205,7 +270,15 @@ function Stats() {
                 playing={playing}
                 onTogglePlay={togglePlay}
               />
-              <div className="mt-6 min-h-[52px]">{diff && <ChangeSummary frame={frame} previous={previous} diff={diff} />}</div>
+              <div className="mt-6 min-h-[52px]">
+                {diff && (
+                  <ChangeSummary
+                    frame={frame}
+                    previous={previous}
+                    diff={diff}
+                  />
+                )}
+              </div>
             </section>
 
             <section className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-10">
@@ -237,7 +310,10 @@ function Stats() {
 
             <section aria-labelledby="table-title" className="mt-20">
               <div className="flex items-baseline justify-between gap-4">
-                <h2 id="table-title" className="text-2xl font-semibold tracking-tight">
+                <h2
+                  id="table-title"
+                  className="text-2xl font-semibold tracking-tight"
+                >
                   Every model in view
                 </h2>
                 <span className="font-mono text-xs text-muted-foreground">
