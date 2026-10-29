@@ -1,4 +1,5 @@
-export const AA_API_URL = "https://artificialanalysis.ai/api/v2/language/models/free";
+export const AA_API_URL =
+  "https://artificialanalysis.ai/api/v2/language/models/free";
 export const AA_MODELS_FILE = "src/data/aa-models.json";
 export const AA_LAST_FETCH_FILE = "src/data/aa-lastFetch.txt";
 export const AA_LAST_ATTEMPT_FILE = "src/data/aa-lastAttempt.txt";
@@ -10,7 +11,14 @@ export const AA_MODEL_URL = "https://artificialanalysis.ai/models";
 export const EUR_RATE = 0.92;
 export const TOP_COUNT = 20;
 export const WATCH_METRIC = "intelligence";
-export const FRONTIER_CREATORS = ["Anthropic", "OpenAI", "Google", "SpaceXAI", "Meta", "DeepSeek"];
+export const FRONTIER_CREATORS = [
+  "Anthropic",
+  "OpenAI",
+  "Google",
+  "SpaceXAI",
+  "Meta",
+  "DeepSeek",
+];
 export const PARETO_KNOWN_FILE = "src/data/pareto-known-aa.json";
 export const FREE_KNOWN_FILE = "src/data/free-known-aa.json";
 export const BENCHMARKED_KNOWN_FILE = "src/data/benchmarked-known-aa.json";

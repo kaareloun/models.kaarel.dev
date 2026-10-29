@@ -9,9 +9,17 @@ interface SegmentedControlProps<T extends string> {
   className?: string;
 }
 
-export function SegmentedControl<T extends string>({ label, options, value, onChange, className }: SegmentedControlProps<T>) {
+export function SegmentedControl<T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+  className,
+}: SegmentedControlProps<T>) {
   const refs = useRef(new Map<T, HTMLButtonElement>());
-  const [indicator, setIndicator] = useState<{ x: number; w: number } | null>(null);
+  const [indicator, setIndicator] = useState<{ x: number; w: number } | null>(
+    null,
+  );
 
   useLayoutEffect(() => {
     const update = () => {
@@ -27,7 +35,10 @@ export function SegmentedControl<T extends string>({ label, options, value, onCh
     <div
       role="radiogroup"
       aria-label={label}
-      className={cn("relative flex items-center overflow-x-auto [scrollbar-width:none]", className)}
+      className={cn(
+        "relative flex items-center overflow-x-auto [scrollbar-width:none]",
+        className,
+      )}
     >
       {options.map((o) => (
         <button
@@ -44,7 +55,9 @@ export function SegmentedControl<T extends string>({ label, options, value, onCh
             "relative shrink-0 px-3 h-11 md:h-9 text-sm whitespace-nowrap transition-colors duration-300 rounded-md",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             "active:translate-y-px",
-            o.value === value ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+            o.value === value
+              ? "text-foreground"
+              : "text-muted-foreground hover:text-foreground",
           )}
         >
           {o.label}

@@ -13,7 +13,15 @@ interface ChartTooltipProps {
   containerWidth: number;
 }
 
-export function ChartTooltip({ model, rank, metric, isPareto, x, y, containerWidth }: ChartTooltipProps) {
+export function ChartTooltip({
+  model,
+  rank,
+  metric,
+  isPareto,
+  x,
+  y,
+  containerWidth,
+}: ChartTooltipProps) {
   const flip = x > containerWidth - 240;
   const free = isFreeModel(model);
   return (
@@ -31,25 +39,37 @@ export function ChartTooltip({ model, rank, metric, isPareto, x, y, containerWid
       <div className="flex items-center gap-2">
         <span
           className="h-2.5 w-2.5 shrink-0 rounded-full"
-          style={free ? { boxShadow: "inset 0 0 0 2px oklch(var(--foreground))" } : { background: labColor(model.creator) }}
+          style={
+            free
+              ? { boxShadow: "inset 0 0 0 2px oklch(var(--foreground))" }
+              : { background: labColor(model.creator) }
+          }
         />
-        <span className="font-semibold leading-tight truncate">{model.name}</span>
+        <span className="truncate font-semibold leading-tight">
+          {model.name}
+        </span>
       </div>
       <div className="mt-0.5 text-xs text-muted-foreground">
         {model.creator}
         {model.variants[metric] ? ` · ${model.variants[metric]}` : ""}
       </div>
-      <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1 font-mono text-xs tabular">
+      <dl className="tabular mt-3 grid grid-cols-2 gap-x-3 gap-y-1 font-mono text-xs">
         <dt className="text-muted-foreground">{METRIC_LABELS[metric]}</dt>
         <dd className="text-right font-semibold">{model.score.toFixed(1)}</dd>
         <dt className="text-muted-foreground">Rank</dt>
         <dd className="text-right">{rank ? `#${rank}` : "–"}</dd>
         <dt className="text-muted-foreground">Price</dt>
-        <dd className="text-right">{free ? "free" : `€${model.avgPriceEur.toFixed(2)}`}</dd>
+        <dd className="text-right">
+          {free ? "free" : `€${model.avgPriceEur.toFixed(2)}`}
+        </dd>
         <dt className="text-muted-foreground">Released</dt>
         <dd className="text-right">{model.release_date || "–"}</dd>
       </dl>
-      {isPareto && <div className="mt-2 text-xs font-medium text-primary">On the price–performance frontier</div>}
+      {isPareto && (
+        <div className="mt-2 text-xs font-medium text-primary">
+          On the price–performance frontier
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,12 @@
 import type { AAModel } from "./validation";
 import { loadOpenWeightsMap, resolveOpenWeights } from "./openWeights";
-import { METRICS, emptyScores, emptyVariants, type Model, type Scores } from "./model";
+import {
+  METRICS,
+  emptyScores,
+  emptyVariants,
+  type Model,
+  type Scores,
+} from "./model";
 
 function splitName(name: string): { base: string; variant: string | null } {
   const m = name.match(/^(.*?)\s*\(([^)]*)\)\s*$/);
@@ -12,7 +18,8 @@ function splitName(name: string): { base: string; variant: string | null } {
 function scoresOf(m: AAModel): Scores {
   const scores = emptyScores();
   for (const metric of METRICS) {
-    scores[metric] = m.evaluations?.[`artificial_analysis_${metric}_index`] ?? null;
+    scores[metric] =
+      m.evaluations?.[`artificial_analysis_${metric}_index`] ?? null;
   }
   return scores;
 }
@@ -30,7 +37,10 @@ export function parseAAData(raw: AAModel[]): Model[] {
   const models: Model[] = [];
   for (const variants of groups.values()) {
     const priced = variants.find(
-      (v) => (v.pricing?.price_1m_input_tokens ?? 0) + (v.pricing?.price_1m_output_tokens ?? 0) > 0,
+      (v) =>
+        (v.pricing?.price_1m_input_tokens ?? 0) +
+          (v.pricing?.price_1m_output_tokens ?? 0) >
+        0,
     );
     const scores = emptyScores();
     const bestVariant = emptyVariants();
@@ -50,9 +60,14 @@ export function parseAAData(raw: AAModel[]): Model[] {
 
     const main = priced ?? variants[0];
     if (!main) continue;
-    const slug = [...variants].map((v) => v.slug).sort((a, b) => a.length - b.length)[0] ?? main.slug;
+    const slug =
+      [...variants].map((v) => v.slug).sort((a, b) => a.length - b.length)[0] ??
+      main.slug;
     const base = splitName(main.name).base;
-    const releaseDates = variants.map((v) => v.release_date).filter((d): d is string => !!d).sort();
+    const releaseDates = variants
+      .map((v) => v.release_date)
+      .filter((d): d is string => !!d)
+      .sort();
     const speeds = variants
       .map((v) => v.performance?.median_output_tokens_per_second)
       .filter((s): s is number => typeof s === "number" && s > 0);

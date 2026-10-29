@@ -1,5 +1,9 @@
 import fs from "node:fs";
-import { TELEGRAM_API_URL, TELEGRAM_CHATS_FILE, WATCH_METRIC } from "./constants";
+import {
+  TELEGRAM_API_URL,
+  TELEGRAM_CHATS_FILE,
+  WATCH_METRIC,
+} from "./constants";
 import { METRIC_LABELS } from "./model";
 import type { EnrichedModel } from "./enrich";
 
@@ -92,12 +96,21 @@ export async function broadcastCombinedNotification({
   freeEntries: Entry[];
 }): Promise<void> {
   if (!botToken()) return;
-  if (benchmarkedEntries.length === 0 && paretoEntries.length === 0 && freeEntries.length === 0) return;
+  if (
+    benchmarkedEntries.length === 0 &&
+    paretoEntries.length === 0 &&
+    freeEntries.length === 0
+  )
+    return;
 
   const lines: string[] = ["🆕 New on https://models.kaarel.dev", ""];
   if (benchmarkedEntries.length > 0) {
-    lines.push(`Frontier lab model benchmarked (${benchmarkedEntries.length}):`);
-    lines.push(...benchmarkedEntries.map((e) => `${entryLine(e)} by ${e.model.creator}`));
+    lines.push(
+      `Frontier lab model benchmarked (${benchmarkedEntries.length}):`,
+    );
+    lines.push(
+      ...benchmarkedEntries.map((e) => `${entryLine(e)} by ${e.model.creator}`),
+    );
     lines.push("");
   }
   if (paretoEntries.length > 0) {

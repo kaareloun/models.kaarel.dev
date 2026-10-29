@@ -11,13 +11,21 @@ function easeOutExpo(t: number): number {
   return t >= 1 ? 1 : 1 - 2 ** (-10 * t);
 }
 
-export function AnimatedNumber({ value, decimals = 1, duration = 900, className }: AnimatedNumberProps) {
+export function AnimatedNumber({
+  value,
+  decimals = 1,
+  duration = 900,
+  className,
+}: AnimatedNumberProps) {
   const [display, setDisplay] = useState(value);
   const fromRef = useRef(value);
 
   useEffect(() => {
     const from = fromRef.current;
-    if (from === value || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      from === value ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       fromRef.current = value;
       setDisplay(value);
       return;

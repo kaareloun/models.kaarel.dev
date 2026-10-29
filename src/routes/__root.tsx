@@ -13,7 +13,8 @@ import { getTheme } from "~/serverFunctions/theme";
 import appCss from "~/styles/app.css?url";
 
 const HOST = "https://models.kaarel.dev";
-const DESCRIPTION = "Frontier LLM price vs Artificial Analysis benchmarks — Pareto frontier and Opencode Zen free models | models.kaarel.dev";
+const DESCRIPTION =
+  "Frontier LLM price vs Artificial Analysis benchmarks — Pareto frontier and Opencode Zen free models | models.kaarel.dev";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -42,7 +43,11 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap",
@@ -92,8 +97,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html className={theme} lang="en">
       <head>
         <HeadContent />
-        <meta name="theme-color" content="#f9f6f2" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#181613" media="(prefers-color-scheme: dark)" />
+        <meta
+          name="theme-color"
+          content="#f9f6f2"
+          media="(prefers-color-scheme: light)"
+        />
+        <meta
+          name="theme-color"
+          content="#181613"
+          media="(prefers-color-scheme: dark)"
+        />
       </head>
       <body className="min-h-[100dvh] overflow-y-scroll bg-background text-foreground antialiased">
         {children}

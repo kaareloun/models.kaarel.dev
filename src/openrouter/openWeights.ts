@@ -12,7 +12,10 @@ export function loadOpenWeightsMap(): Record<string, boolean> {
   return {};
 }
 
-export function resolveOpenWeights(keys: string[], weightsMap: Record<string, boolean>): boolean | null {
+export function resolveOpenWeights(
+  keys: string[],
+  weightsMap: Record<string, boolean>,
+): boolean | null {
   for (const key of keys) {
     const v = weightsMap[normalizeModelKey(key)];
     if (typeof v === "boolean") return v;

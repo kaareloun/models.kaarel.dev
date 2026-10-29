@@ -14,16 +14,18 @@ export function SiteFooter({ botUsername }: SiteFooterProps) {
             href="https://artificialanalysis.ai"
             target="_blank"
             rel="noreferrer"
-            className="text-foreground underline underline-offset-4 decoration-border hover:decoration-foreground"
+            className="text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
           >
             Artificial Analysis
           </a>{" "}
-          free API, refreshed every two hours. Free models and open-weight flags come from models.dev. Prices are the
-          mean of input and output per million tokens, converted to euro.
+          free API, refreshed every two hours. Free models and open-weight flags
+          come from models.dev. Prices are the mean of input and output per
+          million tokens, converted to euro.
         </p>
         <p className="mt-3">
-          Release replay rebuilds the ranking on each release date with today's scores. AA snapshots compare the
-          scores AA actually published at each fetch.
+          Release replay rebuilds the ranking on each release date with today's
+          scores. AA snapshots compare the scores AA actually published at each
+          fetch.
         </p>
       </div>
       {botUsername && (
@@ -37,10 +39,13 @@ export function SiteFooter({ botUsername }: SiteFooterProps) {
             <Send className="h-4 w-4" strokeWidth={2} />
           </span>
           <span>
-            <span className="block text-sm font-semibold">Get pinged on Telegram</span>
+            <span className="block text-sm font-semibold">
+              Get pinged on Telegram
+            </span>
             <span className="mt-1 block text-sm text-muted-foreground">
-              Send /start to @{botUsername}. You hear about it when a frontier lab model gets benchmarked, joins the
-              frontier, or a free model enters the top 20.
+              Send /start to @{botUsername}. You hear about it when a frontier
+              lab model gets benchmarked, joins the frontier, or a free model
+              enters the top 20.
             </span>
           </span>
         </a>

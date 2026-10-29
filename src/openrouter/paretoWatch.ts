@@ -10,7 +10,10 @@ import { fetchAAModels } from "./fetchModels";
 import { fetchOpencodeZenFreeModels } from "./fetchZenFree";
 import { buildModelList, enrichModel, rankByMetric } from "./enrich";
 import { getParetoIds, isFreeModel } from "./pricing";
-import { broadcastCombinedNotification, processTelegramUpdates } from "./telegram";
+import {
+  broadcastCombinedNotification,
+  processTelegramUpdates,
+} from "./telegram";
 
 function readKnownIds(file: string): Set<string> | null {
   try {
@@ -39,7 +42,9 @@ export async function runParetoWatchCycle(): Promise<void> {
   const models = await fetchAAModels();
 
   if (models.length === 0 && zenFree.length === 0) {
-    console.warn("Pareto watch cycle skipped: no data fetched and no cache available");
+    console.warn(
+      "Pareto watch cycle skipped: no data fetched and no cache available",
+    );
     return;
   }
 
@@ -48,7 +53,11 @@ export async function runParetoWatchCycle(): Promise<void> {
   const freeIds = new Set(baseModels.filter(isFreeModel).map((m) => m.id));
   const benchmarkedIds = new Set(
     models
-      .filter((m) => FRONTIER_CREATORS.includes(m.creator) && m.scores[WATCH_METRIC] != null)
+      .filter(
+        (m) =>
+          FRONTIER_CREATORS.includes(m.creator) &&
+          m.scores[WATCH_METRIC] != null,
+      )
       .map((m) => m.id),
   );
 
@@ -63,13 +72,21 @@ export async function runParetoWatchCycle(): Promise<void> {
   const newFreeIds = newIds(freeIds, knownFree);
   const newBenchmarkedIds = newIds(benchmarkedIds, knownBenchmarked);
 
-  if (newParetoIds.length === 0 && newFreeIds.length === 0 && newBenchmarkedIds.length === 0) return;
+  if (
+    newParetoIds.length === 0 &&
+    newFreeIds.length === 0 &&
+    newBenchmarkedIds.length === 0
+  )
+    return;
 
   const ranks = rankByMetric([...models, ...zenFree], WATCH_METRIC);
   const entriesFor = (ids: string[]) =>
     [...models, ...zenFree]
       .filter((m) => ids.includes(m.id))
-      .map((m) => ({ rank: ranks.get(m.id) ?? 0, model: enrichModel(m, WATCH_METRIC) }))
+      .map((m) => ({
+        rank: ranks.get(m.id) ?? 0,
+        model: enrichModel(m, WATCH_METRIC),
+      }))
       .sort((a, b) => b.model.score - a.model.score);
 
   await broadcastCombinedNotification({
@@ -78,8 +95,13 @@ export async function runParetoWatchCycle(): Promise<void> {
     freeEntries: entriesFor(newFreeIds),
   });
   const parts: string[] = [];
-  if (newBenchmarkedIds.length) parts.push(`${newBenchmarkedIds.length} benchmarked: ${newBenchmarkedIds.join(", ")}`);
-  if (newParetoIds.length) parts.push(`${newParetoIds.length} Pareto: ${newParetoIds.join(", ")}`);
-  if (newFreeIds.length) parts.push(`${newFreeIds.length} free: ${newFreeIds.join(", ")}`);
+  if (newBenchmarkedIds.length)
+    parts.push(
+      `${newBenchmarkedIds.length} benchmarked: ${newBenchmarkedIds.join(", ")}`,
+    );
+  if (newParetoIds.length)
+    parts.push(`${newParetoIds.length} Pareto: ${newParetoIds.join(", ")}`);
+  if (newFreeIds.length)
+    parts.push(`${newFreeIds.length} free: ${newFreeIds.join(", ")}`);
   console.log(`Update: notified about ${parts.join(" | ")}`);
 }

@@ -22,23 +22,23 @@ Instrument panel for the LLM frontier: dark-first warm off-black, Geist type, da
 
 ## Color tokens (OKLCH triplets in `src/styles/app.css`, used as `oklch(var(--x) / a)`)
 
-| Token | Light | Dark |
-|---|---|---|
-| background | 0.975 0.006 80 | 0.2 0.006 70 |
-| card / surface | 0.995 0.004 80 | 0.225 0.006 70 |
-| foreground | 0.22 0.012 70 | 0.95 0.008 85 |
-| muted-foreground | 0.5 0.012 70 | 0.7 0.012 80 |
-| border | 0.9 0.006 80 | 0.31 0.007 70 |
-| primary (signal accent) | 0.5 0.13 130 | 0.88 0.16 125 |
-| up / down | 0.52 0.13 150 / 0.55 0.17 15 | 0.72 0.15 150 / 0.7 0.15 15 |
+| Token                   | Light                        | Dark                        |
+| ----------------------- | ---------------------------- | --------------------------- |
+| background              | 0.975 0.006 80               | 0.2 0.006 70                |
+| card / surface          | 0.995 0.004 80               | 0.225 0.006 70              |
+| foreground              | 0.22 0.012 70                | 0.95 0.008 85               |
+| muted-foreground        | 0.5 0.012 70                 | 0.7 0.012 80                |
+| border                  | 0.9 0.006 80                 | 0.31 0.007 70               |
+| primary (signal accent) | 0.5 0.13 130                 | 0.88 0.16 125               |
+| up / down               | 0.52 0.13 150 / 0.55 0.17 15 | 0.72 0.15 150 / 0.7 0.15 15 |
 
 Lab series (validated all-pairs with the dataviz validator, both modes):
 
-| Lab | Light | Dark |
-|---|---|---|
-| Anthropic `--lab-2` | #eb6834 | #d95926 |
-| OpenAI `--lab-3` | #1baf7a | #199e70 |
-| Google `--lab-1` | #2a78d6 | #3987e5 |
+| Lab                      | Light               | Dark                |
+| ------------------------ | ------------------- | ------------------- |
+| Anthropic `--lab-2`      | #eb6834             | #d95926             |
+| OpenAI `--lab-3`         | #1baf7a             | #199e70             |
+| Google `--lab-1`         | #2a78d6             | #3987e5             |
 | Other labs `--lab-other` | oklch(0.72 0.01 75) | oklch(0.52 0.01 75) |
 
 - Only three labs get a hue. A fourth lab folds into "Other labs" (scatter is all-pairs).

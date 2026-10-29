@@ -11,7 +11,8 @@ export function isFreeModel(model: Pick<Model, "cost">): boolean {
 
 export function hashString(s: string): number {
   let h = 0;
-  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) >>> 0;
+  for (let i = 0; i < s.length; i++)
+    h = (Math.imul(31, h) + s.charCodeAt(i)) >>> 0;
   return h;
 }
 
@@ -23,8 +24,12 @@ export function getChartPrice(model: Pick<Model, "id" | "cost">): number {
   return getAvgPriceEur(model);
 }
 
-export function getParetoIds<T extends { id: string; avgPriceEur: number; score: number }>(items: T[]): Set<string> {
-  const sorted = [...items].sort((a, b) => a.avgPriceEur - b.avgPriceEur || b.score - a.score);
+export function getParetoIds<
+  T extends { id: string; avgPriceEur: number; score: number },
+>(items: T[]): Set<string> {
+  const sorted = [...items].sort(
+    (a, b) => a.avgPriceEur - b.avgPriceEur || b.score - a.score,
+  );
   let maxScore = Number.NEGATIVE_INFINITY;
   const ids = new Set<string>();
   for (const m of sorted) {
