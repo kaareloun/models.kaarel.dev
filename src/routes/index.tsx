@@ -11,7 +11,7 @@ import {
   type Model,
   type Snapshot,
 } from "~/openrouter/model";
-import type { ModelView } from "~/openrouter/enrich";
+import { enrichModel, type ModelView } from "~/openrouter/enrich";
 import { isFreeModel } from "~/openrouter/pricing";
 import {
   availableMetrics,
@@ -92,6 +92,19 @@ function Stats() {
     () => zenFree.filter((m) => !hiddenIds.has(m.id)),
     [zenFree, hiddenIds],
   );
+  const hiddenModels = useMemo(() => {
+    const all = [...models, ...zenFree];
+    return [...hiddenIds]
+      .map((id) => all.find((m) => m.id === id))
+      .filter((m) => m !== undefined)
+      .map((m) => enrichModel(m, metric));
+  }, [models, zenFree, hiddenIds, metric]);
+  const toggleHidden = (id: string) =>
+    setHiddenIds((prev) => {
+      const next = new Set(prev);
+      if (!next.delete(id)) next.add(id);
+      return next;
+    });
 
   const frames = useMemo(
     () =>
@@ -328,7 +341,8 @@ function Stats() {
                   newIds={newIds}
                   hoveredId={hoveredId}
                   onHover={setHoveredId}
-                  onHide={(id) => setHiddenIds((prev) => new Set(prev).add(id))}
+                  hidden={hiddenModels}
+                  onToggleHidden={toggleHidden}
                 />
               </div>
             </section>

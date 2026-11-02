@@ -1,8 +1,9 @@
-import { EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { AA_MODEL_URL } from "~/openrouter/constants";
 import { METRIC_LABELS, type Metric } from "~/openrouter/model";
 import { isFreeModel } from "~/openrouter/pricing";
 import type { Frame } from "~/lib/frames";
+import type { EnrichedModel } from "~/openrouter/enrich";
 import { labColor } from "~/lib/labs";
 import { RankDelta } from "./RankDelta";
 
@@ -13,7 +14,8 @@ interface ModelTableProps {
   newIds: Set<string>;
   hoveredId: string | null;
   onHover: (id: string | null) => void;
-  onHide: (id: string) => void;
+  hidden: EnrichedModel[];
+  onToggleHidden: (id: string) => void;
 }
 
 const TH =
@@ -27,9 +29,14 @@ export function ModelTable({
   newIds,
   hoveredId,
   onHover,
-  onHide,
+  hidden,
+  onToggleHidden,
 }: ModelTableProps) {
   const showIntelligence = metric !== "intelligence";
+  const rows = [
+    ...frame.list.map((model) => ({ model, isHidden: false })),
+    ...hidden.map((model) => ({ model, isHidden: true })),
+  ];
   return (
     <div className="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
       <table className="w-full min-w-[720px] border-collapse">
@@ -79,18 +86,18 @@ export function ModelTable({
           </tr>
         </thead>
         <tbody className="divide-y divide-border/60">
-          {frame.list.map((model, i) => {
+          {rows.map(({ model, isHidden }, i) => {
             const free = isFreeModel(model);
-            const pareto = frame.pareto.has(model.id);
+            const pareto = !isHidden && frame.pareto.has(model.id);
             return (
               <tr
                 key={model.id}
                 onMouseEnter={() => onHover(model.id)}
                 onMouseLeave={() => onHover(null)}
-                className={`transition-colors duration-300 ${hoveredId === model.id ? "bg-muted/70" : "hover:bg-muted/40"}`}
+                className={`transition-colors duration-300 ${hoveredId === model.id ? "bg-muted/70" : "hover:bg-muted/40"} ${isHidden ? "opacity-50" : ""}`}
               >
                 <td className="tabular px-3 py-3 font-mono text-sm text-muted-foreground">
-                  {i + 1}
+                  {isHidden ? "–" : i + 1}
                 </td>
                 <td className="px-3 py-3">
                   <div className="flex items-center gap-2.5">
@@ -129,7 +136,7 @@ export function ModelTable({
                         frontier
                       </span>
                     )}
-                    {newIds.has(model.id) && (
+                    {!isHidden && newIds.has(model.id) && (
                       <span className="shrink-0 rounded-full bg-primary px-1.5 font-mono text-[10px] font-semibold leading-4 text-primary-foreground">
                         new
                       </span>
@@ -179,20 +186,27 @@ export function ModelTable({
                   {model.release_date || "–"}
                 </td>
                 <td className="px-3 py-3 text-right">
-                  <RankDelta
-                    current={i + 1}
-                    previous={previous?.ranks.get(model.id)}
-                    hasPrevious={!!previous}
-                  />
+                  {!isHidden && (
+                    <RankDelta
+                      current={i + 1}
+                      previous={previous?.ranks.get(model.id)}
+                      hasPrevious={!!previous}
+                    />
+                  )}
                 </td>
                 <td className="py-3 pr-1 text-right">
                   <button
                     type="button"
-                    onClick={() => onHide(model.id)}
-                    aria-label={`Hide ${model.name}`}
+                    onClick={() => onToggleHidden(model.id)}
+                    aria-label={`${isHidden ? "Show" : "Hide"} ${model.name}`}
+                    aria-pressed={isHidden}
                     className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:h-9 md:w-9"
                   >
-                    <EyeOff className="h-4 w-4" strokeWidth={1.75} />
+                    {isHidden ? (
+                      <Eye className="h-4 w-4" strokeWidth={1.75} />
+                    ) : (
+                      <EyeOff className="h-4 w-4" strokeWidth={1.75} />
+                    )}
                   </button>
                 </td>
               </tr>
