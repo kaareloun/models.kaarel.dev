@@ -25,7 +25,7 @@ Instrument panel for the LLM frontier: dark-first warm off-black, Geist type, da
 | Token                   | Light                        | Dark                        |
 | ----------------------- | ---------------------------- | --------------------------- |
 | background              | 0.975 0.006 80               | 0.2 0.006 70                |
-| card / surface          | 0.995 0.004 80               | 0.225 0.006 70              |
+| surface-ring            | 0.995 0.004 80               | 0.225 0.006 70              |
 | foreground              | 0.22 0.012 70                | 0.95 0.008 85               |
 | muted-foreground        | 0.5 0.012 70                 | 0.7 0.012 80                |
 | border                  | 0.9 0.006 80                 | 0.31 0.007 70               |

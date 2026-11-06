@@ -90,33 +90,34 @@ function buildOpenWeightsMap(modelsDev: ModelsDev): Record<string, boolean> {
   return weights;
 }
 
+function readZenCache(): Model[] {
+  try {
+    const cached = JSON.parse(fs.readFileSync(ZEN_FREE_FILE, "utf-8"));
+    if (Array.isArray(cached) && cached[0]?.scores) return cached as Model[];
+  } catch {}
+  return [];
+}
+
+function hoursSinceLastFetch(): number {
+  try {
+    const raw = fs.readFileSync(ZEN_LAST_FETCH_FILE, "utf-8").trim();
+    return differenceInHours(new Date(), new Date(raw));
+  } catch {
+    return Number.POSITIVE_INFINITY;
+  }
+}
+
 export async function fetchOpencodeZenFreeModels(
   force = false,
 ): Promise<Model[]> {
-  if (!fs.existsSync(ZEN_FREE_FILE)) {
-    fs.writeFileSync(ZEN_FREE_FILE, "[]");
-  }
-  if (!fs.existsSync(ZEN_LAST_FETCH_FILE)) {
-    fs.writeFileSync(ZEN_LAST_FETCH_FILE, "2000-01-01T00:00:00.000Z");
-  }
-
-  const lastFetchRaw = fs.readFileSync(ZEN_LAST_FETCH_FILE, "utf-8").trim();
+  const cached = readZenCache();
   if (
     !force &&
-    lastFetchRaw &&
-    differenceInHours(new Date(), new Date(lastFetchRaw)) <= 1
+    cached[0] &&
+    "engineering" in cached[0].scores &&
+    hoursSinceLastFetch() <= 1
   ) {
-    try {
-      const cached = JSON.parse(fs.readFileSync(ZEN_FREE_FILE, "utf-8"));
-      if (
-        Array.isArray(cached) &&
-        cached.length > 0 &&
-        cached[0]?.scores &&
-        "engineering" in cached[0].scores
-      ) {
-        return cached as Model[];
-      }
-    } catch {}
+    return cached;
   }
 
   try {
@@ -126,16 +127,14 @@ export async function fetchOpencodeZenFreeModels(
     const modelsDev = (await modelsDevResponse.json()) as ModelsDev;
 
     const builtWeights = buildOpenWeightsMap(modelsDev);
-    const weightsMap =
-      Object.keys(builtWeights).length > 0
-        ? builtWeights
-        : loadOpenWeightsMap();
-    if (Object.keys(builtWeights).length > 0) {
+    const hasWeights = Object.keys(builtWeights).length > 0;
+    if (hasWeights) {
       fs.writeFileSync(
         OPEN_WEIGHTS_FILE,
         JSON.stringify(builtWeights, null, 2),
       );
     }
+    const weightsMap = hasWeights ? builtWeights : loadOpenWeightsMap();
 
     const opencode = modelsDev.opencode?.models;
     if (!opencode) throw new Error("No opencode provider in models.dev");
@@ -180,28 +179,15 @@ export async function fetchOpencodeZenFreeModels(
 
     result.sort((a, b) => bestScore(b) - bestScore(a));
 
-    if (result.length === 0) {
-      try {
-        const cached = JSON.parse(fs.readFileSync(ZEN_FREE_FILE, "utf-8"));
-        if (Array.isArray(cached) && cached.length > 0) {
-          throw new Error(
-            "Zen fetch produced empty result, keeping cached data",
-          );
-        }
-      } catch (e) {
-        if (e instanceof Error && e.message.includes("keeping cached")) throw e;
-      }
-    }
+    if (result.length === 0 && cached.length > 0)
+      throw new Error("Zen fetch produced empty result, keeping cached data");
 
     fs.writeFileSync(ZEN_FREE_FILE, JSON.stringify(result, null, 2));
     fs.writeFileSync(ZEN_LAST_FETCH_FILE, new Date().toISOString());
 
     return result;
   } catch (error) {
-    try {
-      const cached = JSON.parse(fs.readFileSync(ZEN_FREE_FILE, "utf-8"));
-      if (Array.isArray(cached) && cached[0]?.scores) return cached as Model[];
-    } catch {}
+    if (cached.length > 0) return cached;
     console.error("Error fetching Zen free models:", error);
     return [];
   }

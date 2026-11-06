@@ -8,8 +8,7 @@ import {
 import * as React from "react";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import { NotFound } from "~/components/NotFound";
-import { ThemeProvider, useTheme } from "~/components/ui/theme-provider";
-import { getTheme } from "~/serverFunctions/theme";
+import { getTheme, type Theme } from "~/serverFunctions/theme";
 import appCss from "~/styles/app.css?url";
 
 const HOST = "https://models.kaarel.dev";
@@ -59,21 +58,15 @@ export const Route = createRootRoute({
       { rel: "manifest", href: "/site.webmanifest" },
     ],
   }),
-  beforeLoad: async () => {
-    const theme = await getTheme();
-
-    return { theme };
-  },
+  beforeLoad: async () => ({ theme: await getTheme() }),
   headers: () => ({
     "Accept-CH": "Sec-CH-Prefers-Color-Scheme",
   }),
-  errorComponent: (props) => {
-    return (
-      <RootDocument>
-        <DefaultCatchBoundary {...props} />
-      </RootDocument>
-    );
-  },
+  errorComponent: (props) => (
+    <RootDocument>
+      <DefaultCatchBoundary {...props} />
+    </RootDocument>
+  ),
   notFoundComponent: () => <NotFound />,
   component: RootComponent,
 });
@@ -82,17 +75,19 @@ function RootComponent() {
   const { theme } = Route.useRouteContext();
 
   return (
-    <ThemeProvider defaultTheme={theme}>
-      <RootDocument>
-        <Outlet />
-      </RootDocument>
-    </ThemeProvider>
+    <RootDocument theme={theme}>
+      <Outlet />
+    </RootDocument>
   );
 }
 
-function RootDocument({ children }: { children: React.ReactNode }) {
-  const { theme } = useTheme();
-
+function RootDocument({
+  children,
+  theme = "dark",
+}: {
+  children: React.ReactNode;
+  theme?: Theme;
+}) {
   return (
     <html className={theme} lang="en">
       <head>

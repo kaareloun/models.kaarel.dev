@@ -1,10 +1,7 @@
 import { Send } from "lucide-react";
+import { TELEGRAM_BOT_USERNAME } from "~/openrouter/constants";
 
-interface SiteFooterProps {
-  botUsername: string | null;
-}
-
-export function SiteFooter({ botUsername }: SiteFooterProps) {
+export function SiteFooter() {
   return (
     <footer className="mt-24 grid gap-10 border-t border-border/70 pt-10 md:grid-cols-[1.4fr_1fr]">
       <div className="max-w-[60ch] text-sm leading-relaxed text-muted-foreground">
@@ -28,28 +25,26 @@ export function SiteFooter({ botUsername }: SiteFooterProps) {
           fetch.
         </p>
       </div>
-      {botUsername && (
-        <a
-          href={`https://t.me/${botUsername}`}
-          target="_blank"
-          rel="noreferrer"
-          className="group flex items-start gap-4 rounded-[18px] border border-border/70 p-5 transition-colors duration-300 hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        >
-          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform duration-500 group-hover:-rotate-12">
-            <Send className="h-4 w-4" strokeWidth={2} />
+      <a
+        href={`https://t.me/${TELEGRAM_BOT_USERNAME}`}
+        target="_blank"
+        rel="noreferrer"
+        className="group flex items-start gap-4 rounded-[18px] border border-border/70 p-5 transition-colors duration-300 hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform duration-500 group-hover:-rotate-12">
+          <Send className="h-4 w-4" strokeWidth={2} />
+        </span>
+        <span>
+          <span className="block text-sm font-semibold">
+            Get pinged on Telegram
           </span>
-          <span>
-            <span className="block text-sm font-semibold">
-              Get pinged on Telegram
-            </span>
-            <span className="mt-1 block text-sm text-muted-foreground">
-              Send /start to @{botUsername}. You hear about it when a frontier
-              lab model gets benchmarked, joins the frontier, or a free model
-              enters the top 20.
-            </span>
+          <span className="mt-1 block text-sm text-muted-foreground">
+            Send /start to @{TELEGRAM_BOT_USERNAME}. You hear about it when a
+            frontier lab model gets benchmarked, joins the frontier, or a free
+            model enters the top 20.
           </span>
-        </a>
-      )}
+        </span>
+      </a>
     </footer>
   );
 }

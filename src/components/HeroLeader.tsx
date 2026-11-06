@@ -23,7 +23,6 @@ export function HeroLeader({
       </p>
     );
   }
-  const lead = runnerUp ? leader.score - runnerUp.score : null;
   return (
     <div className="animate-rise" style={{ "--i": 2 } as React.CSSProperties}>
       <div className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
@@ -50,8 +49,8 @@ export function HeroLeader({
           </div>
           <div className="tabular mt-1 font-mono text-xs text-muted-foreground">
             {leader.creator} · €{leader.avgPriceEur.toFixed(2)}/1M
-            {lead != null && runnerUp
-              ? ` · +${lead.toFixed(1)} over ${runnerUp.name}`
+            {runnerUp
+              ? ` · +${(leader.score - runnerUp.score).toFixed(1)} over ${runnerUp.name}`
               : ""}
           </div>
         </div>

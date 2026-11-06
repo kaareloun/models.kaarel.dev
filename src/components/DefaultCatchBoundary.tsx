@@ -7,6 +7,9 @@ import {
 } from "@tanstack/react-router";
 import type { ErrorComponentProps } from "@tanstack/react-router";
 
+const ACTION =
+  "rounded-md px-3 py-2 font-mono text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+
 export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
   const router = useRouter();
   const isRoot = useMatch({
@@ -21,32 +24,23 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
       <ErrorComponent error={error} />
       <div className="flex flex-wrap items-center gap-2">
         <button
-          onClick={() => {
-            router.invalidate();
-          }}
-          className={`rounded bg-gray-600 px-2 py-1 font-extrabold uppercase text-white dark:bg-gray-700`}
+          type="button"
+          onClick={() => router.invalidate()}
+          className={ACTION}
         >
-          Try Again
+          Try again
         </button>
-        {isRoot ? (
-          <Link
-            to="/"
-            className={`rounded bg-gray-600 px-2 py-1 font-extrabold uppercase text-white dark:bg-gray-700`}
-          >
-            Home
-          </Link>
-        ) : (
-          <Link
-            to="/"
-            className={`rounded bg-gray-600 px-2 py-1 font-extrabold uppercase text-white dark:bg-gray-700`}
-            onClick={(e) => {
-              e.preventDefault();
-              window.history.back();
-            }}
-          >
-            Go Back
-          </Link>
-        )}
+        <Link
+          to="/"
+          className={ACTION}
+          onClick={(e) => {
+            if (isRoot) return;
+            e.preventDefault();
+            window.history.back();
+          }}
+        >
+          {isRoot ? "Home" : "Go back"}
+        </Link>
       </div>
     </div>
   );

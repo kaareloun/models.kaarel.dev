@@ -62,7 +62,7 @@ export function TimelineControl({
         <div className="flex items-baseline justify-between gap-4">
           <div className="min-w-0" aria-live="polite">
             <span
-              key={frame?.key}
+              key={frame?.date}
               className="tabular inline-block font-mono text-lg font-semibold"
               style={{ animation: "rise 0.45s var(--ease-out-expo)" }}
             >
@@ -90,7 +90,7 @@ export function TimelineControl({
           <div className="pointer-events-none absolute inset-x-[11px] top-1/2 -translate-y-1/2">
             {frames.map((f, i) => (
               <span
-                key={f.key}
+                key={f.date}
                 className={`absolute top-1/2 h-2 w-px -translate-y-1/2 transition-colors duration-500 ${i <= index ? "bg-primary" : "bg-muted-foreground/40"}`}
                 style={{ left: `${last === 0 ? 100 : (i / last) * 100}%` }}
               />

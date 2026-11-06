@@ -64,7 +64,7 @@ async function tgApi<T = unknown>(
 async function sendTelegramMessage(
   chatId: number,
   text: string,
-): Promise<boolean> {
+): Promise<void> {
   const res = await tgApi("sendMessage", {
     chat_id: chatId,
     text,
@@ -76,7 +76,6 @@ async function sendTelegramMessage(
       `Telegram sendMessage failed: ${res.error_code} ${res.description}`,
     );
   }
-  return true;
 }
 
 type Entry = { rank: number; model: EnrichedModel };
@@ -96,14 +95,8 @@ export async function broadcastCombinedNotification({
   freeEntries: Entry[];
 }): Promise<void> {
   if (!botToken()) return;
-  if (
-    benchmarkedEntries.length === 0 &&
-    paretoEntries.length === 0 &&
-    freeEntries.length === 0
-  )
-    return;
 
-  const lines: string[] = ["🆕 New on https://models.kaarel.dev", ""];
+  const lines: string[] = ["New on https://models.kaarel.dev", ""];
   if (benchmarkedEntries.length > 0) {
     lines.push(
       `Frontier lab model benchmarked (${benchmarkedEntries.length}):`,
@@ -123,9 +116,8 @@ export async function broadcastCombinedNotification({
     lines.push(...freeEntries.map(entryLine));
     lines.push("");
   }
-  lines.push("https://models.kaarel.dev");
 
-  const text = lines.join("\n");
+  const text = lines.join("\n").trimEnd();
   const targets = readState().chats.map((c) => c.id);
   if (targets.length === 0) {
     console.warn("Telegram: no subscribed chats yet, skipping broadcast");
@@ -191,7 +183,7 @@ async function handleMessage(msg?: {
     addChat({ id: chatId, title, addedAt: new Date().toISOString() });
     await sendTelegramMessage(
       chatId,
-      "👋 Subscribed! You'll get a message here whenever a frontier lab model gets benchmarked, a new model appears on the Pareto frontier, or a new free model enters Top 20 of https://models.kaarel.dev\n\nSend /stop to unsubscribe.",
+      "Subscribed. You'll get a message here whenever a frontier lab model gets benchmarked, a new model appears on the Pareto frontier, or a new free model enters Top 20 of https://models.kaarel.dev\n\nSend /stop to unsubscribe.",
     );
   }
 }

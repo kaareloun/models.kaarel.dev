@@ -1,24 +1,20 @@
 import { createServerFn } from "@tanstack/react-start";
-import type { Theme } from "~/components/ui/theme-provider";
 import { getHeader } from "@tanstack/react-start/server";
 
+export type Theme = "dark" | "light";
+
+function asTheme(value: string | undefined): Theme | undefined {
+  const theme = value?.replace(/"/g, "");
+  return theme === "dark" || theme === "light" ? theme : undefined;
+}
+
 export const getTheme = createServerFn({ method: "GET" }).handler(() => {
-  const cookies = (getHeader("cookie")?.toString() ?? "").split("; ").reduce(
-    (acc, cookie) => {
-      const [key, value] = cookie.split("=");
-      if (!key || !value) {
-        return acc;
-      }
-
-      acc[key] = value;
-      return acc;
-    },
-    {} as Record<string, string>,
+  const cookieTheme = getHeader("cookie")?.match(
+    /(?:^|;\s*)ui-theme=([^;]*)/,
+  )?.[1];
+  return (
+    asTheme(cookieTheme) ??
+    asTheme(getHeader("Sec-CH-Prefers-Color-Scheme")) ??
+    "dark"
   );
-
-  const selectedTheme = cookies["ui-theme"];
-  const themeHeader = getHeader("Sec-CH-Prefers-Color-Scheme");
-  const theme = (selectedTheme ?? themeHeader ?? "dark") as Theme;
-
-  return theme;
 });

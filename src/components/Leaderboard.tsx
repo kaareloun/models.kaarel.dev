@@ -14,9 +14,9 @@ interface LeaderboardProps {
   metric: Metric;
   hoveredId: string | null;
   onHover: (id: string | null) => void;
-  count?: number;
 }
 
+const COUNT = 10;
 const ROW_H = 56;
 const MOVE =
   "transform 0.8s var(--ease-out-expo), opacity 0.45s var(--ease-out-expo)";
@@ -28,7 +28,6 @@ export function Leaderboard({
   metric,
   hoveredId,
   onHover,
-  count = 10,
 }: LeaderboardProps) {
   const seen = useRef(
     new Map<
@@ -38,14 +37,14 @@ export function Leaderboard({
   );
 
   const rows = useMemo(() => {
-    const top = frame.list.slice(0, count);
+    const top = frame.list.slice(0, COUNT);
     const ids = new Set(top.map((m) => m.id));
     for (const r of seen.current.values()) r.visible = ids.has(r.model.id);
     top.forEach((model, index) =>
       seen.current.set(model.id, { model, index, visible: true }),
     );
     return [...seen.current.values()];
-  }, [frame, count]);
+  }, [frame]);
 
   const span = Math.max(1, domain.yMax - domain.yMin * 0.6);
 
@@ -62,7 +61,7 @@ export function Leaderboard({
           {previous ? `vs ${previous.label}` : frame.label}
         </span>
       </div>
-      <ol className="relative mt-3" style={{ height: count * ROW_H }}>
+      <ol className="relative mt-3" style={{ height: COUNT * ROW_H }}>
         {rows.map(({ model, index, visible }) => {
           const rank = index + 1;
           const free = isFreeModel(model);

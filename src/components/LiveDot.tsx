@@ -1,6 +1,4 @@
-import { memo } from "react";
-
-export const LiveDot = memo(function LiveDot() {
+export function LiveDot() {
   return (
     <span className="relative inline-flex h-2 w-2" aria-hidden="true">
       <span
@@ -13,4 +11,4 @@ export const LiveDot = memo(function LiveDot() {
       />
     </span>
   );
-});
+}

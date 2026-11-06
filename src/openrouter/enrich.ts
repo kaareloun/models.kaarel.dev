@@ -22,7 +22,7 @@ export function buildModelList(
   zenFree: Model[],
   view: ModelView,
   metric: Metric,
-): { baseModels: EnrichedModel[]; totalCount: number; freeCount: number } {
+): EnrichedModel[] {
   const top = models
     .filter((m) => m.scores[metric] != null && m.hasPrice && !isFreeModel(m))
     .sort((a, b) => (b.scores[metric] ?? 0) - (a.scores[metric] ?? 0))
@@ -40,14 +40,13 @@ export function buildModelList(
     )
     .sort((a, b) => (b.scores[metric] ?? 0) - (a.scores[metric] ?? 0));
   const seen = new Set<string>();
-  const deduped = [...top, ...filteredFree].filter((m) => {
-    if (seen.has(m.id)) return false;
-    seen.add(m.id);
-    return true;
-  });
-  const freeCount = deduped.filter((m) => m.providerId === "opencode").length;
-  const baseModels = deduped.map((m) => enrichModel(m, metric));
-  return { baseModels, totalCount: deduped.length, freeCount };
+  return [...top, ...filteredFree]
+    .filter((m) => {
+      if (seen.has(m.id)) return false;
+      seen.add(m.id);
+      return true;
+    })
+    .map((m) => enrichModel(m, metric));
 }
 
 export function rankByMetric(

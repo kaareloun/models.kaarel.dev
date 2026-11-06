@@ -16,7 +16,6 @@ import { getParetoIds, isFreeModel } from "~/openrouter/pricing";
 export type FrameMode = "snapshots" | "releases";
 
 export interface Frame {
-  key: string;
   date: string;
   label: string;
   caption: string;
@@ -50,7 +49,6 @@ export function availableMetrics(models: Model[]): Metric[] {
 }
 
 function makeFrame(
-  key: string,
   date: string,
   label: string,
   caption: string,
@@ -60,7 +58,6 @@ function makeFrame(
     (a, b) => b.score - a.score || a.avgPriceEur - b.avgPriceEur,
   );
   return {
-    key,
     date,
     label,
     caption,
@@ -99,7 +96,7 @@ export function releaseFrames(
   const frames: Frame[] = [];
   let previous = "";
   for (const date of dates) {
-    const { baseModels } = buildModelList(
+    const baseModels = buildModelList(
       models.filter((m) => m.release_date <= date),
       zenFree.filter((m) => m.release_date <= date),
       view,
@@ -114,7 +111,6 @@ export function releaseFrames(
       .map((m) => m.name);
     frames.push(
       makeFrame(
-        date,
         date,
         formatDay(date),
         released.length ? `${released.join(", ")} released` : "",
@@ -164,7 +160,7 @@ export function snapshotFrames(
       ...z,
       scores: bySlug.get(z.slug)?.scores ?? emptyScores(),
     }));
-    const { baseModels } = buildModelList(snapModels, snapZen, view, metric);
+    const baseModels = buildModelList(snapModels, snapZen, view, metric);
     if (baseModels.length === 0) continue;
     const version =
       snapshot.indexVersion != null
@@ -172,7 +168,6 @@ export function snapshotFrames(
         : "Snapshot";
     frames.push(
       makeFrame(
-        snapshot.fetchedAt,
         snapshot.fetchedAt,
         formatDay(snapshot.fetchedAt),
         `${version} · fetched ${snapshot.fetchedAt.slice(11, 16)} UTC`,

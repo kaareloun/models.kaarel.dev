@@ -16,14 +16,6 @@ export function hashString(s: string): number {
   return h;
 }
 
-export function getChartPrice(model: Pick<Model, "id" | "cost">): number {
-  if (isFreeModel(model)) {
-    const h = hashString(model.id);
-    return 0.05 + (h % 5) * 0.04 + ((h * 7) % 3) * 0.015;
-  }
-  return getAvgPriceEur(model);
-}
-
 export function getParetoIds<
   T extends { id: string; avgPriceEur: number; score: number },
 >(items: T[]): Set<string> {

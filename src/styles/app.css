@@ -10,29 +10,16 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .using-mouse * {
-    outline: none !important;
-  }
-
   :root {
     --background: 0.975 0.006 80;
     --foreground: 0.22 0.012 70;
-    --card: 0.995 0.004 80;
-    --card-foreground: 0.22 0.012 70;
     --popover: 0.995 0.004 80;
     --popover-foreground: 0.22 0.012 70;
     --primary: 0.5 0.13 130;
     --primary-foreground: 0.985 0.01 120;
-    --secondary: 0.94 0.006 80;
-    --secondary-foreground: 0.3 0.012 70;
     --muted: 0.945 0.006 80;
     --muted-foreground: 0.5 0.012 70;
-    --accent: 0.94 0.006 80;
-    --accent-foreground: 0.22 0.012 70;
-    --destructive: 0.55 0.18 15;
-    --destructive-foreground: 0.985 0.005 80;
     --border: 0.9 0.006 80;
-    --input: 0.86 0.006 80;
     --ring: 0.5 0.13 130;
     --up: 0.52 0.13 150;
     --down: 0.55 0.17 15;
@@ -47,28 +34,18 @@
     --radius: 0.875rem;
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --font-sans: "Geist", ui-sans-serif, sans-serif;
-    --font-mono: "Geist Mono", ui-monospace, monospace;
   }
 
   .dark {
     --background: 0.2 0.006 70;
     --foreground: 0.95 0.008 85;
-    --card: 0.225 0.006 70;
-    --card-foreground: 0.95 0.008 85;
     --popover: 0.25 0.007 70;
     --popover-foreground: 0.95 0.008 85;
     --primary: 0.88 0.16 125;
     --primary-foreground: 0.22 0.04 125;
-    --secondary: 0.27 0.006 70;
-    --secondary-foreground: 0.9 0.008 85;
     --muted: 0.255 0.006 70;
     --muted-foreground: 0.7 0.012 80;
-    --accent: 0.28 0.007 70;
-    --accent-foreground: 0.95 0.008 85;
-    --destructive: 0.65 0.17 15;
-    --destructive-foreground: 0.98 0.005 80;
     --border: 0.31 0.007 70;
-    --input: 0.34 0.007 70;
     --ring: 0.88 0.16 125;
     --up: 0.72 0.15 150;
     --down: 0.7 0.15 15;

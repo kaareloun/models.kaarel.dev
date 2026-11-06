@@ -367,7 +367,7 @@ export function FrontierChart({
 
           {areaPath && (
             <path
-              key={`area-${frame.key}-${metric}`}
+              key={`area-${frame.date}-${metric}`}
               d={areaPath}
               fill="url(#frontier-wash)"
               style={{ animation: "fade-in 1.2s var(--ease-out-expo)" }}
@@ -375,7 +375,7 @@ export function FrontierChart({
           )}
           {frontierPath && (
             <path
-              key={`line-${frame.key}-${metric}-${width}`}
+              key={`line-${frame.date}-${metric}-${width}`}
               d={frontierPath}
               pathLength={1}
               strokeDasharray={1}

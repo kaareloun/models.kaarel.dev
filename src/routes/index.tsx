@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 import { getModels } from "~/serverFunctions/getModels";
 import { getLastUpdate } from "~/serverFunctions/getLastUpdate";
 import { getZenFreeModels } from "~/serverFunctions/getZenFreeModels";
-import { getTelegramBot } from "~/serverFunctions/getTelegramBot";
 import { getSnapshots } from "~/serverFunctions/getSnapshots";
 import {
   METRIC_LABELS,
@@ -40,15 +39,13 @@ export const Route = createFileRoute("/")({
     zenFree: Model[];
     snapshots: Snapshot[];
     lastUpdate: string;
-    botUsername: string | null;
   }> => {
-    const [modelsRes, zenFreeRes, snapshotsRes, lastUpdateRes, botRes] =
+    const [modelsRes, zenFreeRes, snapshotsRes, lastUpdateRes] =
       await Promise.allSettled([
         getModels(),
         getZenFreeModels(),
         getSnapshots(),
         getLastUpdate(),
-        getTelegramBot(),
       ]);
 
     return {
@@ -57,7 +54,6 @@ export const Route = createFileRoute("/")({
       snapshots: snapshotsRes.status === "fulfilled" ? snapshotsRes.value : [],
       lastUpdate:
         lastUpdateRes.status === "fulfilled" ? lastUpdateRes.value : "unknown",
-      botUsername: botRes.status === "fulfilled" ? botRes.value : null,
     };
   },
 });
@@ -71,8 +67,7 @@ const NEW_WINDOW_DAYS = 21;
 const PLAY_STEP_MS = 1300;
 
 function Stats() {
-  const { models, zenFree, snapshots, lastUpdate, botUsername } =
-    Route.useLoaderData();
+  const { models, zenFree, snapshots, lastUpdate } = Route.useLoaderData();
   const metrics = useMemo(() => availableMetrics(models), [models]);
   const [metric, setMetric] = useState<Metric>(metrics[0] ?? "intelligence");
   const [view, setView] = useState<ModelView>("top");
@@ -139,26 +134,24 @@ function Stats() {
     );
   }, [frame]);
 
-  useEffect(() => {
-    setIndex(null);
-    setPlaying(false);
-  }, [mode, metric, view]);
+  const isPlaying = playing && current < last;
 
   useEffect(() => {
-    if (!playing) return;
+    if (!isPlaying) return;
     const timer = setInterval(
       () => setIndex((i) => Math.min((i ?? last) + 1, last)),
       PLAY_STEP_MS,
     );
     return () => clearInterval(timer);
-  }, [playing, last]);
+  }, [isPlaying, last]);
 
-  useEffect(() => {
-    if (playing && current >= last) setPlaying(false);
-  }, [playing, current, last]);
+  const resetTimeline = () => {
+    setIndex(null);
+    setPlaying(false);
+  };
 
   const togglePlay = () => {
-    if (playing) return setPlaying(false);
+    if (isPlaying) return setPlaying(false);
     if (current >= last) setIndex(0);
     setPlaying(true);
   };
@@ -246,7 +239,10 @@ function Stats() {
                   label="Benchmark index"
                   options={metricOptions}
                   value={metric}
-                  onChange={setMetric}
+                  onChange={(m) => {
+                    setMetric(m);
+                    resetTimeline();
+                  }}
                   className="-mx-3"
                 />
                 <div className="flex items-center gap-4">
@@ -254,7 +250,10 @@ function Stats() {
                     label="Models shown"
                     options={VIEWS}
                     value={view}
-                    onChange={setView}
+                    onChange={(v) => {
+                      setView(v);
+                      resetTimeline();
+                    }}
                     className="-mx-3 md:mx-0"
                   />
                   {hiddenIds.size > 0 && (
@@ -273,14 +272,17 @@ function Stats() {
             <section aria-label="Timeline" className="mt-8 scroll-mt-28">
               <TimelineControl
                 mode={mode}
-                onModeChange={setMode}
+                onModeChange={(m) => {
+                  setMode(m);
+                  resetTimeline();
+                }}
                 frames={frames}
                 index={current}
                 onIndexChange={(i) => {
                   setPlaying(false);
                   setIndex(i);
                 }}
-                playing={playing}
+                playing={isPlaying}
                 onTogglePlay={togglePlay}
               />
               <div className="mt-6 min-h-[52px]">
@@ -349,7 +351,7 @@ function Stats() {
           </>
         )}
 
-        <SiteFooter botUsername={botUsername} />
+        <SiteFooter />
       </main>
     </div>
   );

@@ -48,7 +48,7 @@ export async function runParetoWatchCycle(): Promise<void> {
     return;
   }
 
-  const { baseModels } = buildModelList(models, zenFree, "top", WATCH_METRIC);
+  const baseModels = buildModelList(models, zenFree, "top", WATCH_METRIC);
   const paretoIds = getParetoIds(baseModels);
   const freeIds = new Set(baseModels.filter(isFreeModel).map((m) => m.id));
   const benchmarkedIds = new Set(

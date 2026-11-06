@@ -7,18 +7,19 @@ import { labColor } from "~/lib/labs";
 interface LabReleasesProps {
   models: Model[];
   metric: Metric;
-  count?: number;
 }
 
-export function LabReleases({ models, metric, count = 6 }: LabReleasesProps) {
+const COUNT = 6;
+
+export function LabReleases({ models, metric }: LabReleasesProps) {
   const ranks = useMemo(() => rankByMetric(models, metric), [models, metric]);
   const recent = useMemo(
     () =>
       models
         .filter((m) => m.hasPrice && FRONTIER_CREATORS.includes(m.creator))
         .sort((a, b) => b.release_date.localeCompare(a.release_date))
-        .slice(0, count),
-    [models, count],
+        .slice(0, COUNT),
+    [models],
   );
 
   if (recent.length === 0) return null;

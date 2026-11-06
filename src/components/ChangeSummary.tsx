@@ -88,7 +88,7 @@ export function ChangeSummary({ frame, previous, diff }: ChangeSummaryProps) {
 
   return (
     <ul
-      key={frame.key}
+      key={frame.date}
       className="grid gap-x-8 gap-y-3 sm:grid-cols-2 xl:grid-cols-4"
     >
       {items.map((item, i) => (

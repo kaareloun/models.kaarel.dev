@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const nullableNumber = z.number().nullable().optional();
 
-export const aaModelSchema = z.object({
+const aaModelSchema = z.object({
   id: z.string(),
   name: z.string(),
   slug: z.string(),
