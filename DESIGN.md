@@ -5,19 +5,21 @@
 
 ## Aesthetic direction
 
-Instrument panel for the LLM frontier: dark-first warm off-black, Geist type, data colors carry lab identity, one lime signal accent.
+Plain data report: dark-first warm off-black, one typeface, data colors carry lab identity, lime marks the Pareto frontier and nothing else. No hero, no decoration, no ambient motion. The data is the page.
 
 ## Dials
 
-- DESIGN_VARIANCE: 8 / 10
-- MOTION_INTENSITY: 6 / 10
-- VISUAL_DENSITY: 4 / 10
+- DESIGN_VARIANCE: 3 / 10
+- MOTION_INTENSITY: 2 / 10
+- VISUAL_DENSITY: 6 / 10
 
 ## Type stack
 
-- Display and body: Geist (400-700), loaded from Google Fonts in `src/routes/__root.tsx`
-- Mono: Geist Mono for numbers, labels, axis ticks, eyebrows
-- `font-feature-settings: "ss01", "cv11"`; `.tabular` for aligned columns only
+- One family: Geist (400-600), loaded from Google Fonts in `src/routes/__root.tsx`
+- No mono. Numbers use Geist with `.tabular` (tabular-nums).
+- Sizes: H1 `text-2xl md:text-3xl`, section headings `text-lg` or `text-sm`, labels `text-xs`
+- Sentence case everywhere. No uppercase eyebrows, no letter-spaced labels.
+- `font-feature-settings: "ss01", "cv11"`
 - Banned: Inter, Roboto, Arial, system-ui as primary, serif anywhere
 
 ## Color tokens (OKLCH triplets in `src/styles/app.css`, used as `oklch(var(--x) / a)`)
@@ -45,35 +47,35 @@ Lab series (validated all-pairs with the dataviz validator, both modes):
 - Free Opencode Zen models are hollow rings, never a hue.
 - Text never wears a lab color. Identity comes from a dot beside the text.
 - Light-mode aqua is under 3:1; the table view and direct labels are the relief.
-- Shadows tint with `--shadow-tint`. No pure black or white.
+- Primary (lime) is reserved for the frontier: the line, its rings, frontier scores and the "frontier" tag. The slider is the one exception.
+- Shadows tint with `--shadow-tint`. Only the chart tooltip has one.
 
 ## Motion
 
-- Easing: `--ease-out-expo` = `cubic-bezier(0.16, 1, 0.3, 1)` on everything
-- Chart points: CSS `transform` transition 0.95s; enter with `pop` (staggered 35ms by rank)
-- Pareto frontier: `draw` keyframe via `pathLength=1` on every frame change
-- Leaderboard rows: `translateY` reorder 0.8s; score bars `scaleX`
-- Numbers: `AnimatedNumber` rAF tween 0.9s
+Motion only explains change between timeline frames. Nothing animates on load or on loop.
+
+- Easing: `--ease-out-expo` = `cubic-bezier(0.16, 1, 0.3, 1)`
+- Chart points and labels: CSS `transform` transition 0.95s between frames
+- Leaderboard rows: `translateY` reorder 0.8s
 - Segmented control: 2px underline, `translateX + scaleX`
-- Page load: `.animate-rise` with `--i` stagger 70ms
-- Perpetual: `LiveDot` pulse, `ripple` halos on models released in the last 21 days
-- Only `transform` and `opacity` animate. `.motion-ripple` is hidden under reduced motion.
+- Banned: entrance staggers, number tweens, pulsing or rippling dots, path draw-ins, shimmer, hover scale or rotate
 - No animation library. Do not add framer-motion without asking (AGENTS.md).
 
 ## Layout
 
 - Container: `max-w-[1400px] mx-auto px-4 md:px-10`
-- Header: split 7/5, H1 left, single hero figure (current #1) right
-- Lab releases: one `border-y` row with `divide-x` cells, horizontal snap scroll on mobile
-- Sticky toolbar: metric + view segmented controls, `bg-background/80 backdrop-blur-xl`
+- Header: left-aligned H1, one-line description, source and update time. No hero figure.
+- Lab releases: small heading, one `border-y` row of cells, horizontal snap scroll on mobile
+- Sticky toolbar: metric + view segmented controls, solid `bg-background`, no blur
 - Chart 8 / leaderboard 4 on `lg`, stacked below
-- Tables: `divide-y`, mono right-aligned numbers, no cards
-- Radii: 14px tooltips, 18px panels, full for pills
+- Tables: `divide-y`, right-aligned tabular numbers, no cards. Tags are plain small text, not pills.
+- Footer: plain paragraphs. The Telegram link is a text link, not a card.
+- Radii: `rounded-md` for the tooltip and buttons, full for the play button
 
 ## Component inventory
 
 Custom only: FrontierChart (SVG), ChartTooltip, ChartLegend, Leaderboard, RankDelta, TimelineControl,
-ChangeSummary, HeroLeader, LabReleases, ModelTable, SegmentedControl, AnimatedNumber, LiveDot, SiteFooter.
+ChangeSummary, LabReleases, ModelTable, SegmentedControl, SiteFooter.
 Icons: lucide-react, stroke 1.75-2. One component per `.tsx` file.
 
 ## Brand voice
@@ -89,4 +91,5 @@ Icons: lucide-react, stroke 1.75-2. One component per `.tsx` file.
 
 ## Last updated
 
+2026-11-07 - de-slop pass: removed hero headline and #1 stat, mono labels, grain and glow, ambient and entrance motion, pill tags, Telegram card.
 2026-10-29 - full redesign: custom SVG chart, AA snapshot and release timelines, animated leaderboard.

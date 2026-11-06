@@ -87,19 +87,10 @@ export function ChangeSummary({ frame, previous, diff }: ChangeSummaryProps) {
   } as const;
 
   return (
-    <ul
-      key={frame.date}
-      className="grid gap-x-8 gap-y-3 sm:grid-cols-2 xl:grid-cols-4"
-    >
-      {items.map((item, i) => (
-        <li
-          key={item.key}
-          className="animate-rise min-w-0"
-          style={{ "--i": i } as React.CSSProperties}
-        >
-          <div
-            className={`font-mono text-[11px] uppercase tracking-wider ${toneClass[item.tone]}`}
-          >
+    <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-2 xl:grid-cols-4">
+      {items.map((item) => (
+        <li key={item.key} className="min-w-0">
+          <div className={`text-xs font-medium ${toneClass[item.tone]}`}>
             {item.label}
           </div>
           <div className="mt-1 text-sm leading-snug">{item.body}</div>

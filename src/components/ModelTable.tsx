@@ -18,9 +18,9 @@ interface ModelTableProps {
   onToggleHidden: (id: string) => void;
 }
 
-const TH =
-  "px-3 py-3 text-left font-mono text-[11px] font-medium uppercase tracking-wider text-muted-foreground";
-const NUM = "px-3 py-3 text-right font-mono text-sm tabular";
+const TH = "px-3 py-2.5 text-left text-xs font-medium text-muted-foreground";
+const NUM = "px-3 py-2.5 text-right text-sm tabular";
+const TAG = "shrink-0 text-xs";
 
 export function ModelTable({
   frame,
@@ -94,12 +94,12 @@ export function ModelTable({
                 key={model.id}
                 onMouseEnter={() => onHover(model.id)}
                 onMouseLeave={() => onHover(null)}
-                className={`transition-colors duration-300 ${hoveredId === model.id ? "bg-muted/70" : "hover:bg-muted/40"} ${isHidden ? "opacity-50" : ""}`}
+                className={`transition-colors ${hoveredId === model.id ? "bg-muted/70" : "hover:bg-muted/40"} ${isHidden ? "opacity-50" : ""}`}
               >
-                <td className="tabular px-3 py-3 font-mono text-sm text-muted-foreground">
+                <td className="tabular px-3 py-2.5 text-sm text-muted-foreground">
                   {isHidden ? "–" : i + 1}
                 </td>
-                <td className="px-3 py-3">
+                <td className="px-3 py-2.5">
                   <div className="flex items-center gap-2.5">
                     <span
                       className="h-2 w-2 shrink-0 rounded-full"
@@ -132,23 +132,21 @@ export function ModelTable({
                       </span>
                     )}
                     {pareto && (
-                      <span className="shrink-0 rounded-full border border-primary/50 px-1.5 font-mono text-[10px] leading-4 text-primary">
-                        frontier
-                      </span>
+                      <span className={`${TAG} text-primary`}>frontier</span>
                     )}
                     {!isHidden && newIds.has(model.id) && (
-                      <span className="shrink-0 rounded-full bg-primary px-1.5 font-mono text-[10px] font-semibold leading-4 text-primary-foreground">
+                      <span className={`${TAG} text-muted-foreground`}>
                         new
                       </span>
                     )}
                     {model.openWeights === true && (
-                      <span className="shrink-0 rounded-full border border-border px-1.5 font-mono text-[10px] leading-4 text-muted-foreground">
+                      <span className={`${TAG} text-muted-foreground`}>
                         open
                       </span>
                     )}
                   </div>
                 </td>
-                <td className="hidden px-3 py-3 text-sm text-muted-foreground md:table-cell">
+                <td className="hidden px-3 py-2.5 text-sm text-muted-foreground md:table-cell">
                   {model.creator}
                 </td>
                 <td className={`${NUM} font-semibold`}>
@@ -185,7 +183,7 @@ export function ModelTable({
                 >
                   {model.release_date || "–"}
                 </td>
-                <td className="px-3 py-3 text-right">
+                <td className="px-3 py-2.5 text-right">
                   {!isHidden && (
                     <RankDelta
                       current={i + 1}
@@ -194,7 +192,7 @@ export function ModelTable({
                     />
                   )}
                 </td>
-                <td className="py-3 pr-1 text-right">
+                <td className="py-1 pr-1 text-right">
                   <button
                     type="button"
                     onClick={() => onToggleHidden(model.id)}

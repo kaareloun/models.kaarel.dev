@@ -6,7 +6,6 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Geist", "ui-sans-serif", "sans-serif"],
-        mono: ["Geist Mono", "ui-monospace", "monospace"],
       },
       borderRadius: {
         lg: "var(--radius)",

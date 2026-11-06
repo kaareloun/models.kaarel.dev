@@ -23,10 +23,8 @@ import {
 import { ChangeSummary } from "~/components/ChangeSummary";
 import { ChartLegend } from "~/components/ChartLegend";
 import { FrontierChart } from "~/components/FrontierChart";
-import { HeroLeader } from "~/components/HeroLeader";
 import { LabReleases } from "~/components/LabReleases";
 import { Leaderboard } from "~/components/Leaderboard";
-import { LiveDot } from "~/components/LiveDot";
 import { ModelTable } from "~/components/ModelTable";
 import { SegmentedControl } from "~/components/SegmentedControl";
 import { SiteFooter } from "~/components/SiteFooter";
@@ -162,78 +160,36 @@ function Stats() {
   }));
 
   return (
-    <div className="relative isolate overflow-x-clip">
-      <div
-        aria-hidden="true"
-        className="grain pointer-events-none fixed inset-0 -z-10 opacity-[0.035] mix-blend-overlay"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-40 -top-56 -z-10 h-[640px] w-[900px] rounded-full opacity-60 blur-3xl"
-        style={{
-          background:
-            "radial-gradient(closest-side, oklch(var(--primary) / 0.14), transparent)",
-        }}
-      />
-
+    <div className="overflow-x-clip">
       <main className="mx-auto max-w-[1400px] px-4 pb-16 md:px-10">
-        <header className="grid gap-10 pb-10 pt-10 md:pt-16 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-7">
-            <div
-              className="animate-rise flex items-center gap-2.5 font-mono text-xs text-muted-foreground"
-              style={{ "--i": 0 } as React.CSSProperties}
-            >
-              <LiveDot />
-              <span>
-                models.kaarel.dev · Artificial Analysis
-                {indexVersion ? ` Index v${indexVersion}` : ""} · updated{" "}
-                {lastUpdate}
-              </span>
-            </div>
-            <h1
-              className="animate-rise mt-6 text-5xl font-semibold leading-[0.92] tracking-tighter md:text-7xl"
-              style={{ "--i": 1 } as React.CSSProperties}
-            >
-              The frontier,
-              <br />
-              <span className="text-muted-foreground">priced.</span>
-            </h1>
-            <p
-              className="animate-rise mt-6 max-w-[56ch] text-base leading-relaxed text-muted-foreground"
-              style={{ "--i": 2 } as React.CSSProperties}
-            >
-              The top 20 models on the Artificial Analysis{" "}
-              {METRIC_LABELS[metric]} Index, plotted against what a million
-              tokens costs. Free Opencode Zen models get their own lane. Drag
-              the timeline to see how the ranking moved.
-            </p>
-          </div>
-          <div className="lg:col-span-5 lg:justify-self-end">
-            <HeroLeader
-              leader={frame?.list[0]}
-              runnerUp={frame?.list[1]}
-              metric={metric}
-              frameLabel={frame?.label ?? ""}
-            />
-          </div>
+        <header className="max-w-[65ch] pb-8 pt-10 md:pt-14">
+          <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
+            LLM benchmark scores against price
+          </h1>
+          <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+            The top 20 models on the Artificial Analysis {METRIC_LABELS[metric]}{" "}
+            Index, plotted against what a million tokens costs. Free Opencode
+            Zen models get their own lane.
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Artificial Analysis{indexVersion ? ` Index v${indexVersion}` : ""} ·
+            updated {lastUpdate}
+          </p>
         </header>
 
         <LabReleases models={models} metric={metric} />
 
         {models.length === 0 || !frame ? (
           <section className="mt-16 max-w-[60ch]">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              No benchmark data yet
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              The server fetches Artificial Analysis on start and every two
-              hours. If this stays empty, check that ARTIFICIAL_ANALYSIS_API_KEY
-              is set in .env and that the daily request limit is not used up.
+            <h2 className="text-lg font-semibold">No benchmark data yet</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Scores load from Artificial Analysis every two hours. Check back
+              shortly.
             </p>
           </section>
         ) : (
           <>
-            <div className="sticky top-0 z-30 -mx-4 mt-8 border-b border-border/70 bg-background/80 px-4 backdrop-blur-xl md:-mx-10 md:px-10">
+            <div className="sticky top-0 z-30 -mx-4 mt-8 border-b border-border bg-background px-4 md:-mx-10 md:px-10">
               <div className="flex flex-col gap-1 py-2 md:flex-row md:items-center md:justify-between md:gap-6">
                 <SegmentedControl
                   label="Benchmark index"
@@ -260,7 +216,7 @@ function Stats() {
                     <button
                       type="button"
                       onClick={() => setHiddenIds(new Set())}
-                      className="h-9 shrink-0 rounded-md px-3 font-mono text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="h-9 shrink-0 rounded-md px-3 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       Show {hiddenIds.size} hidden
                     </button>
@@ -305,7 +261,6 @@ function Stats() {
                     domain={domain}
                     metric={metric}
                     showFreeBand={showFreeBand}
-                    newIds={newIds}
                     hoveredId={hoveredId}
                     onHover={setHoveredId}
                   />
@@ -315,7 +270,6 @@ function Stats() {
                 <Leaderboard
                   frame={frame}
                   previous={previous}
-                  domain={domain}
                   metric={metric}
                   hoveredId={hoveredId}
                   onHover={setHoveredId}
@@ -323,19 +277,16 @@ function Stats() {
               </aside>
             </section>
 
-            <section aria-labelledby="table-title" className="mt-20">
+            <section aria-labelledby="table-title" className="mt-16">
               <div className="flex items-baseline justify-between gap-4">
-                <h2
-                  id="table-title"
-                  className="text-2xl font-semibold tracking-tight"
-                >
-                  Every model in view
+                <h2 id="table-title" className="text-lg font-semibold">
+                  All models
                 </h2>
-                <span className="font-mono text-xs text-muted-foreground">
+                <span className="tabular text-sm text-muted-foreground">
                   {frame.list.length} models · {frame.label}
                 </span>
               </div>
-              <div className="mt-6">
+              <div className="mt-4">
                 <ModelTable
                   frame={frame}
                   previous={previous}

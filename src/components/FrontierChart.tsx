@@ -15,7 +15,6 @@ interface FrontierChartProps {
   domain: Domain;
   metric: Metric;
   showFreeBand: boolean;
-  newIds: Set<string>;
   hoveredId: string | null;
   onHover: (id: string | null) => void;
 }
@@ -25,7 +24,6 @@ type Placed = {
   x: number;
   y: number;
   visible: boolean;
-  order: number;
 };
 type Box = { x: number; y: number; w: number; h: number };
 
@@ -66,7 +64,6 @@ export function FrontierChart({
   domain,
   metric,
   showFreeBand,
-  newIds,
   hoveredId,
   onHover,
 }: FrontierChartProps) {
@@ -98,16 +95,14 @@ export function FrontierChart({
     const visibleIds = new Set(frame.list.map((d) => d.id));
     for (const p of seen.current.values())
       p.visible = visibleIds.has(p.model.id);
-    frame.list.forEach((model, i) => {
-      const prev = seen.current.get(model.id);
+    for (const model of frame.list) {
       seen.current.set(model.id, {
         model,
         x: xOf(model),
         y: yOf(model.score),
         visible: true,
-        order: prev?.order ?? i,
       });
-    });
+    }
     return [...seen.current.values()];
   }, [frame, width, domain, band]);
 
@@ -121,9 +116,6 @@ export function FrontierChart({
   const frontierPath = frontier
     .map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`)
     .join(" ");
-  const areaPath = frontier.length
-    ? `${frontierPath} L${(frontier.at(-1)?.x ?? 0).toFixed(1)},${m.top + plotH} L${(frontier[0]?.x ?? 0).toFixed(1)},${m.top + plotH} Z`
-    : "";
 
   const labels = useMemo(() => {
     const wanted = placed.filter(
@@ -211,9 +203,7 @@ export function FrontierChart({
       style={{ height }}
     >
       {width === 0 ? (
-        <div className="absolute inset-0 overflow-hidden rounded-[18px] bg-muted/40">
-          <div className="absolute inset-0 animate-[shimmer_1.6s_linear_infinite] bg-gradient-to-r from-transparent via-foreground/5 to-transparent" />
-        </div>
+        <div className="absolute inset-0 rounded-md bg-muted/40" />
       ) : (
         <svg
           width={width}
@@ -223,21 +213,6 @@ export function FrontierChart({
           className="overflow-visible"
           onMouseLeave={() => onHover(null)}
         >
-          <defs>
-            <linearGradient id="frontier-wash" x1="0" y1="0" x2="0" y2="1">
-              <stop
-                offset="0%"
-                stopColor="oklch(var(--primary))"
-                stopOpacity="0.16"
-              />
-              <stop
-                offset="100%"
-                stopColor="oklch(var(--primary))"
-                stopOpacity="0"
-              />
-            </linearGradient>
-          </defs>
-
           {band > 0 && (
             <g>
               <rect
@@ -247,45 +222,21 @@ export function FrontierChart({
                 height={plotH}
                 fill="oklch(var(--muted))"
                 opacity={0.55}
-                rx={8}
               />
               <text
                 x={m.left + band / 2}
                 y={m.top + plotH + (isMobile ? 18 : 22)}
                 textAnchor="middle"
-                className="fill-muted-foreground font-mono"
-                fontSize={isMobile ? 9 : 10}
-                letterSpacing="0.08em"
+                className="fill-muted-foreground"
+                fontSize={isMobile ? 10 : 11}
               >
-                FREE
+                Free
               </text>
             </g>
           )}
 
-          <rect
-            x={m.left + band}
-            y={m.top}
-            width={Math.max(0, xPrice(1) - m.left - band)}
-            height={plotH}
-            fill="oklch(var(--primary))"
-            opacity={0.05}
-          />
-          {!isMobile && (
-            <text
-              x={m.left + band + 8}
-              y={m.top + 14}
-              className="fill-muted-foreground font-mono"
-              fontSize={10}
-            >
-              under €1
-            </text>
-          )}
-
           {yTicks.map((v) => (
-            <g
-              key={`${metric}-${v}`}
-              style={{ animation: "fade-in 0.6s var(--ease-out-expo)" }}
-            >
+            <g key={`${metric}-${v}`}>
               <line
                 x1={m.left}
                 x2={m.left + plotW}
@@ -298,7 +249,7 @@ export function FrontierChart({
                 x={m.left - 10}
                 y={yOf(v) + 3.5}
                 textAnchor="end"
-                className="tabular fill-muted-foreground font-mono"
+                className="tabular fill-muted-foreground"
                 fontSize={isMobile ? 9 : 11}
               >
                 {v}
@@ -320,7 +271,7 @@ export function FrontierChart({
                 x={xPrice(t)}
                 y={m.top + plotH + (isMobile ? 18 : 22)}
                 textAnchor="middle"
-                className="tabular fill-muted-foreground font-mono"
+                className="tabular fill-muted-foreground"
                 fontSize={isMobile ? 9 : 11}
               >
                 €{t}
@@ -356,8 +307,8 @@ export function FrontierChart({
                   <text
                     x={xPrice(r.v) + 6}
                     y={m.top + plotH - 10 - i * 14}
-                    className="fill-muted-foreground font-mono"
-                    fontSize={10}
+                    className="fill-muted-foreground"
+                    fontSize={11}
                   >
                     {r.label}
                   </text>
@@ -365,34 +316,19 @@ export function FrontierChart({
               </g>
             ))}
 
-          {areaPath && (
-            <path
-              key={`area-${frame.date}-${metric}`}
-              d={areaPath}
-              fill="url(#frontier-wash)"
-              style={{ animation: "fade-in 1.2s var(--ease-out-expo)" }}
-            />
-          )}
           {frontierPath && (
             <path
-              key={`line-${frame.date}-${metric}-${width}`}
               d={frontierPath}
-              pathLength={1}
-              strokeDasharray={1}
               fill="none"
               stroke="oklch(var(--primary))"
               strokeWidth={2}
               strokeLinejoin="round"
               strokeLinecap="round"
-              style={{ animation: "draw 1.2s var(--ease-out-expo) both" }}
             />
           )}
 
           {hovered && (
-            <g
-              pointerEvents="none"
-              style={{ animation: "fade-in 0.25s var(--ease-out-expo)" }}
-            >
+            <g pointerEvents="none">
               <line
                 x1={hovered.x}
                 x2={hovered.x}
@@ -417,7 +353,6 @@ export function FrontierChart({
           {placed.map((p) => {
             const free = isFreeModel(p.model);
             const isPareto = p.visible && frame.pareto.has(p.model.id);
-            const isNew = p.visible && newIds.has(p.model.id);
             const dimmed = hoveredId !== null && hoveredId !== p.model.id;
             const color = labColor(p.model.creator);
             return (
@@ -430,39 +365,22 @@ export function FrontierChart({
                   pointerEvents: p.visible ? "auto" : "none",
                 }}
               >
-                <g
-                  className="svg-origin-center"
-                  style={{
-                    animation: `pop 0.8s var(--ease-out-expo) ${Math.min(p.order, 30) * 35}ms both`,
-                  }}
-                >
-                  {isNew && (
-                    <circle
-                      r={6}
-                      fill={free ? "oklch(var(--foreground))" : color}
-                      className="svg-origin-center motion-ripple"
-                      style={{
-                        animation: "ripple 2.2s var(--ease-out-expo) infinite",
-                      }}
-                    />
-                  )}
-                  {isPareto && (
-                    <circle
-                      r={10}
-                      fill="none"
-                      stroke="oklch(var(--primary))"
-                      strokeWidth={1.5}
-                    />
-                  )}
+                {isPareto && (
                   <circle
-                    r={isPareto ? 6 : 5}
-                    fill={free ? "var(--surface-ring)" : color}
-                    stroke={
-                      free ? "oklch(var(--foreground))" : "var(--surface-ring)"
-                    }
-                    strokeWidth={2}
+                    r={10}
+                    fill="none"
+                    stroke="oklch(var(--primary))"
+                    strokeWidth={1.5}
                   />
-                </g>
+                )}
+                <circle
+                  r={isPareto ? 6 : 5}
+                  fill={free ? "var(--surface-ring)" : color}
+                  stroke={
+                    free ? "oklch(var(--foreground))" : "var(--surface-ring)"
+                  }
+                  strokeWidth={2}
+                />
                 <circle
                   r={16}
                   fill="transparent"
@@ -491,7 +409,6 @@ export function FrontierChart({
               style={{
                 transform: `translate(${l.x}px, ${l.y}px)`,
                 transition: MOVE,
-                animation: "fade-in 0.5s var(--ease-out-expo)",
                 paintOrder: "stroke",
                 stroke: "oklch(var(--background))",
                 strokeWidth: 4,
@@ -505,22 +422,20 @@ export function FrontierChart({
           <text
             x={m.left}
             y={m.top - 12}
-            className="fill-muted-foreground font-mono"
-            fontSize={isMobile ? 9 : 10}
-            letterSpacing="0.06em"
+            className="fill-muted-foreground"
+            fontSize={isMobile ? 10 : 11}
           >
-            {metricLabel.toUpperCase()} INDEX
+            {metricLabel} index
           </text>
           {!isMobile && (
             <text
               x={m.left + plotW}
               y={height - 6}
               textAnchor="end"
-              className="fill-muted-foreground font-mono"
-              fontSize={10}
-              letterSpacing="0.06em"
+              className="fill-muted-foreground"
+              fontSize={11}
             >
-              € PER 1M TOKENS, AVG IN + OUT
+              € per 1M tokens, mean of input and output
             </text>
           )}
         </svg>

@@ -39,8 +39,7 @@ export function TimelineControl({
           onClick={onTogglePlay}
           disabled={disabled}
           aria-label={playing ? "Pause timeline" : "Play timeline"}
-          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
-          style={{ boxShadow: "0 10px 30px -10px oklch(var(--primary) / 0.6)" }}
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40 disabled:hover:bg-transparent"
         >
           {playing ? (
             <Pause className="h-4 w-4" fill="currentColor" />
@@ -61,18 +60,14 @@ export function TimelineControl({
       <div className="min-w-0">
         <div className="flex items-baseline justify-between gap-4">
           <div className="min-w-0" aria-live="polite">
-            <span
-              key={frame?.date}
-              className="tabular inline-block font-mono text-lg font-semibold"
-              style={{ animation: "rise 0.45s var(--ease-out-expo)" }}
-            >
+            <span className="tabular text-base font-semibold">
               {frame?.label ?? "–"}
             </span>
             <span className="ml-3 truncate text-sm text-muted-foreground">
               {frame?.caption}
             </span>
           </div>
-          <span className="tabular shrink-0 font-mono text-xs text-muted-foreground">
+          <span className="tabular shrink-0 text-xs text-muted-foreground">
             {frames.length ? `${index + 1} / ${frames.length}` : "0 / 0"}
           </span>
         </div>
@@ -81,17 +76,14 @@ export function TimelineControl({
           <div className="pointer-events-none absolute inset-x-[11px] top-1/2 h-[2px] -translate-y-1/2 rounded-full bg-border">
             <div
               className="h-full w-full origin-left rounded-full bg-primary"
-              style={{
-                transform: `scaleX(${progress})`,
-                transition: "transform 0.5s var(--ease-out-expo)",
-              }}
+              style={{ transform: `scaleX(${progress})` }}
             />
           </div>
           <div className="pointer-events-none absolute inset-x-[11px] top-1/2 -translate-y-1/2">
             {frames.map((f, i) => (
               <span
                 key={f.date}
-                className={`absolute top-1/2 h-2 w-px -translate-y-1/2 transition-colors duration-500 ${i <= index ? "bg-primary" : "bg-muted-foreground/40"}`}
+                className={`absolute top-1/2 h-2 w-px -translate-y-1/2 ${i <= index ? "bg-primary" : "bg-muted-foreground/40"}`}
                 style={{ left: `${last === 0 ? 100 : (i / last) * 100}%` }}
               />
             ))}
@@ -114,7 +106,7 @@ export function TimelineControl({
           />
         </div>
 
-        <div className="flex justify-between font-mono text-[11px] text-muted-foreground">
+        <div className="tabular flex justify-between text-xs text-muted-foreground">
           <span>{frames[0]?.label}</span>
           {disabled ? (
             <span>

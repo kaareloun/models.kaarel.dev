@@ -33,16 +33,6 @@ export function ChartLegend() {
         <span className="h-[2px] w-4 rounded-full bg-primary" />
         Pareto frontier
       </li>
-      <li className="inline-flex items-center gap-2">
-        <span className="relative inline-flex h-2.5 w-2.5">
-          <span
-            className="motion-ripple absolute inset-0 rounded-full bg-foreground/60"
-            style={{ animation: "ripple 2.2s var(--ease-out-expo) infinite" }}
-          />
-          <span className="relative h-2.5 w-2.5 rounded-full bg-foreground/60" />
-        </span>
-        Released in the last 3 weeks
-      </li>
     </ul>
   );
 }

@@ -2,29 +2,26 @@ import { useMemo, useRef } from "react";
 import type { EnrichedModel } from "~/openrouter/enrich";
 import { METRIC_LABELS, type Metric } from "~/openrouter/model";
 import { isFreeModel } from "~/openrouter/pricing";
-import type { Domain, Frame } from "~/lib/frames";
+import type { Frame } from "~/lib/frames";
 import { labColor } from "~/lib/labs";
-import { AnimatedNumber } from "./AnimatedNumber";
 import { RankDelta } from "./RankDelta";
 
 interface LeaderboardProps {
   frame: Frame;
   previous: Frame | undefined;
-  domain: Domain;
   metric: Metric;
   hoveredId: string | null;
   onHover: (id: string | null) => void;
 }
 
 const COUNT = 10;
-const ROW_H = 56;
+const ROW_H = 44;
 const MOVE =
   "transform 0.8s var(--ease-out-expo), opacity 0.45s var(--ease-out-expo)";
 
 export function Leaderboard({
   frame,
   previous,
-  domain,
   metric,
   hoveredId,
   onHover,
@@ -46,18 +43,13 @@ export function Leaderboard({
     return [...seen.current.values()];
   }, [frame]);
 
-  const span = Math.max(1, domain.yMax - domain.yMin * 0.6);
-
   return (
     <section aria-labelledby="leaderboard-title">
       <div className="flex items-baseline justify-between">
-        <h2
-          id="leaderboard-title"
-          className="text-sm font-semibold tracking-tight"
-        >
+        <h2 id="leaderboard-title" className="text-sm font-semibold">
           {METRIC_LABELS[metric]} leaderboard
         </h2>
-        <span className="font-mono text-xs text-muted-foreground">
+        <span className="text-xs text-muted-foreground">
           {previous ? `vs ${previous.label}` : frame.label}
         </span>
       </div>
@@ -65,7 +57,6 @@ export function Leaderboard({
         {rows.map(({ model, index, visible }) => {
           const rank = index + 1;
           const free = isFreeModel(model);
-          const fill = Math.max(0.04, (model.score - domain.yMin * 0.6) / span);
           const active = hoveredId === model.id;
           return (
             <li
@@ -87,9 +78,9 @@ export function Leaderboard({
                 onFocus={() => onHover(model.id)}
                 onBlur={() => onHover(null)}
                 tabIndex={visible ? 0 : -1}
-                className={`group flex h-full w-full items-center gap-3 rounded-sm border-b border-border/60 px-1 text-left transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${active ? "bg-muted/70" : "hover:bg-muted/40"}`}
+                className={`group flex h-full w-full items-center gap-3 rounded-sm border-b border-border/60 px-1 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${active ? "bg-muted/70" : "hover:bg-muted/40"}`}
               >
-                <span className="tabular w-6 shrink-0 font-mono text-sm text-muted-foreground">
+                <span className="tabular w-6 shrink-0 text-sm text-muted-foreground">
                   {rank}
                 </span>
                 <span className="min-w-0 flex-1">
@@ -112,20 +103,12 @@ export function Leaderboard({
                       <span className="sr-only">on the Pareto frontier</span>
                     )}
                   </span>
-                  <span className="mt-1.5 block h-[3px] w-full overflow-hidden rounded-full bg-muted">
-                    <span
-                      className={`block h-full w-full origin-left rounded-full ${frame.pareto.has(model.id) ? "bg-primary" : "bg-foreground/45"}`}
-                      style={{
-                        transform: `scaleX(${fill})`,
-                        transition: "transform 0.9s var(--ease-out-expo)",
-                      }}
-                    />
-                  </span>
                 </span>
-                <AnimatedNumber
-                  value={model.score}
-                  className="tabular w-12 shrink-0 text-right font-mono text-sm font-semibold"
-                />
+                <span
+                  className={`tabular w-12 shrink-0 text-right text-sm font-semibold ${frame.pareto.has(model.id) ? "text-primary" : ""}`}
+                >
+                  {model.score.toFixed(1)}
+                </span>
                 <RankDelta
                   current={rank}
                   previous={previous?.ranks.get(model.id)}
