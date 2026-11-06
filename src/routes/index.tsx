@@ -163,7 +163,7 @@ function Stats() {
     <div className="overflow-x-clip">
       <main className="mx-auto max-w-[1400px] px-4 pb-16 md:px-10">
         <header className="max-w-[65ch] pb-8 pt-10 md:pt-14">
-          <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
+          <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
             LLM benchmark scores against price
           </h1>
           <p className="mt-3 text-base leading-relaxed text-muted-foreground">
@@ -189,8 +189,8 @@ function Stats() {
           </section>
         ) : (
           <>
-            <div className="sticky top-0 z-30 -mx-4 mt-8 border-b border-border bg-background px-4 md:-mx-10 md:px-10">
-              <div className="flex flex-col gap-1 py-2 md:flex-row md:items-center md:justify-between md:gap-6">
+            <div className="sticky top-0 z-30 -mx-4 mt-8 bg-background px-4 md:-mx-10 md:px-10">
+              <div className="flex flex-col gap-1 border-b border-border py-2 md:flex-row md:items-center md:justify-between md:gap-6">
                 <SegmentedControl
                   label="Benchmark index"
                   options={metricOptions}

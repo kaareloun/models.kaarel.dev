@@ -9,6 +9,8 @@ interface SegmentedControlProps<T extends string> {
   className?: string;
 }
 
+const BUTTON_PADDING_X = 12;
+
 export function SegmentedControl<T extends string>({
   label,
   options,
@@ -24,7 +26,11 @@ export function SegmentedControl<T extends string>({
   useLayoutEffect(() => {
     const update = () => {
       const el = refs.current.get(value);
-      if (el) setIndicator({ x: el.offsetLeft, w: el.offsetWidth });
+      if (el)
+        setIndicator({
+          x: el.offsetLeft + BUTTON_PADDING_X,
+          w: el.offsetWidth - BUTTON_PADDING_X * 2,
+        });
     };
     update();
     window.addEventListener("resize", update);

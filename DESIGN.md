@@ -17,7 +17,7 @@ Plain data report: dark-first warm off-black, one typeface, data colors carry la
 
 - One family: Geist (400-600), loaded from Google Fonts in `src/routes/__root.tsx`
 - No mono. Numbers use Geist with `.tabular` (tabular-nums).
-- Sizes: H1 `text-2xl md:text-3xl`, section headings `text-lg` or `text-sm`, labels `text-xs`
+- Sizes: H1 `text-3xl md:text-4xl`, section headings `text-lg` or `text-sm`, labels `text-xs`
 - Sentence case everywhere. No uppercase eyebrows, no letter-spaced labels.
 - `font-feature-settings: "ss01", "cv11"`
 - Banned: Inter, Roboto, Arial, system-ui as primary, serif anywhere
@@ -66,7 +66,7 @@ Motion only explains change between timeline frames. Nothing animates on load or
 - Container: `max-w-[1400px] mx-auto px-4 md:px-10`
 - Header: left-aligned H1, one-line description, source and update time. No hero figure.
 - Lab releases: small heading, one `border-y` row of cells, horizontal snap scroll on mobile
-- Sticky toolbar: metric + view segmented controls, solid `bg-background`, no blur
+- Sticky toolbar: metric + view segmented controls, solid `bg-background`, no blur. Its bottom border spans the content width only.
 - Chart 8 / leaderboard 4 on `lg`, stacked below
 - Tables: `divide-y`, right-aligned tabular numbers, no cards. Tags are plain small text, not pills.
 - Footer: plain paragraphs. The Telegram link is a text link, not a card.
