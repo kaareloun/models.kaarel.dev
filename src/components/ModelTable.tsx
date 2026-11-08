@@ -38,7 +38,7 @@ export function ModelTable({
     ...hidden.map((model) => ({ model, isHidden: true })),
   ];
   return (
-    <div className="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
+    <div className="relative -mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
       <table className="w-full min-w-[720px] border-collapse">
         <caption className="sr-only">
           Top models by {METRIC_LABELS[metric]} Index, {frame.label}
