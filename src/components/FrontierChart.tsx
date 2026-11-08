@@ -44,19 +44,24 @@ function overlaps(a: Box, b: Box): boolean {
   );
 }
 
-function useWidth<T extends HTMLElement>() {
+function useSize<T extends HTMLElement>() {
   const ref = useRef<T>(null);
-  const [width, setWidth] = useState(0);
+  const [size, setSize] = useState({ width: 0, height: 0 });
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const ro = new ResizeObserver(
-      ([entry]) => entry && setWidth(entry.contentRect.width),
+      ([entry]) =>
+        entry &&
+        setSize({
+          width: entry.contentRect.width,
+          height: entry.contentRect.height,
+        }),
     );
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  return [ref, width] as const;
+  return [ref, size] as const;
 }
 
 export function FrontierChart({
@@ -67,10 +72,9 @@ export function FrontierChart({
   hoveredId,
   onHover,
 }: FrontierChartProps) {
-  const [containerRef, width] = useWidth<HTMLDivElement>();
+  const [containerRef, { width, height }] = useSize<HTMLDivElement>();
   const seen = useRef(new Map<string, Placed>());
   const isMobile = width > 0 && width < 640;
-  const height = isMobile ? 400 : 560;
   const m = isMobile
     ? { top: 24, right: 14, bottom: 40, left: 34 }
     : { top: 32, right: 28, bottom: 48, left: 48 };
@@ -199,8 +203,7 @@ export function FrontierChart({
   return (
     <div
       ref={containerRef}
-      className="relative w-full select-none"
-      style={{ height }}
+      className="relative h-[400px] w-full select-none sm:h-[560px]"
     >
       {width === 0 ? (
         <div className="absolute inset-0 rounded-md bg-muted/40" />
