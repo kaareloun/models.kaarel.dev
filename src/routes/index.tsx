@@ -4,6 +4,8 @@ import { getModels } from "~/serverFunctions/getModels";
 import { getLastUpdate } from "~/serverFunctions/getLastUpdate";
 import { getZenFreeModels } from "~/serverFunctions/getZenFreeModels";
 import { getSnapshots } from "~/serverFunctions/getSnapshots";
+import { getCursorBench } from "~/serverFunctions/getCursorBench";
+import type { CursorBench } from "~/openrouter/cursorBench";
 import {
   METRIC_LABELS,
   type Metric,
@@ -22,6 +24,7 @@ import {
 } from "~/lib/frames";
 import { ChangeSummary } from "~/components/ChangeSummary";
 import { ChartLegend } from "~/components/ChartLegend";
+import { CursorBenchSection } from "~/components/CursorBenchSection";
 import { FrontierChart } from "~/components/FrontierChart";
 import { LabReleases } from "~/components/LabReleases";
 import { Leaderboard } from "~/components/Leaderboard";
@@ -37,13 +40,15 @@ export const Route = createFileRoute("/")({
     zenFree: Model[];
     snapshots: Snapshot[];
     lastUpdate: string;
+    cursorBench: CursorBench | null;
   }> => {
-    const [modelsRes, zenFreeRes, snapshotsRes, lastUpdateRes] =
+    const [modelsRes, zenFreeRes, snapshotsRes, lastUpdateRes, cursorBenchRes] =
       await Promise.allSettled([
         getModels(),
         getZenFreeModels(),
         getSnapshots(),
         getLastUpdate(),
+        getCursorBench(),
       ]);
 
     return {
@@ -52,6 +57,8 @@ export const Route = createFileRoute("/")({
       snapshots: snapshotsRes.status === "fulfilled" ? snapshotsRes.value : [],
       lastUpdate:
         lastUpdateRes.status === "fulfilled" ? lastUpdateRes.value : "unknown",
+      cursorBench:
+        cursorBenchRes.status === "fulfilled" ? cursorBenchRes.value : null,
     };
   },
 });
@@ -65,7 +72,8 @@ const NEW_WINDOW_DAYS = 21;
 const PLAY_STEP_MS = 1300;
 
 function Stats() {
-  const { models, zenFree, snapshots, lastUpdate } = Route.useLoaderData();
+  const { models, zenFree, snapshots, lastUpdate, cursorBench } =
+    Route.useLoaderData();
   const metrics = useMemo(() => availableMetrics(models), [models]);
   const [metric, setMetric] = useState<Metric>(metrics[0] ?? "intelligence");
   const [view, setView] = useState<ModelView>("top");
@@ -276,6 +284,10 @@ function Stats() {
                 />
               </aside>
             </section>
+
+            {cursorBench && cursorBench.entries.length > 0 && (
+              <CursorBenchSection data={cursorBench} />
+            )}
 
             <section aria-labelledby="table-title" className="mt-16">
               <div className="flex items-baseline justify-between gap-4">

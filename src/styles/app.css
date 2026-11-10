@@ -31,6 +31,13 @@
     --lab-other: oklch(0.72 0.01 75);
     --surface-ring: oklch(0.995 0.004 80);
     --shadow-tint: 0.35 0.03 70;
+    --cb-series-fable: 212 138 0;
+    --cb-series-sonnet: 22 163 74;
+    --cb-series-gemini: 79 70 229;
+    --cb-series-muse: 8 102 255;
+    --cb-series-grok: 0 0 0;
+    --cb-series-sol: 220 38 38;
+    --cb-series-terra: 120 66 30;
     --radius: 0.875rem;
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --font-sans: "Geist", ui-sans-serif, sans-serif;
@@ -57,6 +64,13 @@
     --lab-other: oklch(0.52 0.01 75);
     --surface-ring: oklch(0.225 0.006 70);
     --shadow-tint: 0.08 0.01 70;
+    --cb-series-fable: 251 191 36;
+    --cb-series-sonnet: 74 222 128;
+    --cb-series-gemini: 110 92 255;
+    --cb-series-muse: 30 136 255;
+    --cb-series-grok: 255 255 255;
+    --cb-series-sol: 255 82 82;
+    --cb-series-terra: 201 124 60;
   }
 }
 

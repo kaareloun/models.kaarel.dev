@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import type { EnrichedModel } from "~/openrouter/enrich";
 import {
   CLAUDE_MAXED_EUR_PER_M,
@@ -8,6 +8,7 @@ import { METRIC_LABELS, type Metric } from "~/openrouter/model";
 import { hashString, isFreeModel } from "~/openrouter/pricing";
 import type { Domain, Frame } from "~/lib/frames";
 import { labColor } from "~/lib/labs";
+import { useSize } from "~/lib/useSize";
 import { ChartTooltip } from "./ChartTooltip";
 
 interface FrontierChartProps {
@@ -42,26 +43,6 @@ function overlaps(a: Box, b: Box): boolean {
   return (
     a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
   );
-}
-
-function useSize<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  const [size, setSize] = useState({ width: 0, height: 0 });
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const ro = new ResizeObserver(
-      ([entry]) =>
-        entry &&
-        setSize({
-          width: entry.contentRect.width,
-          height: entry.contentRect.height,
-        }),
-    );
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-  return [ref, size] as const;
 }
 
 export function FrontierChart({

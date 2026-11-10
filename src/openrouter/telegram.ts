@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import {
+  SITE_URL,
   TELEGRAM_API_URL,
   TELEGRAM_CHATS_FILE,
   WATCH_METRIC,
@@ -68,6 +69,7 @@ async function sendTelegramMessage(
   const res = await tgApi("sendMessage", {
     chat_id: chatId,
     text,
+    parse_mode: "HTML",
     disable_web_page_preview: true,
   });
   if (!res.ok) {
@@ -78,53 +80,71 @@ async function sendTelegramMessage(
   }
 }
 
-type Entry = { rank: number; model: EnrichedModel };
+export type AlertModel = { rank: number; model: EnrichedModel };
 
-function entryLine(e: Entry): string {
-  const rank = e.rank > 0 ? ` (#${e.rank})` : "";
-  return `${e.model.name} · ${METRIC_LABELS[WATCH_METRIC]} ${e.model.score.toFixed(1)}${rank}`;
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
-export async function broadcastCombinedNotification({
-  benchmarkedEntries,
-  paretoEntries,
-  freeEntries,
+function scoreText({ rank, model }: AlertModel): string {
+  const rankText = rank > 0 ? `, #${rank}` : "";
+  return `${METRIC_LABELS[WATCH_METRIC]} ${model.score.toFixed(1)}${rankText}`;
+}
+
+function nameText({ model }: AlertModel): string {
+  return `${escapeHtml(model.name)} (${escapeHtml(model.creator)})`;
+}
+
+function section(title: string, items: AlertModel[]): string[] {
+  const [only] = items;
+  if (!only) return [];
+  if (items.length === 1)
+    return [
+      `<b>${title}: ${escapeHtml(only.model.name)}</b> (${escapeHtml(only.model.creator)})\n${scoreText(only)}`,
+    ];
+  return [
+    [
+      `<b>${title}</b>`,
+      ...items.map((a) => `${nameText(a)} · ${scoreText(a)}`),
+    ].join("\n"),
+  ];
+}
+
+export function formatUpdateMessage({
+  launched,
+  joined,
 }: {
-  benchmarkedEntries: Entry[];
-  paretoEntries: Entry[];
-  freeEntries: Entry[];
+  launched: AlertModel[];
+  joined: AlertModel[];
+}): string {
+  const launchedIds = new Set(launched.map((a) => a.model.id));
+  return [
+    ...section(launched.length > 1 ? "New models" : "New model", launched),
+    ...section(
+      "New on the frontier",
+      joined.filter((a) => !launchedIds.has(a.model.id)),
+    ),
+    `<a href="${SITE_URL}">${SITE_URL.replace("https://", "")}</a>`,
+  ].join("\n\n");
+}
+
+export async function broadcastUpdate(update: {
+  launched: AlertModel[];
+  joined: AlertModel[];
 }): Promise<void> {
   if (!botToken()) return;
 
-  const lines: string[] = ["New on https://models.kaarel.dev", ""];
-  if (benchmarkedEntries.length > 0) {
-    lines.push(
-      `Frontier lab model benchmarked (${benchmarkedEntries.length}):`,
-    );
-    lines.push(
-      ...benchmarkedEntries.map((e) => `${entryLine(e)} by ${e.model.creator}`),
-    );
-    lines.push("");
-  }
-  if (paretoEntries.length > 0) {
-    lines.push(`Pareto frontier (${paretoEntries.length}):`);
-    lines.push(...paretoEntries.map(entryLine));
-    lines.push("");
-  }
-  if (freeEntries.length > 0) {
-    lines.push(`Free in Top 20 (${freeEntries.length}):`);
-    lines.push(...freeEntries.map(entryLine));
-    lines.push("");
-  }
-
-  const text = lines.join("\n").trimEnd();
+  const text = formatUpdateMessage(update);
   const targets = readState().chats.map((c) => c.id);
   if (targets.length === 0) {
     console.warn("Telegram: no subscribed chats yet, skipping broadcast");
     return;
   }
   console.log(
-    `Telegram: broadcasting combined update to ${targets.length} chat(s) (benchmarked=${benchmarkedEntries.length}, pareto=${paretoEntries.length}, free=${freeEntries.length})`,
+    `Telegram: broadcasting update to ${targets.length} chat(s) (launched=${update.launched.length}, joined=${update.joined.length})`,
   );
 
   for (const chatId of targets) {
@@ -183,7 +203,7 @@ async function handleMessage(msg?: {
     addChat({ id: chatId, title, addedAt: new Date().toISOString() });
     await sendTelegramMessage(
       chatId,
-      "Subscribed. You'll get a message here whenever a frontier lab model gets benchmarked, a new model appears on the Pareto frontier, or a new free model enters Top 20 of https://models.kaarel.dev\n\nSend /stop to unsubscribe.",
+      `Subscribed. You'll get a message when Anthropic, OpenAI, Google or xAI launch a model, or a model joins the price-performance frontier on ${SITE_URL}\n\nSend /stop to unsubscribe.`,
     );
   }
 }

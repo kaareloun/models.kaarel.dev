@@ -11,9 +11,10 @@
     "lint": "oxlint",
     "build": "vite build && tsc --noEmit && node scripts/patch-server.mjs",
     "start": "node .output/server/index.mjs",
-    "fetch": "bun run src/scripts/fetchArtificialAnalysis.ts && bun run src/scripts/fetchZenFree.ts",
+    "fetch": "bun run src/scripts/fetchArtificialAnalysis.ts && bun run src/scripts/fetchZenFree.ts && bun run src/scripts/fetchCursorBench.ts",
     "fetch:aa": "bun run src/scripts/fetchArtificialAnalysis.ts",
     "fetch:zen": "bun run src/scripts/fetchZenFree.ts",
+    "fetch:cursor": "bun run src/scripts/fetchCursorBench.ts",
     "watch": "bun run src/scripts/paretoWatch.ts",
     "notify:test": "bun run src/scripts/testNotify.ts"
   },

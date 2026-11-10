@@ -20,8 +20,15 @@ export const FRONTIER_CREATORS = [
   "DeepSeek",
 ];
 export const PARETO_KNOWN_FILE = "src/data/pareto-known-aa.json";
-export const FREE_KNOWN_FILE = "src/data/free-known-aa.json";
 export const BENCHMARKED_KNOWN_FILE = "src/data/benchmarked-known-aa.json";
+export const LAUNCH_ALERT_CREATORS = [
+  "Anthropic",
+  "OpenAI",
+  "Google",
+  "SpaceXAI",
+];
+export const LAUNCH_ALERT_MAX_AGE_DAYS = 30;
+export const SITE_URL = "https://models.kaarel.dev";
 export const TELEGRAM_CHATS_FILE = "src/data/telegram-chats.json";
 export const TELEGRAM_API_URL = "https://api.telegram.org";
 export const OPEN_WEIGHTS_FILE = "src/data/open-weights-aa.json";
@@ -30,3 +37,7 @@ export const PARETO_STARTUP_DELAY_MS = 10_000;
 export const TELEGRAM_BOT_USERNAME = "pareto_frontier_bot";
 export const CLAUDE_MAXED_EUR_PER_M = 7.67;
 export const OPENAI_MAXED_EUR_PER_M = 4;
+export const CURSORBENCH_URL = "https://cursor.com/en/cursorbench";
+export const CURSORBENCH_FILE = "src/data/cursorbench.json";
+export const CURSORBENCH_FETCH_INTERVAL_HOURS = 6;
+export const CURSORBENCH_TIMEOUT_MS = 10_000;

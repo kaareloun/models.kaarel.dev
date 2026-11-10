@@ -1,4 +1,4 @@
-import { TELEGRAM_BOT_USERNAME } from "~/openrouter/constants";
+import { CURSORBENCH_URL, TELEGRAM_BOT_USERNAME } from "~/openrouter/constants";
 
 const LINK =
   "text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground";
@@ -19,7 +19,16 @@ export function SiteFooter() {
           </a>{" "}
           free API, refreshed every two hours. Free models and open-weight flags
           come from models.dev. Prices are the mean of input and output per
-          million tokens, converted to euro.
+          million tokens, converted to euro. CursorBench scores come from{" "}
+          <a
+            href={CURSORBENCH_URL}
+            target="_blank"
+            rel="noreferrer"
+            className={LINK}
+          >
+            Cursor
+          </a>{" "}
+          every six hours. Its cost is US dollars per task.
         </p>
         <p>
           Release replay rebuilds the ranking on each release date with today's
@@ -36,8 +45,8 @@ export function SiteFooter() {
           >
             @{TELEGRAM_BOT_USERNAME}
           </a>{" "}
-          for a message when a frontier lab model gets benchmarked, joins the
-          frontier, or a free model enters the top 20.
+          for a message when Anthropic, OpenAI, Google or xAI launch a model, or
+          a model joins the price-performance frontier.
         </p>
       </div>
     </footer>
