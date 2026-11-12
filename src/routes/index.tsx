@@ -22,6 +22,7 @@ import {
   snapshotFrames,
   type FrameMode,
 } from "~/lib/frames";
+import { isSameModel } from "~/lib/cursorBench";
 import { ChangeSummary } from "~/components/ChangeSummary";
 import { ChartLegend } from "~/components/ChartLegend";
 import { CursorBenchSection } from "~/components/CursorBenchSection";
@@ -100,6 +101,16 @@ function Stats() {
       .filter((m) => m !== undefined)
       .map((m) => enrichModel(m, metric));
   }, [models, zenFree, hiddenIds, metric]);
+  const visibleCursorBench = useMemo(() => {
+    if (!cursorBench) return null;
+    const hiddenNames = hiddenModels.map((m) => m.name);
+    return {
+      ...cursorBench,
+      entries: cursorBench.entries.filter(
+        (e) => !hiddenNames.some((name) => isSameModel(e.model, name)),
+      ),
+    };
+  }, [cursorBench, hiddenModels]);
   const toggleHidden = (id: string) =>
     setHiddenIds((prev) => {
       const next = new Set(prev);
@@ -285,8 +296,8 @@ function Stats() {
               </aside>
             </section>
 
-            {cursorBench && cursorBench.entries.length > 0 && (
-              <CursorBenchSection data={cursorBench} />
+            {visibleCursorBench && visibleCursorBench.entries.length > 0 && (
+              <CursorBenchSection data={visibleCursorBench} />
             )}
 
             <section aria-labelledby="table-title" className="mt-16">

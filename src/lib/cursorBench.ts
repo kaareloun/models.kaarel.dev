@@ -37,6 +37,19 @@ export function formatAxisValue(v: number, axis: CursorBenchAxis): string {
   return String(Math.round(v));
 }
 
+function normalizeName(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[\s-]+/g, " ")
+    .trim();
+}
+
+export function isSameModel(cursorModel: string, modelName: string): boolean {
+  const a = normalizeName(cursorModel);
+  const b = normalizeName(modelName);
+  return a === b || b.endsWith(` ${a}`);
+}
+
 export function buildSeries(entries: CursorBenchEntry[]): CursorBenchSeries[] {
   const byModel = new Map<string, CursorBenchSeries>();
   for (const e of entries) {
