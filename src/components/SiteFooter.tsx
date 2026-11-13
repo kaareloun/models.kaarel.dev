@@ -49,6 +49,15 @@ export function SiteFooter() {
           a model joins the price-performance frontier.
         </p>
       </div>
+      <a
+        href="https://kaarel.dev/?ref=models"
+        className="mt-6 inline-block text-xs text-muted-foreground/70 transition-colors hover:text-foreground"
+      >
+        Site by{" "}
+        <span className="underline decoration-muted-foreground/30 underline-offset-2">
+          kaarel.dev
+        </span>
+      </a>
     </footer>
   );
 }
