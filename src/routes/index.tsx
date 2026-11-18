@@ -19,8 +19,6 @@ import {
   diffFrames,
   frameDomain,
   releaseFrames,
-  snapshotFrames,
-  type FrameMode,
 } from "~/lib/frames";
 import { isSameModel } from "~/lib/cursorBench";
 import { ChangeSummary } from "~/components/ChangeSummary";
@@ -78,9 +76,6 @@ function Stats() {
   const metrics = useMemo(() => availableMetrics(models), [models]);
   const [metric, setMetric] = useState<Metric>(metrics[0] ?? "intelligence");
   const [view, setView] = useState<ModelView>("top");
-  const [mode, setMode] = useState<FrameMode>(
-    snapshots.length >= 2 ? "snapshots" : "releases",
-  );
   const [index, setIndex] = useState<number | null>(null);
   const [playing, setPlaying] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -119,11 +114,8 @@ function Stats() {
     });
 
   const frames = useMemo(
-    () =>
-      mode === "snapshots"
-        ? snapshotFrames(snapshots, visibleModels, visibleZen, view, metric)
-        : releaseFrames(visibleModels, visibleZen, view, metric),
-    [mode, snapshots, visibleModels, visibleZen, view, metric],
+    () => releaseFrames(visibleModels, visibleZen, view, metric),
+    [visibleModels, visibleZen, view, metric],
   );
   const last = Math.max(0, frames.length - 1);
   const current = Math.min(index ?? last, last);
@@ -246,11 +238,6 @@ function Stats() {
 
             <section aria-label="Timeline" className="mt-8 scroll-mt-28">
               <TimelineControl
-                mode={mode}
-                onModeChange={(m) => {
-                  setMode(m);
-                  resetTimeline();
-                }}
                 frames={frames}
                 index={current}
                 onIndexChange={(i) => {

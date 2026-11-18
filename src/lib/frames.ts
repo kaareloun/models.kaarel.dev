@@ -5,15 +5,10 @@ import {
 } from "~/openrouter/enrich";
 import {
   METRICS,
-  emptyScores,
-  emptyVariants,
   type Metric,
   type Model,
-  type Snapshot,
 } from "~/openrouter/model";
 import { getParetoIds, isFreeModel } from "~/openrouter/pricing";
-
-export type FrameMode = "snapshots" | "releases";
 
 export interface Frame {
   date: string;
@@ -114,63 +109,6 @@ export function releaseFrames(
         date,
         formatDay(date),
         released.length ? `${released.join(", ")} released` : "",
-        baseModels,
-      ),
-    );
-  }
-  return frames;
-}
-
-function fromSnapshot(
-  snapshot: Snapshot,
-  current: Map<string, Model>,
-): Model[] {
-  return snapshot.models.map((s) => {
-    const live = current.get(s.id);
-    return {
-      id: s.id,
-      slug: s.slug,
-      name: s.name,
-      creator: s.creator,
-      cost: s.cost,
-      release_date: s.release_date,
-      scores: { ...emptyScores(), ...s.scores },
-      variants: live?.variants ?? emptyVariants(),
-      speed: live?.speed ?? null,
-      hasPrice: true,
-      providerId: s.creator,
-      openWeights: live?.openWeights ?? null,
-    };
-  });
-}
-
-export function snapshotFrames(
-  snapshots: Snapshot[],
-  models: Model[],
-  zenFree: Model[],
-  view: ModelView,
-  metric: Metric,
-): Frame[] {
-  const current = new Map(models.map((m) => [m.id, m]));
-  const frames: Frame[] = [];
-  for (const snapshot of snapshots) {
-    const snapModels = fromSnapshot(snapshot, current);
-    const bySlug = new Map(snapModels.map((m) => [m.slug, m]));
-    const snapZen = zenFree.map((z) => ({
-      ...z,
-      scores: bySlug.get(z.slug)?.scores ?? emptyScores(),
-    }));
-    const baseModels = buildModelList(snapModels, snapZen, view, metric);
-    if (baseModels.length === 0) continue;
-    const version =
-      snapshot.indexVersion != null
-        ? `Index v${snapshot.indexVersion}`
-        : "Snapshot";
-    frames.push(
-      makeFrame(
-        snapshot.fetchedAt,
-        formatDay(snapshot.fetchedAt),
-        `${version} · fetched ${snapshot.fetchedAt.slice(11, 16)} UTC`,
         baseModels,
       ),
     );

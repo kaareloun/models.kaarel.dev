@@ -32,8 +32,7 @@ export function SiteFooter() {
         </p>
         <p>
           Release replay rebuilds the ranking on each release date with today's
-          scores. AA snapshots compare the scores AA actually published at each
-          fetch.
+          scores.
         </p>
         <p>
           Telegram alerts: send /start to{" "}

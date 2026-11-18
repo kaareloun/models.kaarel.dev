@@ -1,10 +1,7 @@
 import { Pause, Play } from "lucide-react";
-import type { Frame, FrameMode } from "~/lib/frames";
-import { SegmentedControl } from "./SegmentedControl";
+import type { Frame } from "~/lib/frames";
 
 interface TimelineControlProps {
-  mode: FrameMode;
-  onModeChange: (mode: FrameMode) => void;
   frames: Frame[];
   index: number;
   onIndexChange: (index: number) => void;
@@ -12,14 +9,7 @@ interface TimelineControlProps {
   onTogglePlay: () => void;
 }
 
-const MODES = [
-  { value: "snapshots", label: "AA snapshots" },
-  { value: "releases", label: "Release replay" },
-] as const;
-
 export function TimelineControl({
-  mode,
-  onModeChange,
   frames,
   index,
   onIndexChange,
@@ -47,14 +37,7 @@ export function TimelineControl({
             <Play className="h-4 w-4 translate-x-px" fill="currentColor" />
           )}
         </button>
-        <div className="min-w-0">
-          <SegmentedControl
-            label="Timeline source"
-            options={MODES}
-            value={mode}
-            onChange={onModeChange}
-          />
-        </div>
+        <span className="text-sm font-medium">Release replay</span>
       </div>
 
       <div className="min-w-0">
@@ -109,11 +92,7 @@ export function TimelineControl({
         <div className="tabular flex justify-between text-xs text-muted-foreground">
           <span>{frames[0]?.label}</span>
           {disabled ? (
-            <span>
-              {mode === "snapshots"
-                ? "One snapshot so far. A new one is saved each time AA changes a score."
-                : "Not enough releases to replay."}
-            </span>
+            <span>Not enough releases to replay.</span>
           ) : (
             <span>{frames[last]?.label}</span>
           )}
